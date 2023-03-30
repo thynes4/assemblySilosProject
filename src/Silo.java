@@ -138,7 +138,7 @@ public class Silo {
      * @param source This is the value being added to ACC. If a literal value then cast to Integer.
      */
     void add(String source) {
-        accValue += getValue(source);
+        accValue += sourceToInteger(source);
     }
 
     /**
@@ -146,7 +146,7 @@ public class Silo {
      * @param source This is the value being subtracted to ACC. If a literal value then cast to Integer.
      */
     void sub(String source){
-        accValue -= getValue(source);
+        accValue -= sourceToInteger(source);
     }
 
     /**
@@ -170,7 +170,9 @@ public class Silo {
      * @param label The label being designated
      */
     void jez(String label){
-
+        if (accValue == 0) {
+            jump(label);
+        }
     }
 
     /**
@@ -179,7 +181,9 @@ public class Silo {
      * @param label The label being designated
      */
     void jnz(String label){
-
+        if (accValue != 0) {
+            jump(label);
+        }
     }
 
 
@@ -189,7 +193,9 @@ public class Silo {
      * @param label The label being designated
      */
     void jgz(String label){
-
+        if (accValue > 0) {
+            jump(label);
+        }
     }
 
 
@@ -199,7 +205,9 @@ public class Silo {
      * @param label The label being designated
      */
     void jlz(String label){
-
+        if (accValue < 0) {
+            jump(label);
+        }
     }
 
     /**
