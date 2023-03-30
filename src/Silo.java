@@ -17,17 +17,16 @@ public class Silo {
         return -1;
     }
 
-    String returnLineData(Silo s){
+    String returnLineData(Integer lineNumber, Silo s){
+        return s.siloCode.get(lineNumber);
+    }
+
+    LinkedList returnAllData(Silo s){
 
         return null;
     }
 
-    LinkedList returnData(Silo s){
-
-        return null;
-    }
-
-    void label(){
+    void label(String string){
 
     }
 
@@ -35,7 +34,7 @@ public class Silo {
 
     }
 
-    void move(){
+    void move(String source, String destination){
 
     }
 
@@ -47,11 +46,11 @@ public class Silo {
 
     }
 
-    void add(){
+    void add(Integer sourceValue, String source){
 
     }
 
-    void sub(){
+    void sub(Integer sourceValue, String source){
 
     }
 
@@ -59,27 +58,27 @@ public class Silo {
 
     }
 
-    void jump(){
+    void jump(String label){
 
     }
 
-    void jez(){
+    void jez(Silo s, String label){
 
     }
 
-    void jnz(){
+    void jnz(Silo s, String label){
 
     }
 
-    void jgz(){
+    void jgz(Silo s, String label){
 
     }
 
-    void jlz(){
+    void jlz(Silo s, String label){
 
     }
 
-    void jro(){
+    void jro(Silo s, Integer sourceValue){
 
     }
 
