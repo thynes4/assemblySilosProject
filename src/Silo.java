@@ -1,21 +1,28 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Silo {
+    private LinkedList<String> siloCode = new LinkedList<String>();
 
     Silo(LinkedList data){
+        this.siloCode = data;
+    }
+
+    void runLine(Integer lineNumber, Silo s){
 
     }
 
-    void runLine(){
-
-    }
-
-    Integer returnLine(){
+    Integer returnLineNumber(Silo s){
 
         return -1;
     }
 
-    LinkedList returnData(){
+    String returnLineData(Silo s){
+
+        return null;
+    }
+
+    LinkedList returnData(Silo s){
 
         return null;
     }
