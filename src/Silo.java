@@ -103,7 +103,7 @@ public class Silo {
     /**
      * This is an instruction that does nothing except advance the line count
      */
-    void noop(){
+    void noop() {
 
     }
 
@@ -120,23 +120,25 @@ public class Silo {
     /**
      * This is to switch the value of the ACC register with the value of the BAK register
      */
-    void swap(){
-
+    void swap() {
+        int temp = accValue;
+        accValue = bakValue;
+        bakValue = temp;
     }
 
     /**
      * This is to write the value from the ACC register onto the BAK register
      */
     void save(){
-
+        bakValue = accValue;
     }
 
     /**
      * This is to add a value to the ACC register
      * @param source This is the value being added to ACC. If a literal value then cast to Integer.
      */
-    void add(String source){
-
+    void add(String source) {
+        accValue += getValue(source);
     }
 
     /**
@@ -144,14 +146,14 @@ public class Silo {
      * @param source This is the value being subtracted to ACC. If a literal value then cast to Integer.
      */
     void sub(String source){
-
+        accValue -= getValue(source);
     }
 
     /**
      * The value of the register ACC is negated, zero remains zero
      */
     void negate(){
-
+        accValue *= -1;
     }
 
     /**
@@ -211,4 +213,20 @@ public class Silo {
 
     }
 
+    /**
+     * Given a source, either a register or a String of an int, will return the Integer value of the source or the
+     * Integer value of the string.
+     * @param source either a register or an Integer
+     * @return Integer of value stored in register, if the string is a number will return the value of the number
+     */
+    private Integer sourceToInteger (String source) {
+        return switch (source) {
+            case "UP" -> upValue;
+            case "RIGHT" -> rightValue;
+            case "DOWN" -> downValue;
+            case "LEFT" -> leftValue;
+            case "NIL" -> 0;
+            default -> Integer.valueOf(source);
+        };
+    }
 }
