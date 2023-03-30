@@ -3,25 +3,37 @@ import java.util.LinkedList;
 
 public class Silo {
     private LinkedList<String> siloCode = new LinkedList<String>();
+    private Integer accValue;
+    private Integer bakValue;
+    private Integer siloNumber;
+    private Integer siloLineNumber;
+    private Integer upValue, downValue, leftValue, rightValue;
 
-    Silo(LinkedList data){
+    Silo(LinkedList data, Integer silo){
         this.siloCode = data;
+        this.accValue = 0;
+        this.bakValue = 0;
+        this.siloNumber = silo;
+        this.siloLineNumber = 0;
+        this.upValue = null;
+        this.downValue = null;
+        this.leftValue = null;
+        this.rightValue = null;
     }
 
-    void runLine(Integer lineNumber, Silo s){
+    void runLine(Integer lineNumber){
 
     }
 
-    Integer returnLineNumber(Silo s){
-
-        return -1;
+    Integer returnLineNumber(){
+        return this.siloLineNumber;
     }
 
-    String returnLineData(Integer lineNumber, Silo s){
-        return s.siloCode.get(lineNumber);
+    String returnLineData(Integer lineNumber){
+        return this.siloCode.get(lineNumber);
     }
 
-    LinkedList returnAllData(Silo s){
+    LinkedList returnAllData(){
 
         return null;
     }
@@ -34,8 +46,13 @@ public class Silo {
 
     }
 
-    void move(String source, String destination){
+    void move(String source, String destination, Silo s){
 
+    }
+
+    Integer getPort(){
+
+        return null;
     }
 
     void swap(){
@@ -62,23 +79,23 @@ public class Silo {
 
     }
 
-    void jez(Silo s, String label){
+    void jez(String label){
 
     }
 
-    void jnz(Silo s, String label){
+    void jnz(String label){
 
     }
 
-    void jgz(Silo s, String label){
+    void jgz(String label){
 
     }
 
-    void jlz(Silo s, String label){
+    void jlz(String label){
 
     }
 
-    void jro(Silo s, Integer sourceValue){
+    void jro(Integer sourceValue){
 
     }
 
