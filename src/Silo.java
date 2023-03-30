@@ -13,13 +13,13 @@ public class Silo {
      * Initialize the Silo with data from the Manager. Then assign it all to specific silo
      * to be grabbed at future times.
      * @param data This is the Linked List of data for this silo.
-     * @param silo This is to tell the silo which number it is (May not be needed)
+     * @param siloNum This is to tell the silo which number it is (May not be needed)
      */
-    Silo(LinkedList data, Integer silo){
+    Silo(LinkedList data, Integer siloNum){
         this.siloCode = data;
         this.accValue = 0;
         this.bakValue = 0;
-        this.siloNumber = silo;
+        this.siloNumber = siloNum;
         this.siloLineNumber = 0;
         this.upValue = null;
         this.downValue = null;
@@ -32,7 +32,15 @@ public class Silo {
      * @param lineNumber This is the current line number of the silo.
      */
     void runLine(Integer lineNumber){
+        String temp = returnLineData(lineNumber);
+        //Check if its a label
+        if (temp.contains(":")){
 
+        }
+        else {
+            //Split string then use a switch
+
+        }
     }
 
     /**
