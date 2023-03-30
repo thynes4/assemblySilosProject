@@ -5,11 +5,9 @@
  * sent in and the silos process their code together 1 line at a time (until all silos are
  * done with that line) then continue on until an output is achieved.
  *
- * This file is the GUI file which will display and allow the User to run the program.
+ * This file is the Parser Class
  */
 
-public class GUI {
+public class Parser {
 
-    public static void main(String[] args) {
-    }
 }

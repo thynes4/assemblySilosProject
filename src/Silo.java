@@ -1,3 +1,14 @@
+/**
+ * Sean Davies, Thomas Hynes, Christopher Jarek
+ * Project 4 Assembly Silos
+ * This is to build Assembly Silos that take in their own code. An input is
+ * sent in and the silos process their code together 1 line at a time (until all silos are
+ * done with that line) then continue on until an output is achieved.
+ *
+ * This file is the Silo Object Class
+ */
+
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -32,13 +43,16 @@ public class Silo {
      * @param lineNumber This is the current line number of the silo.
      */
     void runLine(Integer lineNumber){
-        String temp = returnLineData(lineNumber);
-        //Check if its a label
-        if (temp.contains(":")){
+        String temp1 = returnLineData(lineNumber);
+        //Check if it is a label
+        if (temp1.contains(":")){
 
         }
         else {
-            //Split string then use a switch
+            String[] temp2 = temp1.split(" ");
+            switch (temp2[0]) {
+                //case
+            }
 
         }
     }
