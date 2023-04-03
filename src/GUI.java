@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Scanner;
+
 /**
  * Sean Davies, Thomas Hynes, Christopher Jarek
  * Project 4 Assembly Silos
@@ -11,5 +14,30 @@
 public class GUI {
 
     public static void main(String[] args) {
+        LinkedList<String> commandInput = new LinkedList<>();
+        boolean inputFinished = false;
+
+        Scanner sc = new Scanner(System.in);
+        String temp1 = sc.nextLine();
+        commandInput.add(temp1);
+        String[] temp2 = temp1.split(" ");
+        int var1 = Integer.valueOf(temp2[0]);
+        int var2 = Integer.valueOf(temp2[1]);
+        int totalEnds = (var1 * var2) + 2;
+        int count = 0;
+        while (!inputFinished){
+            temp1 = sc.nextLine();
+            if (temp1.equals("END")){
+                count++;
+            }
+            commandInput.add(temp1);
+            //By checking the Initial row and column information can see how many
+            //ENDs should be written to prevent further input.
+            if (count == totalEnds){
+                inputFinished = true;
+            }
+        }
+        //Creating the parser will create all silos too.
+        Parser parser = new Parser(commandInput);
     }
 }
