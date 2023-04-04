@@ -96,13 +96,18 @@ public class Silo {
      * This is if the input is a Label and to check and advance the code line to the label
      * @param string This is the string contained within the ':'
      */
-    void label(String string){
 
+    // Does this need to exist?
+    void label(String string){
+        if (string.contains(":")) {
+            siloLineNumber++;
+        }
     }
 
     /**
      * This is an instruction that does nothing except advance the line count
      */
+    // Does this need to exist?
     void noop() {
 
     }
@@ -114,7 +119,13 @@ public class Silo {
      * @param s This is the silo the value may be moved to.
      */
     void move(String source, String destination, Silo s){
-
+        Integer temp = sourceToInteger(source);
+        switch (destination) {
+            case "UP" -> s.upValue = temp;
+            case "DOWN" -> s.downValue = temp;
+            case "LEFT" -> s.leftValue = temp;
+            case "RIGHT" -> s.rightValue = temp;
+        }
     }
 
     /**
@@ -160,8 +171,12 @@ public class Silo {
      * This is to jump control of the program to the instruction following a given label
      * @param label The label being jumped to
      */
-    void jump(String label){
-
+    void jump(String label) {
+        for (String s : siloCode) {
+            if (s.contains(":" + label + ":")) {
+                siloLineNumber = siloCode.indexOf(s);
+            }
+        }
     }
 
     /**
@@ -204,7 +219,7 @@ public class Silo {
      * the value in the register ACC is less than zero
      * @param label The label being designated
      */
-    void jlz(String label){
+    void jlz (String label) {
         if (accValue < 0) {
             jump(label);
         }
@@ -217,8 +232,9 @@ public class Silo {
      * of the program until you get to an offset which is contained within the program. (Use Modulo)
      * @param source This is the value. If literal value then cast to Integer.
      */
-    void jro(String source){
-
+    void jro (String source) {
+        Integer temp = sourceToInteger(source);
+        siloLineNumber += temp % siloCode.size();
     }
 
     /**
