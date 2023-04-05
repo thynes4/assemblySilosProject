@@ -9,8 +9,13 @@
  */
 
 
-import java.util.ArrayList;
+import javafx.scene.Node;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
 import java.util.LinkedList;
+import static java.lang.Math.floor;
 
 public class Silo {
     private LinkedList<String> siloCode = new LinkedList<String>();
@@ -23,11 +28,11 @@ public class Silo {
     /**
      * Initialize the Silo with data from the Manager. Then assign it all to specific silo
      * to be grabbed at future times.
-     * @param data This is the Linked List of data for this silo.
+     * //@param data This is the Linked List of data for this silo.
      * @param siloNum This is to tell the silo which number it is (May not be needed)
      */
-    Silo(LinkedList data, Integer siloNum){
-        this.siloCode = data;
+    Silo(Integer siloNum){
+        this.siloCode = new LinkedList<String>();
         this.accValue = 0;
         this.bakValue = 0;
         this.siloNumber = siloNum;
@@ -36,6 +41,54 @@ public class Silo {
         this.downValue = null;
         this.leftValue = null;
         this.rightValue = null;
+    }
+
+    /**
+     * Creates and returns the Node data used to represent a Silo in the UI
+     * @return the Node used to represent a silo
+     */
+    Node getNode(){
+        BorderPane outerPane = new BorderPane();
+        BorderPane innerPane = new BorderPane();
+        outerPane.setCenter(innerPane);
+
+        //Creating the DataColumn within innerPane
+        VBox dataCol = new VBox();
+        innerPane.setRight(dataCol);
+        Label accLabel = new Label(Integer.toString(accValue));
+        Label bakLabel = new Label(Integer.toString(bakValue));
+        dataCol.getChildren().addAll(accLabel, bakLabel);
+
+        //Creating the PointerColumn within innerPane
+
+
+        //Creating the TextField within innerPane
+        TextField codeField = new TextField();
+        innerPane.setCenter(codeField);
+        codeField.setPrefSize(250, 250);
+
+        //Creating the four Transfer Regions within outerPane
+        for(int i = 0; i < 4; i++){
+
+        }
+
+        return outerPane;
+    }
+
+    /**
+     * Note: this is only useful for a 2x2 group of silos currently.
+     * @return the x position of a given silo in a 2x2 group
+     */
+    int getPosX(){
+        return (siloNumber%2);
+    }
+
+    /**
+     * Note: this is only useful for a 2x2 group of silos currently.
+     * @return the y position of a given silo in a 2x2 group
+     **/
+    int getPosY(){
+        return (int) floor(siloNumber/2);
     }
 
     /**
@@ -88,8 +141,14 @@ public class Silo {
      * @return This is a linked list described above
      */
     LinkedList returnAllData(){
+        //I've filled this out temporarily for testing - Chris
         //Build all data into a Linked List to return
-        return null;
+        LinkedList<Integer> data = new LinkedList<>();
+        data.add(siloNumber);
+        data.add(this.getPosX());
+        data.add(this.getPosY());
+
+        return data;
     }
 
     /**
