@@ -18,6 +18,10 @@ public class TransferRegion {
         this.down = " ";
     }
 
+    /**
+     * This will grab the up arrow of the transfer region, return it and clear it.
+     * @return The data in the up arrow
+     */
     String up(){
         if (this.up.matches(" ")){
             return null;
@@ -29,6 +33,10 @@ public class TransferRegion {
         }
     }
 
+    /**
+     * This will grab the left arrow of the transfer region, return it and clear it.
+     * @return The data in the left arrow
+     */
     String left(){
         if (this.left.matches(" ")){
             return null;
@@ -40,6 +48,10 @@ public class TransferRegion {
         }
     }
 
+    /**
+     * This will grab the right arrow of the transfer region, return it and clear it.
+     * @return the data of the right arrow
+     */
     String right(){
         if (this.right.matches(" ")){
             return null;
@@ -51,6 +63,10 @@ public class TransferRegion {
         }
     }
 
+    /**
+     * This will grab the down arrow of the transfer region, return it and clear it.
+     * @return The data in the down arrow
+     */
     String down(){
         if (this.down.matches(" ")){
             return null;
