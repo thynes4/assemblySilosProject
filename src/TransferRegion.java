@@ -22,7 +22,7 @@ public class TransferRegion {
      * This will grab the up arrow of the transfer region, return it and clear it.
      * @return The data in the up arrow
      */
-    String up(){
+    String getUp(){
         if (this.up.matches(" ")){
             return null;
         }
@@ -37,7 +37,7 @@ public class TransferRegion {
      * This will grab the left arrow of the transfer region, return it and clear it.
      * @return The data in the left arrow
      */
-    String left(){
+    String getLeft(){
         if (this.left.matches(" ")){
             return null;
         }
@@ -52,7 +52,7 @@ public class TransferRegion {
      * This will grab the right arrow of the transfer region, return it and clear it.
      * @return the data of the right arrow
      */
-    String right(){
+    String getRight(){
         if (this.right.matches(" ")){
             return null;
         }
@@ -67,7 +67,7 @@ public class TransferRegion {
      * This will grab the down arrow of the transfer region, return it and clear it.
      * @return The data in the down arrow
      */
-    String down(){
+    String getDown(){
         if (this.down.matches(" ")){
             return null;
         }
@@ -76,5 +76,18 @@ public class TransferRegion {
             this.down = " ";
             return temp;
         }
+    }
+
+    void addUp(String s){
+        this.up = s;
+    }
+    void addLeft(String s){
+        this.left = s;
+    }
+    void addRight(String s){
+        this.right = s;
+    }
+    void addDown(String s){
+        this.down = s;
     }
 }

@@ -108,7 +108,8 @@ public class Silo {
                     this.noop();
                 }
                 case "MOVE" -> {
-                    this.move(temp2[1],temp2[2],this);
+                    //Needs work as transfer region is no longer part of Silo
+                    this.move(temp2[1],temp2[2],null);
                 }
                 case "SWAP" -> {
                     this.swap();
@@ -212,15 +213,19 @@ public class Silo {
      * This is to move a value from the Source to the destination
      * @param source This is the source where the value is being grabbed or the initial value itself
      * @param destination This is where the value is being moved to
-     * @param s This is the silo the value may be moved to.
+     * @param tr This is the current silo transfer region
      */
-    void move(String source, String destination, Silo s){
+    void move(String source, String destination, TransferRegion tr){
         Integer temp = sourceToInteger(source);
+        //Need to add a portion where if Source is another transfer region
+
+
         switch (destination) {
-            case "UP" -> s.upValue = temp;
-            case "DOWN" -> s.downValue = temp;
-            case "LEFT" -> s.leftValue = temp;
-            case "RIGHT" -> s.rightValue = temp;
+            case "UP" -> tr.addUp(source);
+            case "DOWN" -> tr.addDown(source);
+            case "LEFT" -> tr.addLeft(source);
+            case "RIGHT" -> tr.addRight(source);
+            case "ACC" -> this.accValue = temp;
         }
     }
 

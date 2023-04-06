@@ -90,17 +90,22 @@ public class Parser {
      * @param output The output transfer region
      */
     void getOutput(TransferRegion output){
-        if (output.up() != null){
-            outputNumbers.add(output.up());
+        String tempUp = output.getUp();
+        String tempLeft = output.getLeft();
+        String tempRight = output.getRight();
+        String tempDown = output.getDown();
+
+        if (tempUp != null){
+            outputNumbers.add(tempUp);
         }
-        if (output.left() != null){
-            outputNumbers.add(output.left());
+        else if(tempLeft != null){
+            outputNumbers.add(tempLeft);
         }
-        if (output.right() != null){
-            outputNumbers.add(output.right());
+        else if(tempRight != null){
+            outputNumbers.add(tempRight);
         }
-        if (output.down() != null){
-            outputNumbers.add(output.down());
+        else if(tempDown != null){
+            outputNumbers.add(tempDown);
         }
     }
 
