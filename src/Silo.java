@@ -99,14 +99,51 @@ public class Silo {
         String temp1 = returnLineData(lineNumber);
         //Check if it is a label
         if (temp1.contains(":")){
-
+            runLine(lineNumber + 1);
         }
         else {
             String[] temp2 = temp1.split(" ");
             switch (temp2[0]) {
-                //case
+                case "NOOP" -> {
+                    this.noop();
+                }
+                case "MOVE" -> {
+                    this.move(temp2[1],temp2[2],this);
+                }
+                case "SWAP" -> {
+                    this.swap();
+                }
+                case "SAVE" -> {
+                    this.save();
+                }
+                case "ADD" -> {
+                    this.add(temp2[1]);
+                }
+                case "SUB" -> {
+                    this.sub(temp2[1]);
+                }
+                case "NEGATE" -> {
+                    this.negate();
+                }
+                case "JUMP" -> {
+                    this.jump(temp2[1]);
+                }
+                case "JEZ" -> {
+                    this.jez(temp2[1]);
+                }
+                case "JNZ" -> {
+                    this.jnz(temp2[1]);
+                }
+                case "JGZ" -> {
+                    this.jgz(temp2[1]);
+                }
+                case "JLZ" -> {
+                    this.jlz(temp2[1]);
+                }
+                case "JRO" -> {
+                    this.jro(temp2[1]);
+                }
             }
-
         }
     }
 
