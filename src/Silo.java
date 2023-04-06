@@ -226,10 +226,10 @@ public class Silo {
         String temp2 = " ";
         //Need to add a portion where if Source is another transfer region
         switch (source) {
-            case "UP" -> temp2 = this.trUp.getUp();
+            case "UP" -> temp2 = this.trUp.getDown();
             case "DOWN" -> temp2 = this.trDown.getUp();
-            case "LEFT" -> temp2 = this.trLeft.getUp();
-            case "RIGHT" -> temp2 = this.trRight.getUp();
+            case "LEFT" -> temp2 = this.trLeft.getRight();
+            case "RIGHT" -> temp2 = this.trRight.getLeft();
             case "ACC" -> temp = this.accValue;
             case "NIL" -> temp = 0;
             case "BAK" -> temp = this.bakValue;
