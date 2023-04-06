@@ -38,8 +38,16 @@ public class Silo {
         this.siloNumber = siloNum;
         this.siloLineNumber = 0;
 
+//        this.tr = self;
+//        this.trUp = up;
+//        this.trLeft = left;
+//        this.trRight = right;
+//        this.trDown = down;
+
         //Need to add Transfer Regions to this so the Silo knows the 4 transfer regions
-        //Surrounding it to grab from.
+        //Surrounding it to grab from. Do not want to change now as you are testing the
+        //Silos. In the arguments we need to add TransferRegion self, TransferRegion up, TransferRegion left,
+        //TransferRegion right, TransferRegion down).
     }
 
     /**
