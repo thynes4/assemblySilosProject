@@ -9,8 +9,56 @@
  */
 
 public class TransferRegion {
+    private String up, left, right, down;
 
     TransferRegion(){
+        this.up = " ";
+        this.left = " ";
+        this.right = " ";
+        this.down = " ";
+    }
 
+    String up(){
+        if (this.up.matches(" ")){
+            return null;
+        }
+        else {
+            String temp = this.up;
+            this.up = " ";
+            return temp;
+        }
+    }
+
+    String left(){
+        if (this.left.matches(" ")){
+            return null;
+        }
+        else {
+            String temp = this.left;
+            this.left = " ";
+            return temp;
+        }
+    }
+
+    String right(){
+        if (this.right.matches(" ")){
+            return null;
+        }
+        else {
+            String temp = this.right;
+            this.right = " ";
+            return temp;
+        }
+    }
+
+    String down(){
+        if (this.down.matches(" ")){
+            return null;
+        }
+        else {
+            String temp = this.down;
+            this.down = " ";
+            return temp;
+        }
     }
 }

@@ -16,6 +16,7 @@ public class Parser {
     private int inputRow, inputCol;
     private int outputRow, outputCol;
     private LinkedList<String> inputNumbers = new LinkedList<>();
+    private LinkedList<String> outputNumbers = new LinkedList<>();
 
     Parser(LinkedList input){
         this.commandInput = input;
@@ -76,5 +77,31 @@ public class Parser {
         inputNumbers.remove(0);
     }
 
+    /**
+     * This will grab the first string in the Input numbers and return it
+     * @return the first string in the input numbers.
+     */
+    String sendInput(){
+        return inputNumbers.pop();
+    }
+
+    /**
+     * This is to get the output Transfer regions values to add to the Output List
+     * @param output The output transfer region
+     */
+    void getOutput(TransferRegion output){
+        if (output.up() != null){
+            outputNumbers.add(output.up());
+        }
+        if (output.left() != null){
+            outputNumbers.add(output.left());
+        }
+        if (output.right() != null){
+            outputNumbers.add(output.right());
+        }
+        if (output.down() != null){
+            outputNumbers.add(output.down());
+        }
+    }
 
 }
