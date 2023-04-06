@@ -23,7 +23,7 @@ public class Silo {
     private Integer bakValue;
     private Integer siloNumber;
     private Integer siloLineNumber;
-    private Integer upValue, downValue, leftValue, rightValue;
+    private TransferRegion tr, trUp, trLeft, trRight, trDown;
 
     /**
      * Initialize the Silo with data from the Manager. Then assign it all to specific silo
@@ -37,10 +37,9 @@ public class Silo {
         this.bakValue = 0;
         this.siloNumber = siloNum;
         this.siloLineNumber = 0;
-        this.upValue = null;
-        this.downValue = null;
-        this.leftValue = null;
-        this.rightValue = null;
+
+        //Need to add Transfer Regions to this so the Silo knows the 4 transfer regions
+        //Surrounding it to grab from.
     }
 
     /**
@@ -109,7 +108,7 @@ public class Silo {
                 }
                 case "MOVE" -> {
                     //Needs work as transfer region is no longer part of Silo
-                    this.move(temp2[1],temp2[2],null);
+                    this.move(temp2[1],temp2[2]);
                 }
                 case "SWAP" -> {
                     this.swap();
@@ -213,18 +212,27 @@ public class Silo {
      * This is to move a value from the Source to the destination
      * @param source This is the source where the value is being grabbed or the initial value itself
      * @param destination This is where the value is being moved to
-     * @param tr This is the current silo transfer region
      */
-    void move(String source, String destination, TransferRegion tr){
-        Integer temp = sourceToInteger(source);
+    void move(String source, String destination){
+        Integer temp = 0;
+        String temp2 = " ";
         //Need to add a portion where if Source is another transfer region
-
+        switch (source) {
+            case "UP" -> temp2 = this.trUp.getUp();
+            case "DOWN" -> temp2 = this.trDown.getUp();
+            case "LEFT" -> temp2 = this.trLeft.getUp();
+            case "RIGHT" -> temp2 = this.trRight.getUp();
+            case "ACC" -> temp = this.accValue;
+            case "NIL" -> temp = 0;
+            case "BAK" -> temp = this.bakValue;
+            default -> temp = sourceToInteger(source);
+        }
 
         switch (destination) {
-            case "UP" -> tr.addUp(source);
-            case "DOWN" -> tr.addDown(source);
-            case "LEFT" -> tr.addLeft(source);
-            case "RIGHT" -> tr.addRight(source);
+            case "UP" -> this.tr.addUp(temp2);
+            case "DOWN" -> this.tr.addDown(temp2);
+            case "LEFT" -> this.tr.addLeft(temp2);
+            case "RIGHT" -> this.tr.addRight(temp2);
             case "ACC" -> this.accValue = temp;
         }
     }
@@ -346,11 +354,13 @@ public class Silo {
      */
     private Integer sourceToInteger (String source) {
         return switch (source) {
-            case "UP" -> upValue;
-            case "RIGHT" -> rightValue;
-            case "DOWN" -> downValue;
-            case "LEFT" -> leftValue;
-            case "NIL" -> 0;
+            //Commenting out most currently as it is currently not needed due to Silo not containing
+            //The transfer regions now
+//            case "UP" -> upValue;
+//            case "RIGHT" -> rightValue;
+//            case "DOWN" -> downValue;
+//            case "LEFT" -> leftValue;
+//            case "NIL" -> 0;
             default -> Integer.valueOf(source);
         };
     }
