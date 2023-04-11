@@ -9,8 +9,11 @@
  */
 
 
+import javafx.event.EventType;
 import javafx.scene.Node;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
@@ -28,7 +31,7 @@ public class Silo {
     private Label accLabel = new Label();
     private Label bakLabel = new Label();
     private Label pointerLabel = new Label();
-    private TextField codeField = new TextField();
+    private TextArea codeArea = new TextArea();
 
 
     /**
@@ -72,7 +75,6 @@ public class Silo {
         //Creating the DataColumn within innerPane
         VBox dataCol = new VBox();
         innerPane.setRight(dataCol);
-
         accLabel.setText(Integer.toString(accValue));
         bakLabel.setText(Integer.toString(bakValue));
         dataCol.getChildren().addAll(accLabel, bakLabel);
@@ -87,8 +89,27 @@ public class Silo {
         pointerLabel.setText(ptrTxt);
 
         //Creating the TextField within innerPane
-        innerPane.setCenter(codeField);
-        codeField.setPrefSize(250, 250);
+        innerPane.setCenter(codeArea);
+        String txt = "";
+        for(String line : siloCode){
+            txt = txt + line + "\n";
+        }
+        codeArea.setText(txt);
+        codeArea.setPrefSize(250, 250);
+
+        codeArea.setOnKeyReleased(event -> {
+            if(event.getCode() == KeyCode.ENTER){
+                siloLineNumber = 0;
+
+                String[] codeArr = codeArea.getText().split("\n");
+                siloCode.clear();
+                for(String line : codeArr) {
+                    siloCode.add(line);
+                }
+
+                System.out.println(siloCode);
+            }
+        });
 
         return outerPane;
     }
