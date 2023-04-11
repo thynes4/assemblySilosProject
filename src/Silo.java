@@ -25,6 +25,12 @@ public class Silo {
     private Integer siloLineNumber;
     protected TransferRegion tr, trUp, trLeft, trRight, trDown;
 
+    private Label accLabel = new Label();
+    private Label bakLabel = new Label();
+    private Label pointerLabel = new Label();
+    private TextField codeField = new TextField();
+
+
     /**
      * Initialize the Silo with data from the Manager. Then assign it all to specific silo
      * to be grabbed at future times.
@@ -43,7 +49,6 @@ public class Silo {
         this.trLeft = left;
         this.trRight = right;
         this.trDown = down;
-
     }
 
     //Testing Purposes
@@ -67,22 +72,23 @@ public class Silo {
         //Creating the DataColumn within innerPane
         VBox dataCol = new VBox();
         innerPane.setRight(dataCol);
-        Label accLabel = new Label(Integer.toString(accValue));
-        Label bakLabel = new Label(Integer.toString(bakValue));
+
+        accLabel.setText(Integer.toString(accValue));
+        bakLabel.setText(Integer.toString(bakValue));
         dataCol.getChildren().addAll(accLabel, bakLabel);
 
         //Creating the PointerColumn within innerPane
-
+        innerPane.setLeft(pointerLabel);
+        String ptrTxt = "";
+        for(int i = 0; i < siloLineNumber -1; i++){
+            ptrTxt = ptrTxt + "\n";
+        }
+        ptrTxt = ptrTxt + "-->";
+        pointerLabel.setText(ptrTxt);
 
         //Creating the TextField within innerPane
-        TextField codeField = new TextField();
         innerPane.setCenter(codeField);
         codeField.setPrefSize(250, 250);
-
-        //Creating the four Transfer Regions within outerPane
-        for(int i = 0; i < 4; i++){
-
-        }
 
         return outerPane;
     }
