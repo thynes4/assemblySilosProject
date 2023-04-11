@@ -126,6 +126,14 @@ public class Parser {
     }
 
     /**
+     * To grab the silo List that was made when creating all silos
+     * @return the Silo List holding all anonymous silos
+     */
+    LinkedList<Silo> sendSilos (){
+        return siloList;
+    }
+
+    /**
      * This will grab the first string in the Input numbers and return it
      * @return the first string in the input numbers.
      */

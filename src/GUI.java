@@ -13,6 +13,9 @@ import java.util.Scanner;
 
 public class GUI {
     static LinkedList<TransferRegion> transferRegions = new LinkedList<>();
+    static LinkedList<Silo> siloList = new LinkedList<>();
+    static Integer totalRows, totalColumns;
+    static Integer outputTR, inputTR;
 
     public static void main(String[] args) {
         LinkedList<String> commandInput = new LinkedList<>();
@@ -23,7 +26,9 @@ public class GUI {
         commandInput.add(temp1);
         String[] temp2 = temp1.split(" ");
         int var1 = Integer.valueOf(temp2[0]);
+        totalRows = var1;
         int var2 = Integer.valueOf(temp2[1]);
+        totalColumns = var2;
         int totalEnds = (var1 * var2) + 2;
         int count = 0;
         while (!inputFinished){
@@ -45,7 +50,15 @@ public class GUI {
             transferRegions.add(new TransferRegion());
         }
 
+        //Transfer Region row x column is input
+        inputTR = (totalRows * totalColumns);
+        //Transfer Region row x column + 1 is output
+        outputTR = (totalRows * totalColumns) + 1;
+
         //Creating the parser will create all silos too.
         Parser parser = new Parser(commandInput, transferRegions);
+
+        //Grabbing all Silos
+        siloList = parser.sendSilos();
     }
 }
