@@ -16,6 +16,7 @@ public class GUI {
     static LinkedList<Silo> siloList = new LinkedList<>();
     static Integer totalRows, totalColumns;
     static Integer outputTR, inputTR;
+    static String inputDirection, outputDirection;
 
     public static void main(String[] args) {
         LinkedList<String> commandInput = new LinkedList<>();
@@ -61,9 +62,44 @@ public class GUI {
         //Grabbing all Silos
         siloList = parser.sendSilos();
 
+        inputDirection = parser.getInputDirection();
+        outputDirection = parser.getOutputDirection();
+
         //This is just some Test Code
+        //Making sure Silos get proper data
+        //Also making sure Input sends properly
         System.out.println(siloList.size());
         System.out.println(transferRegions.size());
+        updateInput(inputDirection,parser);
+        System.out.println(transferRegions.get(inputTR).getDown());
         //Remove Above when finished
+    }
+
+    static void updateInput(String inputDirection, Parser p){
+        String temp = p.sendInput();
+        if (temp != null) {
+            switch (inputDirection) {
+                case "UP" -> {
+                    if (transferRegions.get(inputTR).up.matches(" ")) {
+                        transferRegions.get(inputTR).addUp(temp);
+                    }
+                }
+                case "DOWN" -> {
+                    if (transferRegions.get(inputTR).down.matches(" ")) {
+                        transferRegions.get(inputTR).addDown(temp);
+                    }
+                }
+                case "LEFT" -> {
+                    if (transferRegions.get(inputTR).left.matches(" ")) {
+                        transferRegions.get(inputTR).addLeft(temp);
+                    }
+                }
+                case "RIGHT" -> {
+                    if (transferRegions.get(inputTR).right.matches(" ")) {
+                        transferRegions.get(inputTR).addRight(temp);
+                    }
+                }
+            }
+        }
     }
 }

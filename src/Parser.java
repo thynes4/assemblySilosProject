@@ -18,6 +18,7 @@ public class Parser {
     private LinkedList<String> inputNumbers = new LinkedList<>();
     private LinkedList<String> outputNumbers = new LinkedList<>();
     private LinkedList<Silo> siloList = new LinkedList<>();
+    private String inputDirection, outputDirection;
 
     Parser(LinkedList input, LinkedList<TransferRegion> transferRegions){
         this.commandInput = input;
@@ -129,30 +130,46 @@ public class Parser {
         //To put in the Input Transfer Region
         if (inputRow < 0){
             siloList.get((inputCol - 1)).trUp = transferRegions.get((totalCols * totalRows));
-        }
-        else if (inputRow >= totalRows){
-            siloList.get((inputCol - 1)).trDown = transferRegions.get((totalCols * totalRows));
+            inputDirection = "DOWN";
         }
         else if (inputCol < 0){
             siloList.get((totalCols * (inputRow - 1))).trLeft = transferRegions.get((totalCols * totalRows));
+            inputDirection = "RIGHT";
+        }
+        else if (inputRow >= totalRows){
+            siloList.get((inputCol - 1)).trDown = transferRegions.get((totalCols * totalRows));
+            inputDirection = "UP";
         }
         else if (inputCol >= totalCols){
             siloList.get((inputCol * inputRow) - 1).trRight = transferRegions.get((totalCols * totalRows));
+            inputDirection = "LEFT";
         }
 
         //To put in the Output Transfer Region
         if (outputRow < 0){
             siloList.get((outputCol - 1)).trUp = transferRegions.get((totalCols * totalRows) + 1);
-        }
-        else if (outputRow >= totalRows){
-            siloList.get((outputCol - 1)).trDown = transferRegions.get((totalCols * totalRows) + 1);
+            outputDirection = "DOWN";
         }
         else if (outputCol < 0){
             siloList.get((totalCols * (outputRow - 1))).trLeft = transferRegions.get((totalCols * totalRows) + 1);
+            outputDirection = "RIGHT";
+        }
+        else if (outputRow >= totalRows){
+            siloList.get((outputCol - 1)).trDown = transferRegions.get((totalCols * totalRows) + 1);
+            outputDirection = "UP";
         }
         else if (outputCol >= totalCols){
             siloList.get((totalCols * outputRow) - 1).trRight = transferRegions.get((totalCols * totalRows) + 1);
+            outputDirection = "LEFT";
         }
+    }
+
+    String getOutputDirection(){
+        return outputDirection;
+    }
+
+    String getInputDirection() {
+        return inputDirection;
     }
 
     /**
@@ -170,6 +187,7 @@ public class Parser {
     String sendInput(){
         return inputNumbers.pop();
     }
+
 
     /**
      * This is to get the output Transfer regions values to add to the Output List

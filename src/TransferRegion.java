@@ -9,7 +9,7 @@
  */
 
 public class TransferRegion {
-    private String up, left, right, down;
+    protected String up, left, right, down;
 
     TransferRegion(){
         this.up = " ";
