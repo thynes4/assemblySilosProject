@@ -17,8 +17,9 @@ public class Parser {
     private int outputRow, outputCol;
     private LinkedList<String> inputNumbers = new LinkedList<>();
     private LinkedList<String> outputNumbers = new LinkedList<>();
+    private LinkedList<Silo> siloList = new LinkedList<>();
 
-    Parser(LinkedList input){
+    Parser(LinkedList input, LinkedList<TransferRegion> transferRegions){
         this.commandInput = input;
 
         //This is to grab the total rows and columns first
@@ -41,8 +42,55 @@ public class Parser {
                     siloCode.add(s);
                 }
                 else {
-                    //Initialize the silo with siloCode Linked List and Count for silo Number
-                    //manager.initializeSilos(siloCode, count)
+                    //Silo(Integer siloNum, TransferRegion self, TransferRegion up,
+                    //          TransferRegion left, TransferRegion right, TransferRegion down)
+
+                    //first entry no Up/Left TR
+                    if (count == 0){
+                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),null, null,
+                                transferRegions.get(count + 1),transferRegions.get(count + totalCols)));
+                    }
+                    //Top Right no Up/Right TR
+                    else if (count == (totalCols - 1)){
+                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),null, transferRegions.get(count-1),
+                                null,transferRegions.get(count + totalCols)));
+                    }
+                    //Remaining Top Row no Up TR
+                    else if (count < totalCols){
+                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),null, transferRegions.get(count-1),
+                                transferRegions.get(count + 1),transferRegions.get(count + totalCols)));
+                    }
+                    //Bottom left no Down/Left TR
+                    else if (count == ((totalRows - 1) * totalCols)) {
+                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),transferRegions.get(count - totalCols), null,
+                                transferRegions.get(count + 1),null));
+                    }
+                    //Bottom Right no Down/Right TR
+                    else if (count == ((totalRows * totalCols) - 1)){
+                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),transferRegions.get(count - totalCols),
+                                transferRegions.get(count-1), null,null));
+                    }
+                    //Left column no Left TR
+                    else if (count%totalCols == 0){
+                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),transferRegions.get(count - totalCols), null,
+                                transferRegions.get(count + 1),transferRegions.get(count + totalCols)));
+                    }
+                    //Right Column no Right TR
+                    else if (count%totalCols == (totalCols - 1)){
+                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),transferRegions.get(count - totalCols),
+                                transferRegions.get(count - 1), null,transferRegions.get(count + totalCols)));
+                    }
+                    //Remaining Bottom Row no Down TR
+                    else if (count > ((totalRows - 1) * totalCols)){
+                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),transferRegions.get(count - totalCols),
+                                transferRegions.get(count - 1), transferRegions.get(count + 1),null));
+                    }
+                    //Remainder case where they get all 4 transfer Regions
+                    else {
+                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),transferRegions.get(count - totalCols),
+                                transferRegions.get(count - 1), transferRegions.get(count + 1),
+                                transferRegions.get(count + totalCols)));
+                    }
                     count++;
                     siloCode.clear();
                 }

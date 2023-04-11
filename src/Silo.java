@@ -31,23 +31,31 @@ public class Silo {
      * //@param data This is the Linked List of data for this silo.
      * @param siloNum This is to tell the silo which number it is (May not be needed)
      */
+    Silo(Integer siloNum, LinkedList<String> code, TransferRegion self, TransferRegion up, TransferRegion left, TransferRegion right, TransferRegion down){
+        this.siloCode = code;
+        this.accValue = 0;
+        this.bakValue = 0;
+        this.siloNumber = siloNum;
+        this.siloLineNumber = 0;
+
+        this.tr = self;
+        this.trUp = up;
+        this.trLeft = left;
+        this.trRight = right;
+        this.trDown = down;
+
+        //Need to add Transfer Regions to this so the Silo knows the 4 transfer regions
+        //Surrounding it to grab from. Do not want to change now as you are testing the
+        //Silos. In the arguments we need to add TransferRegion self, TransferRegion up, TransferRegion left,
+        //TransferRegion right, TransferRegion down).
+    }
+
     Silo(Integer siloNum){
         this.siloCode = new LinkedList<String>();
         this.accValue = 0;
         this.bakValue = 0;
         this.siloNumber = siloNum;
         this.siloLineNumber = 0;
-
-//        this.tr = self;
-//        this.trUp = up;
-//        this.trLeft = left;
-//        this.trRight = right;
-//        this.trDown = down;
-
-        //Need to add Transfer Regions to this so the Silo knows the 4 transfer regions
-        //Surrounding it to grab from. Do not want to change now as you are testing the
-        //Silos. In the arguments we need to add TransferRegion self, TransferRegion up, TransferRegion left,
-        //TransferRegion right, TransferRegion down).
     }
 
     /**

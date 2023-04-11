@@ -12,6 +12,7 @@ import java.util.Scanner;
  */
 
 public class GUI {
+    static LinkedList<TransferRegion> transferRegions = new LinkedList<>();
 
     public static void main(String[] args) {
         LinkedList<String> commandInput = new LinkedList<>();
@@ -37,7 +38,14 @@ public class GUI {
                 inputFinished = true;
             }
         }
+
+        //Creating all the transfer regions. It is row X Column + 2.
+        //The + 2 is the input and output.
+        for (int i = 0; i < totalEnds; i++){
+            transferRegions.add(new TransferRegion());
+        }
+
         //Creating the parser will create all silos too.
-        Parser parser = new Parser(commandInput);
+        Parser parser = new Parser(commandInput, transferRegions);
     }
 }
