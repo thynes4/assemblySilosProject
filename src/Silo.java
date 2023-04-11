@@ -44,12 +44,9 @@ public class Silo {
         this.trRight = right;
         this.trDown = down;
 
-        //Need to add Transfer Regions to this so the Silo knows the 4 transfer regions
-        //Surrounding it to grab from. Do not want to change now as you are testing the
-        //Silos. In the arguments we need to add TransferRegion self, TransferRegion up, TransferRegion left,
-        //TransferRegion right, TransferRegion down).
     }
 
+    //Testing Purposes
     Silo(Integer siloNum){
         this.siloCode = new LinkedList<String>();
         this.accValue = 0;
