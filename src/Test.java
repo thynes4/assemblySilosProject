@@ -3,6 +3,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.geometry.Insets;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import java.util.ArrayList;
@@ -23,19 +24,34 @@ public class Test extends Application {
         root.setAlignment(Pos.CENTER);
 
 
+        ArrayList<TransferRegion> TRegions = new ArrayList<>();
         ArrayList<Silo> Silos = new ArrayList<>();
         for(int i = 0; i < 4; i++){
+            TransferRegion tRegion = new TransferRegion();
+            TRegions.add(tRegion);
+
+            BorderPane tRegionNode = tRegion.getNode();
+
             Silo silo = new Silo(i);
             Silos.add(silo);
 
             Node siloNode = silo.getNode();
-            root.add(siloNode, silo.getPosY(), silo.getPosX());
+
+            tRegionNode.setCenter(siloNode);
+
+            root.add(tRegionNode, silo.getPosY(), silo.getPosX());
         }
 
         for(Silo silo : Silos){
+            for(int i = 0; i < silo.getSiloNum()+3; i++) {
+                silo.incrementLineNumber();
+                silo.refreshFX();
+            }
+
             System.out.println(silo.returnAllData());
         }
 
+        root.getStylesheets().add("Style.css");
         primaryStage.show();
     }
 }

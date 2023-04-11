@@ -64,37 +64,52 @@ public class Silo {
     }
 
     /**
-     * Creates and returns the Node data used to represent a Silo in the UI
-     * @return the Node used to represent a silo
+     * Refreshes the fx visuals for the given silo
      */
-    Node getNode(){
-        BorderPane outerPane = new BorderPane();
-        BorderPane innerPane = new BorderPane();
-        outerPane.setCenter(innerPane);
+    void refreshFX(){
+        this.accLabel.setText("acc = " + Integer.toString(accValue));
+        this.bakLabel.setText("bak = " + Integer.toString(bakValue));
 
-        //Creating the DataColumn within innerPane
-        VBox dataCol = new VBox();
-        innerPane.setRight(dataCol);
-        accLabel.setText(Integer.toString(accValue));
-        bakLabel.setText(Integer.toString(bakValue));
-        dataCol.getChildren().addAll(accLabel, bakLabel);
-
-        //Creating the PointerColumn within innerPane
-        innerPane.setLeft(pointerLabel);
-        String ptrTxt = "";
-        for(int i = 0; i < siloLineNumber -1; i++){
-            ptrTxt = ptrTxt + "\n";
-        }
-        ptrTxt = ptrTxt + "-->";
-        pointerLabel.setText(ptrTxt);
-
-        //Creating the TextField within innerPane
-        innerPane.setCenter(codeArea);
+        /*
         String txt = "";
         for(String line : siloCode){
             txt = txt + line + "\n";
         }
         codeArea.setText(txt);
+        */
+
+        String ptrTxt = "";
+        for(int i = 0; i < siloLineNumber -1; i++){
+            ptrTxt = ptrTxt + "\n";
+        }
+        ptrTxt = ptrTxt + "➡";
+        pointerLabel.setText(ptrTxt);
+        pointerLabel.setStyle("-fx-text-fill: #7cafc2;");
+    }
+
+    /**
+     * Creates and returns the Node data used to represent a Silo in the UI
+     * @return the Node used to represent a silo
+     */
+    Node getNode(){
+        BorderPane innerPane = new BorderPane();
+
+        // Creating the DataColumn within innerPane
+        // accLabel & bakLabel
+        accLabel.setStyle("white-label");
+        bakLabel.setStyle("white-label");
+        VBox dataCol = new VBox();
+        innerPane.setRight(dataCol);
+        dataCol.getChildren().addAll(accLabel, bakLabel);
+
+        // Creating the PointerColumn within innerPane
+        // pointerLabel
+        pointerLabel.setStyle("white-label");
+        innerPane.setLeft(pointerLabel);
+
+        // Creating the TextField within innerPane
+        // codeArea
+        innerPane.setCenter(codeArea);
         codeArea.setPrefSize(250, 250);
 
         codeArea.setOnKeyReleased(event -> {
@@ -107,11 +122,13 @@ public class Silo {
                     siloCode.add(line);
                 }
 
-                System.out.println(siloCode);
+                this.refreshFX();
+                //System.out.println(siloCode);
             }
         });
 
-        return outerPane;
+        refreshFX();
+        return innerPane;
     }
 
     /**
@@ -131,6 +148,12 @@ public class Silo {
     }
 
     /**
+     * Returns the assigned silo number
+     * @return siloNumber
+     */
+    int getSiloNum(){return this.siloNumber;}
+
+    /**
      * This will run the line of code for the silo.
      * @param lineNumber This is the current line number of the silo.
      */
@@ -144,7 +167,7 @@ public class Silo {
             String[] temp2 = temp1.split(" ");
             switch (temp2[0]) {
                 case "NOOP" -> {
-                    this.noop();
+                    this.incrementLineNumber();
                 }
                 case "MOVE" -> {
                     //Needs work as transfer region is no longer part of Silo
@@ -196,6 +219,13 @@ public class Silo {
     }
 
     /**
+     * This is to increment the line number by 1.
+     */
+    void incrementLineNumber(){
+        this.siloLineNumber++;
+    }
+
+    /**
      * This is to return the data at that specific line number in the code.
      * @param lineNumber The line number of code being requested
      * @return The string data from the line
@@ -226,26 +256,6 @@ public class Silo {
         data.add(this.getPosY());
 
         return data;
-    }
-
-    /**
-     * This is if the input is a Label and to check and advance the code line to the label
-     * @param string This is the string contained within the ':'
-     */
-
-    // Does this need to exist?
-    void label(String string){
-        if (string.contains(":")) {
-            siloLineNumber++;
-        }
-    }
-
-    /**
-     * This is an instruction that does nothing except advance the line count
-     */
-    // Does this need to exist?
-    void noop() {
-        siloLineNumber++;
     }
 
     /**

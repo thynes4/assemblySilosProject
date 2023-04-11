@@ -1,3 +1,7 @@
+import javafx.geometry.Pos;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.control.Label;
+
 /**
  * Sean Davies, Thomas Hynes, Christopher Jarek
  * Project 4 Assembly Silos
@@ -10,12 +14,16 @@
 
 public class TransferRegion {
     protected String up, left, right, down;
+    private Label upLabel = new Label();
+    private Label leftLabel = new Label();
+    private Label rightLabel = new Label();
+    private Label downLabel = new Label();
 
     TransferRegion(){
-        this.up = " ";
-        this.left = " ";
-        this.right = " ";
-        this.down = " ";
+        this.up = "";
+        this.left = "";
+        this.right = "";
+        this.down = "";
     }
 
     /**
@@ -89,5 +97,53 @@ public class TransferRegion {
     }
     void addDown(String s){
         this.down = s;
+    }
+
+    BorderPane getNode(){
+        BorderPane outerPane = new BorderPane();
+
+        upLabel.setAlignment(Pos.CENTER);
+        outerPane.setTop(upLabel);
+        outerPane.setAlignment(upLabel, Pos.CENTER);
+
+        leftLabel.setAlignment(Pos.CENTER);
+        outerPane.setLeft(leftLabel);
+        outerPane.setAlignment(leftLabel, Pos.CENTER);
+
+        rightLabel.setAlignment(Pos.CENTER);
+        outerPane.setRight(rightLabel);
+        outerPane.setAlignment(rightLabel, Pos.CENTER);
+
+        downLabel.setAlignment(Pos.CENTER);
+        outerPane.setBottom(downLabel);
+        outerPane.setAlignment(downLabel, Pos.CENTER);
+
+        refreshFX();
+        return outerPane;
+    }
+
+    void refreshFX(){
+        String upText = "↑" + up;
+        upLabel.setText(upText);
+        if(up.equals("")){upLabel.setStyle("-fx-text-fill: #dc9656;");}
+        else{upLabel.setStyle("-fx-text-fill: #a1b56c;");}
+
+        String leftText = left + "\n←";
+        leftLabel.setText(leftText);
+        if(left.equals("")){leftLabel.setStyle("-fx-text-fill: #dc9656;");}
+        else{leftLabel.setStyle("-fx-text-fill: #a1b56c;");}
+
+
+        String rightText = "→\n" + right;
+        rightLabel.setText(rightText);
+        if(right.equals("")){rightLabel.setStyle("-fx-text-fill: #dc9656;");}
+        else{rightLabel.setStyle("-fx-text-fill: #a1b56c;");}
+
+
+        String downText = down + "↓";
+        downLabel.setText(downText);
+        if(right.equals("")){downLabel.setStyle("-fx-text-fill: #dc9656;");}
+        else{downLabel.setStyle("-fx-text-fill: #a1b56c;");}
+
     }
 }
