@@ -60,5 +60,10 @@ public class GUI {
 
         //Grabbing all Silos
         siloList = parser.sendSilos();
+
+        //This is just some Test Code
+        System.out.println(siloList.size());
+        System.out.println(transferRegions.size());
+        //Remove Above when finished
     }
 }

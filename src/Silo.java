@@ -23,7 +23,7 @@ public class Silo {
     private Integer bakValue;
     private Integer siloNumber;
     private Integer siloLineNumber;
-    private TransferRegion tr, trUp, trLeft, trRight, trDown;
+    protected TransferRegion tr, trUp, trLeft, trRight, trDown;
 
     /**
      * Initialize the Silo with data from the Manager. Then assign it all to specific silo
@@ -218,7 +218,7 @@ public class Silo {
      */
     // Does this need to exist?
     void noop() {
-
+        siloLineNumber++;
     }
 
     /**

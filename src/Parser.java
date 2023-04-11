@@ -42,8 +42,10 @@ public class Parser {
                     siloCode.add(s);
                 }
                 else {
-                    //Silo(Integer siloNum, TransferRegion self, TransferRegion up,
-                    //          TransferRegion left, TransferRegion right, TransferRegion down)
+                    //This is some Test Code
+                    System.out.println(count);
+                    System.out.println(siloCode);
+                    //Remove Above when finished
 
                     //first entry no Up/Left TR
                     if (count == 0){
@@ -123,6 +125,34 @@ public class Parser {
         inputRow = Integer.valueOf(temp6[0]);
         inputCol = Integer.valueOf(temp6[1]);
         inputNumbers.remove(0);
+
+        //To put in the Input Transfer Region
+        if (inputRow < 0){
+            siloList.get((inputCol - 1)).trUp = transferRegions.get((totalCols * totalRows));
+        }
+        else if (inputRow >= totalRows){
+            siloList.get((inputCol - 1)).trDown = transferRegions.get((totalCols * totalRows));
+        }
+        else if (inputCol < 0){
+            siloList.get((totalCols * (inputRow - 1))).trLeft = transferRegions.get((totalCols * totalRows));
+        }
+        else if (inputCol >= totalCols){
+            siloList.get((inputCol * inputRow) - 1).trRight = transferRegions.get((totalCols * totalRows));
+        }
+
+        //To put in the Output Transfer Region
+        if (outputRow < 0){
+            siloList.get((outputCol - 1)).trUp = transferRegions.get((totalCols * totalRows) + 1);
+        }
+        else if (outputRow >= totalRows){
+            siloList.get((outputCol - 1)).trDown = transferRegions.get((totalCols * totalRows) + 1);
+        }
+        else if (outputCol < 0){
+            siloList.get((totalCols * (outputRow - 1))).trLeft = transferRegions.get((totalCols * totalRows) + 1);
+        }
+        else if (outputCol >= totalCols){
+            siloList.get((totalCols * outputRow) - 1).trRight = transferRegions.get((totalCols * totalRows) + 1);
+        }
     }
 
     /**
