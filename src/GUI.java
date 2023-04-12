@@ -1,3 +1,13 @@
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -11,7 +21,7 @@ import java.util.Scanner;
  * This file is the GUI file which will display and allow the User to run the program.
  */
 
-public class GUI {
+public class GUI extends Application {
     static LinkedList<TransferRegion> transferRegions = new LinkedList<>();
     static LinkedList<Silo> siloList = new LinkedList<>();
     static Integer totalRows, totalColumns;
@@ -73,6 +83,40 @@ public class GUI {
         updateInput(inputDirection,parser);
         System.out.println(transferRegions.get(inputTR).getDown());
         //Remove Above when finished
+
+        launch(args);
+    }
+
+
+    public void start(Stage primaryStage){
+        primaryStage.setTitle("Testing...");
+
+        GridPane root = new GridPane();
+        primaryStage.setScene(new Scene(root, 1024, 768));
+
+        root.setPadding(new Insets(25, 25, 25, 25));
+        root.setAlignment(Pos.CENTER);
+
+
+        for (int i = 0; i < (totalRows * totalColumns); i++){
+            BorderPane tRegionNode = transferRegions.get(i).getNode();
+            Node siloNode = siloList.get(i).getNode();
+            tRegionNode.setCenter(siloNode);
+            root.add(tRegionNode, siloList.get(i).getPosY(), siloList.get(i).getPosX());
+        }
+
+
+        for(Silo silo : siloList){
+            for(int i = 0; i < silo.getSiloNum()+3; i++) {
+                silo.incrementLineNumber();
+                silo.refreshFX();
+            }
+
+            System.out.println(silo.returnAllData());
+        }
+
+        root.getStylesheets().add("Style.css");
+        primaryStage.show();
     }
 
     static void updateInput(String inputDirection, Parser p){
@@ -102,4 +146,5 @@ public class GUI {
             }
         }
     }
+
 }
