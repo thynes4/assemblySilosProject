@@ -102,18 +102,9 @@ public class GUI extends Application {
             BorderPane tRegionNode = transferRegions.get(i).getNode();
             Node siloNode = siloList.get(i).getNode();
             tRegionNode.setCenter(siloNode);
-            root.add(tRegionNode, siloList.get(i).getPosY(), siloList.get(i).getPosX());
+            root.add(tRegionNode, siloList.get(i).getPosY(totalColumns), siloList.get(i).getPosX(totalColumns));
         }
 
-
-        for(Silo silo : siloList){
-            for(int i = 0; i < silo.getSiloNum()+3; i++) {
-                silo.incrementLineNumber();
-                silo.refreshFX();
-            }
-
-            System.out.println(silo.returnAllData());
-        }
 
         root.getStylesheets().add("Style.css");
         primaryStage.show();
