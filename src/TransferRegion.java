@@ -20,10 +20,10 @@ public class TransferRegion {
     private Label downLabel = new Label();
 
     TransferRegion(){
-        this.up = "";
-        this.left = "";
-        this.right = "";
-        this.down = "";
+        this.up = " ";
+        this.left = " ";
+        this.right = " ";
+        this.down = " ";
     }
 
     /**

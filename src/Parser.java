@@ -37,9 +37,10 @@ public class Parser {
         for (String s: commandInput) {
             if (!silofinished){
                 if (s.equals("INPUT")){
+                    System.out.println("detected input");
                     silofinished = true;
                 }
-                if (!s.equals("END")){
+                else if (!s.equals("END")){
                     siloCode.add(s);
                 }
                 else {
@@ -103,13 +104,13 @@ public class Parser {
                     inputfinished = true;
                 }
                 //This is grabbing all the input data to send in to the silos.
-                if (!inputfinished){
+                else if (!inputfinished){
                     inputNumbers.add(s);
                 }
                 else {
                     //This is to grab the Output Row Number and Output Column Number
                     //From the input and ignore the word OUTPUT and END
-                    if (!s.equals("OUTPUT") || !s.equals("END")){
+                    if (!s.equals("OUTPUT") && !s.equals("END")){
                         String temp3 = commandInput.get(0);
                         String[] temp4 = temp1.split(" ");
                         outputRow = Integer.valueOf(temp4[0]);
@@ -122,10 +123,13 @@ public class Parser {
         //This is to grab the Input Row Number and Column Number
         //from the input Numbers list
         String temp5 = inputNumbers.get(0);
-        String[] temp6 = temp1.split(" ");
+        String[] temp6 = temp5.split(" ");
         inputRow = Integer.valueOf(temp6[0]);
         inputCol = Integer.valueOf(temp6[1]);
         inputNumbers.remove(0);
+
+        System.out.println("Input Row is: " + inputRow);
+        System.out.println("Input Column is: " + inputCol);
 
         //To put in the Input Transfer Region
         if (inputRow < 0){

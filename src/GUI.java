@@ -81,7 +81,7 @@ public class GUI extends Application {
         System.out.println(siloList.size());
         System.out.println(transferRegions.size());
         updateInput(inputDirection,parser);
-        System.out.println(transferRegions.get(inputTR).getDown());
+        System.out.println("Value in Input Transfer region: " + transferRegions.get(inputTR).getDown());
         //Remove Above when finished
 
         launch(args);
@@ -121,6 +121,8 @@ public class GUI extends Application {
 
     static void updateInput(String inputDirection, Parser p){
         String temp = p.sendInput();
+        System.out.println("input being sent is: " + temp);
+        System.out.println("input direction is: " + inputDirection);
         if (temp != null) {
             switch (inputDirection) {
                 case "UP" -> {
@@ -129,6 +131,7 @@ public class GUI extends Application {
                     }
                 }
                 case "DOWN" -> {
+                    //System.out.println("adding: " + temp + "to down location");
                     if (transferRegions.get(inputTR).down.matches(" ")) {
                         transferRegions.get(inputTR).addDown(temp);
                     }
