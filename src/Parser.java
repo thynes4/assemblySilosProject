@@ -1,5 +1,7 @@
 import java.util.LinkedList;
 
+import static java.lang.System.exit;
+
 /**
  * Sean Davies, Thomas Hynes, Christopher Jarek
  * Project 4 Assembly Silos
@@ -111,8 +113,8 @@ public class Parser {
                     //This is to grab the Output Row Number and Output Column Number
                     //From the input and ignore the word OUTPUT and END
                     if (!s.equals("OUTPUT") && !s.equals("END")){
-                        String temp3 = commandInput.get(0);
-                        String[] temp4 = temp1.split(" ");
+                        String temp3 = s;
+                        String[] temp4 = temp3.split(" ");
                         outputRow = Integer.valueOf(temp4[0]);
                         outputCol = Integer.valueOf(temp4[1]);
                     }
@@ -132,39 +134,50 @@ public class Parser {
         System.out.println("Input Column is: " + inputCol);
 
         //To put in the Input Transfer Region
-        if (inputRow < 0){
-            siloList.get((inputCol - 1)).trUp = transferRegions.get((totalCols * totalRows));
+        if (inputRow < 0 && inputCol>= 0){
+            siloList.get((inputCol)).trUp = transferRegions.get((totalCols * totalRows));
             inputDirection = "DOWN";
+            System.out.println("CORRECT");
         }
-        else if (inputCol < 0){
-            siloList.get((totalCols * (inputRow - 1))).trLeft = transferRegions.get((totalCols * totalRows));
+        else if (inputCol < 0 && inputRow >= 0){
+            siloList.get((totalCols * (inputRow))).trLeft = transferRegions.get((totalCols * totalRows));
             inputDirection = "RIGHT";
         }
-        else if (inputRow >= totalRows){
-            siloList.get((inputCol - 1)).trDown = transferRegions.get((totalCols * totalRows));
+        else if (inputRow >= totalRows && inputCol < totalCols){
+            siloList.get((totalCols * (inputRow - 1)) + inputCol).trDown = transferRegions.get((totalCols * totalRows));
             inputDirection = "UP";
         }
-        else if (inputCol >= totalCols){
-            siloList.get((inputCol * inputRow) - 1).trRight = transferRegions.get((totalCols * totalRows));
+        else if (inputCol >= totalCols && inputRow < totalRows){
+            siloList.get((inputRow * totalCols) + (inputCol - 1)).trRight = transferRegions.get((totalCols * totalRows));
             inputDirection = "LEFT";
         }
+        else {
+            System.out.println("Bad Input Coordinates, Closing");
+            exit(0);
+        }
 
+        System.out.println("Output Row is: " + outputRow);
+        System.out.println("Output Column is: " + outputCol);
         //To put in the Output Transfer Region
-        if (outputRow < 0){
-            siloList.get((outputCol - 1)).trUp = transferRegions.get((totalCols * totalRows) + 1);
+        if (outputRow < 0 && outputCol >=0){
+            siloList.get(outputCol).trUp = transferRegions.get((totalCols * totalRows) + 1);
             outputDirection = "DOWN";
         }
-        else if (outputCol < 0){
-            siloList.get((totalCols * (outputRow - 1))).trLeft = transferRegions.get((totalCols * totalRows) + 1);
+        else if (outputCol < 0 && outputRow >= 0){
+            siloList.get((totalCols * (outputRow))).trLeft = transferRegions.get((totalCols * totalRows) + 1);
             outputDirection = "RIGHT";
         }
-        else if (outputRow >= totalRows){
-            siloList.get((outputCol - 1)).trDown = transferRegions.get((totalCols * totalRows) + 1);
+        else if (outputRow >= totalRows && outputCol < totalCols){
+            siloList.get((totalCols * (outputRow - 1)) + outputCol).trDown = transferRegions.get((totalCols * totalRows) + 1);
             outputDirection = "UP";
         }
-        else if (outputCol >= totalCols){
-            siloList.get((totalCols * outputRow) - 1).trRight = transferRegions.get((totalCols * totalRows) + 1);
+        else if (outputCol >= totalCols && outputRow < totalRows){
+            siloList.get((outputRow * totalCols) + (outputCol - 1)).trRight = transferRegions.get((totalCols * totalRows) + 1);
             outputDirection = "LEFT";
+        }
+        else {
+            System.out.println("Bad Output Coordinates, Closing");
+            exit(0);
         }
     }
 
