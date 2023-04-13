@@ -123,24 +123,24 @@ public class TransferRegion {
     }
 
     void refreshFX(){
-        String upText = "↑" + up;
+        String upText = "⬆  " + up;
         upLabel.setText(upText);
         if(up.equals("")){upLabel.setStyle("-fx-text-fill: #dc9656;");}
         else{upLabel.setStyle("-fx-text-fill: #a1b56c;");}
 
-        String leftText = left + "\n←";
+        String leftText = left + "\n⬅";
         leftLabel.setText(leftText);
         if(left.equals("")){leftLabel.setStyle("-fx-text-fill: #dc9656;");}
         else{leftLabel.setStyle("-fx-text-fill: #a1b56c;");}
 
 
-        String rightText = "→\n" + right;
+        String rightText = "➡\n" + right;
         rightLabel.setText(rightText);
         if(right.equals("")){rightLabel.setStyle("-fx-text-fill: #dc9656;");}
         else{rightLabel.setStyle("-fx-text-fill: #a1b56c;");}
 
 
-        String downText = down + "↓";
+        String downText = down + "  ⬇";
         downLabel.setText(downText);
         if(right.equals("")){downLabel.setStyle("-fx-text-fill: #dc9656;");}
         else{downLabel.setStyle("-fx-text-fill: #a1b56c;");}

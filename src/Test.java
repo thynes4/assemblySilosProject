@@ -23,10 +23,13 @@ public class Test extends Application {
         root.setPadding(new Insets(25, 25, 25, 25));
         root.setAlignment(Pos.CENTER);
 
+        int totalRows = 3;
+        int totalColumns = 3;
+
 
         ArrayList<TransferRegion> TRegions = new ArrayList<>();
         ArrayList<Silo> Silos = new ArrayList<>();
-        for(int i = 0; i < 4; i++){
+        for(int i = 0; i < totalRows * totalColumns; i++){
             TransferRegion tRegion = new TransferRegion();
             TRegions.add(tRegion);
 
@@ -35,19 +38,16 @@ public class Test extends Application {
             Silo silo = new Silo(i);
             Silos.add(silo);
 
+            silo.setSiloCode("["+ Integer.toString(i) + "]");
+
             Node siloNode = silo.getNode();
 
             tRegionNode.setCenter(siloNode);
 
-            root.add(tRegionNode, silo.getPosY(), silo.getPosX());
+            root.add(tRegionNode, silo.getPosY(totalColumns), silo.getPosX(totalColumns));
         }
 
         for(Silo silo : Silos){
-            for(int i = 0; i < silo.getSiloNum()+3; i++) {
-                silo.incrementLineNumber();
-                silo.refreshFX();
-            }
-
             System.out.println(silo.returnAllData());
         }
 

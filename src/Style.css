@@ -9,6 +9,9 @@
     Red: ab4642
 */
 
+* {
+    -fx-font-family: "Lucida Console";
+}
 
 .root{
     -fx-background-color: #383838;

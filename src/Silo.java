@@ -28,6 +28,7 @@ public class Silo {
     private Integer siloLineNumber;
     protected TransferRegion tr, trUp, trLeft, trRight, trDown;
 
+    private Label siloNumLabel = new Label();
     private Label accLabel = new Label();
     private Label bakLabel = new Label();
     private Label pointerLabel = new Label();
@@ -67,9 +68,12 @@ public class Silo {
      * Refreshes the fx visuals for the given silo
      */
     void refreshFX(){
+        //Refreshes the data column
+        this.siloNumLabel.setText("num = " + this.siloNumber);
         this.accLabel.setText("acc = " + Integer.toString(accValue));
         this.bakLabel.setText("bak = " + Integer.toString(bakValue));
 
+        //Refreshes the codeArea, not necessary unless automatically pushing code into silos
         /*
         String txt = "";
         for(String line : siloCode){
@@ -78,13 +82,13 @@ public class Silo {
         codeArea.setText(txt);
         */
 
+        //Sets the line pointer to the correct spot
         String ptrTxt = "";
         for(int i = 0; i < siloLineNumber -1; i++){
             ptrTxt = ptrTxt + "\n";
         }
         ptrTxt = ptrTxt + "➡";
         pointerLabel.setText(ptrTxt);
-        pointerLabel.setStyle("-fx-text-fill: #7cafc2;");
     }
 
     /**
@@ -95,16 +99,13 @@ public class Silo {
         BorderPane innerPane = new BorderPane();
 
         // Creating the DataColumn within innerPane
-        // accLabel & bakLabel
-        accLabel.setStyle("white-label");
-        bakLabel.setStyle("white-label");
+        // siloNumLabel, accLabel, bakLabel
         VBox dataCol = new VBox();
         innerPane.setRight(dataCol);
-        dataCol.getChildren().addAll(accLabel, bakLabel);
+        dataCol.getChildren().addAll(siloNumLabel, accLabel, bakLabel);
 
         // Creating the PointerColumn within innerPane
         // pointerLabel
-        pointerLabel.setStyle("white-label");
         innerPane.setLeft(pointerLabel);
 
         // Creating the TextField within innerPane
@@ -135,16 +136,16 @@ public class Silo {
      * Note: this is only useful for a 2x2 group of silos currently.
      * @return the x position of a given silo in a 2x2 group
      */
-    int getPosX(){
-        return (siloNumber%2);
+    int getPosX(int totalColumns){
+        return 1+ (int) floor(siloNumber/totalColumns);
     }
 
     /**
      * Note: this is only useful for a 2x2 group of silos currently.
      * @return the y position of a given silo in a 2x2 group
      **/
-    int getPosY(){
-        return (int) floor(siloNumber/2);
+    int getPosY(int totalColumns){
+        return (siloNumber%totalColumns);
     }
 
     /**
@@ -152,6 +153,15 @@ public class Silo {
      * @return siloNumber
      */
     int getSiloNum(){return this.siloNumber;}
+
+    void setSiloCode(String input){
+        String[] temp = input.split("\n");
+
+        for(String line : temp){
+            siloCode.add(line);
+        }
+        refreshFX();
+    }
 
     /**
      * This will run the line of code for the silo.
@@ -252,8 +262,8 @@ public class Silo {
         //Build all data into a Linked List to return
         LinkedList<Integer> data = new LinkedList<>();
         data.add(siloNumber);
-        data.add(this.getPosX());
-        data.add(this.getPosY());
+        //data.add(this.getPosX());
+        //data.add(this.getPosY());
 
         return data;
     }
