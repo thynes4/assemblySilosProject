@@ -21,7 +21,7 @@ import java.util.LinkedList;
 import static java.lang.Math.floor;
 
 public class Silo {
-    private LinkedList<String> siloCode = new LinkedList<String>();
+    private LinkedList<String> siloCode = new LinkedList<>();
     private Integer accValue;
     private Integer bakValue;
     private Integer siloNumber;
@@ -41,8 +41,9 @@ public class Silo {
      * //@param data This is the Linked List of data for this silo.
      * @param siloNum This is to tell the silo which number it is (May not be needed)
      */
-    Silo(Integer siloNum, LinkedList<String> code, TransferRegion self, TransferRegion up, TransferRegion left, TransferRegion right, TransferRegion down){
-        this.siloCode = code;
+    Silo(Integer siloNum, LinkedList<String> code, TransferRegion self, TransferRegion up,
+         TransferRegion left, TransferRegion right, TransferRegion down){
+        this.siloCode.addAll(code);
         this.accValue = 0;
         this.bakValue = 0;
         this.siloNumber = siloNum;
@@ -62,6 +63,10 @@ public class Silo {
         this.bakValue = 0;
         this.siloNumber = siloNum;
         this.siloLineNumber = 0;
+    }
+
+    LinkedList<String> getCode() {
+        return siloCode;
     }
 
     /**
@@ -112,6 +117,12 @@ public class Silo {
         // codeArea
         innerPane.setCenter(codeArea);
         codeArea.setPrefSize(250, 250);
+        String temp = "";
+        System.out.println(this.siloCode);
+        for (String s : this.siloCode){
+            temp = temp + s + "\n";
+        }
+        codeArea.setText(temp);
 
         codeArea.setOnKeyReleased(event -> {
             if(event.getCode() == KeyCode.ENTER){
@@ -122,6 +133,8 @@ public class Silo {
                 for(String line : codeArr) {
                     siloCode.add(line);
                 }
+
+                System.out.println("Silo code was updated to: " + siloCode);
 
                 this.refreshFX();
                 //System.out.println(siloCode);

@@ -86,7 +86,7 @@ public class Parser {
                     }
                     //Remaining Bottom Row no Down TR
                     else if (count > ((totalRows - 1) * totalCols)){
-                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),transferRegions.get(count - totalCols),
+                        siloList.add(new Silo(count, siloCode,transferRegions.get(count),transferRegions.get(count - totalCols),
                                 transferRegions.get(count - 1), transferRegions.get(count + 1),null));
                     }
                     //Remainder case where they get all 4 transfer Regions
