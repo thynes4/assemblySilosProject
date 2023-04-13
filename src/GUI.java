@@ -1,3 +1,4 @@
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,6 +11,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Sean Davies, Thomas Hynes, Christopher Jarek
@@ -108,6 +110,19 @@ public class GUI extends Application {
 
         root.getStylesheets().add("Style.css");
         primaryStage.show();
+
+        // Animation timer that will be used when start button is pressed
+        AnimationTimer a = new AnimationTimer() {
+            long startTime = System.nanoTime();
+            @Override
+            public void handle(long now) {
+                if (now > startTime + TimeUnit.SECONDS.toNanos(1)) {
+                    for (Silo s : siloList) {
+                        s.run();
+                    }
+                }
+            }
+        };
     }
 
     static void updateInput(String inputDirection, Parser p){

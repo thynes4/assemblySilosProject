@@ -20,7 +20,7 @@ import javafx.scene.control.Label;
 import java.util.LinkedList;
 import static java.lang.Math.floor;
 
-public class Silo {
+public class Silo implements Runnable {
     private LinkedList<String> siloCode = new LinkedList<>();
     private Integer accValue;
     private Integer bakValue;
@@ -436,5 +436,13 @@ public class Silo {
 //            case "NIL" -> 0;
             default -> Integer.valueOf(source);
         };
+    }
+
+    /**
+     * The run method that is called by thread.start() in the GUI class
+     */
+    @Override
+    public void run() {
+        runLine(siloLineNumber);
     }
 }
