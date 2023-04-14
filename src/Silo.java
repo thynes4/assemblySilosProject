@@ -19,8 +19,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 import java.util.LinkedList;
 import static java.lang.Math.floor;
+import java.util.concurrent.CountDownLatch;
 
 public class Silo implements Runnable {
+    protected Thread siloThread;
     private LinkedList<String> siloCode = new LinkedList<>();
     private Integer accValue;
     private Integer bakValue;
@@ -54,6 +56,8 @@ public class Silo implements Runnable {
         this.trLeft = left;
         this.trRight = right;
         this.trDown = down;
+
+        this.siloThread = new Thread(this);
     }
 
     //Testing Purposes
@@ -443,6 +447,6 @@ public class Silo implements Runnable {
      */
     @Override
     public void run() {
-        runLine(siloLineNumber);
+        System.out.println("Running " + siloThread.getId() + " thread...");
     }
 }

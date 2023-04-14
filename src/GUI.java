@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Sean Davies, Thomas Hynes, Christopher Jarek
@@ -111,18 +113,35 @@ public class GUI extends Application {
         root.getStylesheets().add("Style.css");
         primaryStage.show();
 
+        ExecutorService executor = Executors.newFixedThreadPool(siloList.size());
+
         // Animation timer that will be used when start button is pressed
         AnimationTimer a = new AnimationTimer() {
-            long startTime = System.nanoTime();
+            private long lastUpdate = 0;
             @Override
             public void handle(long now) {
-                if (now > startTime + TimeUnit.SECONDS.toNanos(1)) {
+                if ((now - lastUpdate) >= TimeUnit.SECONDS.toNanos(1)) {
+                    //submit all tasks to thread pool
                     for (Silo s : siloList) {
-                        s.run();
+                       executor.execute(s);
                     }
+
+                    //REFRESH THE JAVA FX HERE
+                    lastUpdate = now;
                 }
             }
         };
+
+        a.start();
+
+        //code to shut down executor service when done
+//        executor.shutdown();
+//        try {
+//            executor.awaitTermination(1, TimeUnit.MINUTES);
+//        } catch (InterruptedException ex) {
+//            Thread.currentThread().interrupt();
+//        }
+
     }
 
     static void updateInput(String inputDirection, Parser p){
