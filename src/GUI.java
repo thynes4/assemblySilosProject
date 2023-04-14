@@ -4,9 +4,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.scene.control.TextArea;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -93,20 +95,31 @@ public class GUI extends Application {
 
 
     public void start(Stage primaryStage){
-        primaryStage.setTitle("Testing...");
+        primaryStage.setTitle("Project 4 Assembly Silos");
 
         GridPane root = new GridPane();
-        primaryStage.setScene(new Scene(root, 1024, 768));
+        primaryStage.setScene(new Scene(root));
 
-        root.setPadding(new Insets(25, 25, 25, 25));
+        root.setHgap(16);
+        root.setVgap(16);
         root.setAlignment(Pos.CENTER);
 
+        mkCtrlPanel(root);
+
+        //Creates the fx for Silos
+        RowConstraints rowConstraints = new RowConstraints();
+        rowConstraints.setVgrow(Priority.ALWAYS);
+        ColumnConstraints columnConstraints = new ColumnConstraints();
+        columnConstraints.setHgrow(Priority.ALWAYS);
 
         for (int i = 0; i < (totalRows * totalColumns); i++){
             BorderPane tRegionNode = transferRegions.get(i).getNode();
             Node siloNode = siloList.get(i).getNode();
             tRegionNode.setCenter(siloNode);
             root.add(tRegionNode, siloList.get(i).getPosY(totalColumns), siloList.get(i).getPosX(totalColumns));
+
+            root.getRowConstraints().add(rowConstraints);
+            root.getColumnConstraints().add(columnConstraints);
         }
 
 
@@ -175,4 +188,59 @@ public class GUI extends Application {
         }
     }
 
+
+    void mkCtrlPanel(GridPane root){
+        GridPane ctrlPanel = new GridPane();
+        ctrlPanel.setHgap(8);
+        ctrlPanel.setVgap(8);
+        root.add(ctrlPanel, 0, 0, 1, GridPane.REMAINING);
+        root.getColumnConstraints().add(new ColumnConstraints(256));
+
+        Label inputLbl = new Label();
+        inputLbl.setText("Input");
+        ctrlPanel.add(inputLbl, 0, 0);
+
+        Label outputLbl = new Label();
+        outputLbl.setText("Output");
+        ctrlPanel.add(outputLbl, 1, 0);
+
+        TextArea input = new TextArea();
+        ctrlPanel.add(input, 0, 1);
+        input.setPrefSize(128, 512);
+
+        TextArea output = new TextArea();
+        ctrlPanel.add(output, 1, 1);
+        output.setPrefSize(128, 512);
+
+        Button startBtn = new Button();
+        startBtn.setOnAction(event -> {
+            startButton();
+        });
+        ctrlPanel.add(startBtn, 0, 2);
+
+        Button stopBtn = new Button();
+        stopBtn.setOnAction(event -> {
+            stopButton();
+        });
+        ctrlPanel.add(stopBtn, 1, 2);
+
+        Button stepBtn = new Button();
+        stepBtn.setOnAction(event -> {
+            stepButton();
+        });
+        ctrlPanel.add(stepBtn, 0, 3);
+
+        Button btn = new Button();
+        btn.setOnAction(event -> {
+            extraButton();
+        });
+        ctrlPanel.add(btn, 1, 3);
+    }
+
+
+    //Methods for when buttons are pushed
+    void startButton(){}
+    void stopButton(){}
+    void stepButton(){}
+    void extraButton(){}
 }

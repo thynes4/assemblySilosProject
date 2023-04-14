@@ -120,7 +120,7 @@ public class Silo implements Runnable {
         // Creating the TextField within innerPane
         // codeArea
         innerPane.setCenter(codeArea);
-        codeArea.setPrefSize(250, 250);
+        innerPane.setPrefSize(256, 256);
         String temp = "";
         System.out.println(this.siloCode);
         for (String s : this.siloCode){
@@ -154,7 +154,7 @@ public class Silo implements Runnable {
      * @return the x position of a given silo in a 2x2 group
      */
     int getPosX(int totalColumns){
-        return 1+ (int) floor(siloNumber/totalColumns);
+        return (int) floor(siloNumber/totalColumns);
     }
 
     /**
@@ -162,7 +162,7 @@ public class Silo implements Runnable {
      * @return the y position of a given silo in a 2x2 group
      **/
     int getPosY(int totalColumns){
-        return (siloNumber%totalColumns);
+        return 1+(siloNumber%totalColumns);
     }
 
     /**
