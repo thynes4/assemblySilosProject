@@ -328,11 +328,14 @@ public class Silo implements Runnable {
             System.out.println("Value being moved: " + temp3);
             switch (destination) {
                 case "UP" -> this.tr.addUp(temp3);
-                case "DOWN" -> this.tr.addDown(temp3);
+                case "DOWN" -> {
+                    this.tr.addDown(temp3);
+                    System.out.println("Moved: " + temp3 + " into Down position.");
+                }
                 case "LEFT" -> this.tr.addLeft(temp3);
                 case "RIGHT" -> {
                     this.tr.addRight(temp3);
-                    System.out.println("Moved:  " + temp2 + " into Right position.");
+                    System.out.println("Moved: " + temp3 + " into Right position.");
                 }
                 case "ACC" -> this.accValue = sourceToInteger(temp3);
             }

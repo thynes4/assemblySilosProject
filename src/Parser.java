@@ -19,6 +19,8 @@ public class Parser {
     private static LinkedList<String> input1 = new LinkedList<>();
     protected Map<Integer,List<Runnable>> siloRunnable = new TreeMap<>();
 
+    private static Integer siloToGrab;
+
 
     Parser(LinkedList input, LinkedList<TransferRegion> transferRegions){
         this.commandInput = input;
@@ -178,21 +180,25 @@ public class Parser {
         if (outputRow < 0 && outputCol >=0){
             siloList.get(outputCol).trUp = transferRegions.get((totalCols * totalRows) + 1);
             outputDirection = "DOWN";
+            siloToGrab = outputCol;
             System.out.println("Output being added to silo: " + (outputCol) + " Output Direction: " + outputDirection);
         }
         else if (outputCol < 0 && outputRow >= 0){
             siloList.get((totalCols * (outputRow))).trLeft = transferRegions.get((totalCols * totalRows) + 1);
             outputDirection = "RIGHT";
+            siloToGrab = ((totalCols * (outputRow)));
             System.out.println("Output being added to silo: " + (totalCols * (outputRow)) + " Output Direction: " + outputDirection);
         }
         else if (outputRow >= totalRows && outputCol < totalCols){
             siloList.get((totalCols * (outputRow - 1)) + outputCol).trDown = transferRegions.get((totalCols * totalRows) + 1);
             outputDirection = "UP";
+            siloToGrab = ((totalCols * (outputRow - 1)) + outputCol);
             System.out.println("Output being added to silo: " + ((totalCols * (outputRow - 1)) + outputCol) + " Output Direction: " + outputDirection);
         }
         else if (outputCol >= totalCols && outputRow < totalRows){
             siloList.get((outputRow * totalCols) + (outputCol - 1)).trRight = transferRegions.get((totalCols * totalRows) + 1);
             outputDirection = "LEFT";
+            siloToGrab = ((outputRow * totalCols) + (outputCol - 1));
             System.out.println("Output being added to silo: " + ((outputRow * totalCols) + (outputCol - 1)) + " Output Direction: " + outputDirection);
         }
         else {
@@ -309,27 +315,38 @@ public class Parser {
      * This is to get the output Transfer regions values to add to the Output List
      * @param output The output transfer region
      */
-    void getOutput(TransferRegion output){
-        String tempUp = output.getUp();
-        String tempLeft = output.getLeft();
-        String tempRight = output.getRight();
-        String tempDown = output.getDown();
+    void getOutput(LinkedList<TransferRegion> transferRegions){
+        String temp = null;
+        switch (outputDirection){
+            case "UP" -> {
+                if (!transferRegions.get(siloToGrab).down.matches(" ")){
+                    temp = transferRegions.get(siloToGrab).down;
+                    transferRegions.get(siloToGrab).down = " ";
+                }
+            }
+            case "DOWN" -> {
+                if (!transferRegions.get(siloToGrab).up.matches(" ")){
+                    temp = transferRegions.get(siloToGrab).up;
+                    transferRegions.get(siloToGrab).up = " ";
+                }
+            }
+            case "LEFT" -> {
+                if (!transferRegions.get(siloToGrab).right.matches(" ")){
+                    temp = transferRegions.get(siloToGrab).right;
+                    transferRegions.get(siloToGrab).right = " ";
+                }
+            }
+            case "RIGHT" -> {
+                if (!transferRegions.get(siloToGrab).left.matches(" ")){
+                    temp = transferRegions.get(siloToGrab).left;
+                    transferRegions.get(siloToGrab).left = " ";
+                }
+            }
+        }
 
-        if (tempUp != null){
-            System.out.println("Adding to output: " + tempUp);
-            outputNumbers.add(tempUp);
-        }
-        else if(tempLeft != null){
-            System.out.println("Adding to output: " + tempLeft);
-            outputNumbers.add(tempLeft);
-        }
-        else if(tempRight != null){
-            System.out.println("Adding to output: " + tempRight);
-            outputNumbers.add(tempRight);
-        }
-        else if(tempDown != null){
-            System.out.println("Adding to output: " + tempDown);
-            outputNumbers.add(tempDown);
+        System.out.println("Adding value: " + temp + " to output");
+        if (temp != null){
+            outputNumbers.add(temp);
         }
     }
 
