@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 public class Silo implements Runnable {
+    private final Integer NIL = 0;
     protected Thread siloThread;
     private LinkedList<String> siloCode = new LinkedList<>();
     private Integer accValue;
@@ -295,7 +296,21 @@ public class Silo implements Runnable {
     void move(String source, String destination){
         Integer temp = 0;
         String temp2 = " ";
+        String temp3;
         System.out.println("Attempting to Move. Source: " + source + " Destination: " + destination);
+        System.out.println("Silo: " + siloNumber);
+        if (trUp!=null) {
+            System.out.println("TR UP: " + trUp.getDown());
+        }
+        if (trDown!= null) {
+            System.out.println("TR Down: " + trDown.getUp());
+        }
+        if(trLeft != null) {
+            System.out.println("TR Left: " + trLeft.getRight());
+        }
+        if (trRight != null) {
+            System.out.println("TR Right: " + trRight.getLeft());
+        }
 
         //Need to add a portion where if Source is another transfer region
         switch (source) {
@@ -315,12 +330,22 @@ public class Silo implements Runnable {
             //So it needs to try again next run
         }
         else {
+            if (temp2.matches(" ")){
+                temp3 = temp.toString();
+            }
+            else {
+                temp3 = temp2;
+            }
+            System.out.println("Value being moved: " + temp3);
             switch (destination) {
-                case "UP" -> this.tr.addUp(temp2);
-                case "DOWN" -> this.tr.addDown(temp2);
-                case "LEFT" -> this.tr.addLeft(temp2);
-                case "RIGHT" -> this.tr.addRight(temp2);
-                case "ACC" -> this.accValue = temp;
+                case "UP" -> this.tr.addUp(temp3);
+                case "DOWN" -> this.tr.addDown(temp3);
+                case "LEFT" -> this.tr.addLeft(temp3);
+                case "RIGHT" -> {
+                    this.tr.addRight(temp3);
+                    System.out.println("Moved:  " + temp2 + " into Right position.");
+                }
+                case "ACC" -> this.accValue = sourceToInteger(temp3);
             }
             siloLineNumber++;
         }
@@ -489,10 +514,10 @@ public class Silo implements Runnable {
      */
     @Override
     public void run() {
-        if (this.siloLineNumber > this.methods.size()){
+        System.out.println("Running " + siloThread.getId() + " thread...");
+        if (this.siloLineNumber == this.methods.size()){
             this.siloLineNumber = 0;
         }
         this.siloRun();
-        System.out.println("Running " + siloThread.getId() + " thread...");
     }
 }

@@ -89,39 +89,32 @@ public class GUI extends Application{
         siloList = parser.sendSilos();
 
         inputList.addAll(parser.sendInputList());
-        System.out.println("Input List in GUI: " + inputList);
 
         inputDirection = parser.getInputDirection();
         outputDirection = parser.getOutputDirection();
 
-        //This is just some Test Code
-        //Making sure Silos get proper data
-        //Also making sure Input sends properly
-        System.out.println(siloList.size());
-        System.out.println(transferRegions.size());
-        updateInput(inputDirection, parser);
-        System.out.println("Value in Input Transfer region: " + transferRegions.get(inputTR).getDown());
-        //Remove Above when finished
 
-//        for (int i = 0; i < 4; i++){
-//            System.out.println("trying to run the map");
-//            while (siloList.get(i).siloStatus() == false) {
-//                siloList.get(i).addRunnableList(parser.siloRunnable.get(i));
-//                siloList.get(i).siloRun();
-//            }
-//            siloList.get(i).resetFinished();
-//            System.out.println("Silo reset to: " + siloList.get(i).siloStatus());
-//        }
-//        for (int i = 0; i < 4; i++){
-//            System.out.println("trying to run the map");
-//            while (siloList.get(i).siloStatus() == false) {
-//                siloList.get(i).addRunnableList(parser.siloRunnable.get(i));
-//                siloList.get(i).siloRun();
-//            }
-//            siloList.get(i).resetFinished();
-//            System.out.println("Silo reset to: " + siloList.get(i).siloStatus());
-//        }
-
+        int tempcount = 0;
+        for (Silo s: siloList) {
+            System.out.println("Silo: " + tempcount);
+            System.out.println("TR UP: " + s.trUp);
+            System.out.println("TR Down: " + s.trDown);
+            System.out.println("TR Left: " + s.trLeft);
+            System.out.println("TR Right: " + s.trRight);
+            if (s.trUp!=null) {
+                System.out.println("TR UP: " + s.trUp.getDown());
+            }
+            if (s.trDown!= null) {
+                System.out.println("TR Down: " + s.trDown.getUp());
+            }
+            if(s.trLeft != null) {
+                System.out.println("TR Left: " + s.trLeft.getRight());
+            }
+            if (s.trRight != null) {
+                System.out.println("TR Right: " + s.trRight.getLeft());
+            }
+            tempcount++;
+        }
         launch(args);
     }
 
@@ -179,10 +172,10 @@ public class GUI extends Application{
                     }
 
                     //REFRESH THE JAVA FX HERE
-                    for (Silo s : siloList){
-                        s.refreshFX();
-                    }
                     lastUpdate = now;
+                }
+                for (Silo s : siloList){
+                    s.refreshFX();
                 }
                 outputList = parserList.get(0).sendOutputList();
                 String temp = "";
@@ -217,6 +210,7 @@ public class GUI extends Application{
                     //System.out.println("adding: " + temp + "to down location");
                     if (transferRegions.get(inputTR).down.matches(" ")) {
                         transferRegions.get(inputTR).addDown(temp);
+                        System.out.println("Input Transfer Region Down has value: " + transferRegions.get(inputTR).down);
                     }
                 }
                 case "LEFT" -> {
@@ -250,7 +244,6 @@ public class GUI extends Application{
         ctrlPanel.add(outputLbl, 1, 0);
 
         TextArea input = new TextArea();
-        System.out.println("Input List in GUI 2nd: " + inputList);
         String temp = "";
         for (String s : inputList){
             temp = temp + s + "\n";
