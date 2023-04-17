@@ -148,7 +148,7 @@ public class GUI extends Application{
             private long lastUpdate = 0;
             @Override
             public void handle(long now) {
-                if ((now - lastUpdate) >= TimeUnit.SECONDS.toNanos(5)) {
+                if ((now - lastUpdate) >= TimeUnit.SECONDS.toNanos(2)) {
                     if (step)
                     {
                         for (Silo s : siloList) {
@@ -161,6 +161,7 @@ public class GUI extends Application{
                         siloExecutor.execute(s);
                     }
 
+                    updateInput(inputDirection, parserList.get(0));
                     //REFRESH THE JAVA FX HERE
                     lastUpdate = now;
                 }
@@ -186,9 +187,29 @@ public class GUI extends Application{
     }
 
     static void updateInput(String inputDirection, Parser p){
-        String temp = p.sendInput();
-        System.out.println("input being sent is: " + temp);
-        System.out.println("input direction is: " + inputDirection);
+        String temp = null;
+        switch (inputDirection){
+            case "UP" -> {
+                if (transferRegions.get(totalColumns*totalRows).up.matches(" ")){
+                    temp = p.sendInput();
+                }
+            }
+            case "DOWN" -> {
+                if (transferRegions.get(totalColumns*totalRows).down.matches(" ")){
+                    temp = p.sendInput();
+                }
+            }
+            case "LEFT" -> {
+                if (transferRegions.get(totalColumns*totalRows).left.matches(" ")){
+                    temp = p.sendInput();
+                }
+            }
+            case "RIGHT" -> {
+                if (transferRegions.get(totalColumns*totalRows).right.matches(" ")){
+                    temp = p.sendInput();
+                }
+            }
+        }
         if (temp != null) {
             switch (inputDirection) {
                 case "UP" -> {
@@ -200,7 +221,6 @@ public class GUI extends Application{
                     //System.out.println("adding: " + temp + "to down location");
                     if (transferRegions.get(inputTR).down.matches(" ")) {
                         transferRegions.get(inputTR).addDown(temp);
-                        System.out.println("Input Transfer Region Down has value: " + transferRegions.get(inputTR).down);
                     }
                 }
                 case "LEFT" -> {
@@ -214,6 +234,9 @@ public class GUI extends Application{
                     }
                 }
             }
+        }
+        else {
+            System.out.println("No Input Value Grabbed");
         }
     }
 

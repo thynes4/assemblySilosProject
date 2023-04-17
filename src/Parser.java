@@ -292,7 +292,12 @@ public class Parser {
      * @return the first string in the input numbers.
      */
     String sendInput(){
-        return inputNumbers.pop();
+        if (inputNumbers.size() == 0){
+            return null;
+        }
+        else {
+            return inputNumbers.pop();
+        }
     }
 
 
