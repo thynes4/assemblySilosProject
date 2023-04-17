@@ -1,6 +1,5 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -9,8 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.scene.control.TextArea;
-
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -172,6 +169,9 @@ public class GUI extends Application{
                 for (Silo s : siloList){
                     s.refreshFX();
                 }
+                for(TransferRegion t : transferRegions){
+                    t.refreshFX();
+                }
                 outputList = parserList.get(0).sendOutputList();
                 String temp = "";
                 for (String s : outputList) {
@@ -282,6 +282,9 @@ public class GUI extends Application{
             for (Silo s: siloList){
                 s.textEditable = false;
                 s.refreshFX();
+            }
+            for(TransferRegion t : transferRegions){
+                t.refreshFX();
             }
         });
         ctrlPanel.add(startBtn, 0, 2);
