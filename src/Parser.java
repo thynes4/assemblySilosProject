@@ -1,27 +1,24 @@
-import java.util.LinkedList;
+import java.util.*;
+import java.util.function.Consumer;
 
 import static java.lang.System.exit;
 
-/**
- * Sean Davies, Thomas Hynes, Christopher Jarek
- * Project 4 Assembly Silos
- * This is to build Assembly Silos that take in their own code. An input is
- * sent in and the silos process their code together 1 line at a time (until all silos are
- * done with that line) then continue on until an output is achieved.
- *
- * This file is the Parser Class
- */
-
 public class Parser {
+    private static Integer number = 0;
+    private static Integer lineNumber = 0;
     private LinkedList<String> commandInput = new LinkedList<>();
     private int totalRows, totalCols;
     private int inputRow, inputCol;
     private int outputRow, outputCol;
     private LinkedList<String> inputNumbers = new LinkedList<>();
-    private LinkedList<String> outputNumbers = new LinkedList<>();
-    private LinkedList<Silo> siloList = new LinkedList<>();
     private LinkedList<String> initialInputNumbers = new LinkedList<>();
+    private LinkedList<String> outputNumbers = new LinkedList<>();
+    private static LinkedList<Silo> siloList = new LinkedList<>();
     private String inputDirection, outputDirection;
+
+    private static LinkedList<String> input1 = new LinkedList<>();
+    protected Map<Integer,List<Runnable>> siloRunnable = new TreeMap<>();
+
 
     Parser(LinkedList input, LinkedList<TransferRegion> transferRegions){
         this.commandInput = input;
@@ -98,6 +95,17 @@ public class Parser {
                                 transferRegions.get(count - 1), transferRegions.get(count + 1),
                                 transferRegions.get(count + totalCols)));
                     }
+                    //siloRunnable.put(count,codeToRunnable(siloCode,count));
+                    siloList.get(count).addRunnableList(codeToRunnable(siloCode,count));
+//                    //Test
+//                    List<Runnable> methods = new ArrayList<>();
+//                    int finalCount = count;
+//                    methods.add(() -> siloList.get(finalCount).parserTest());
+//                    methods.add(() -> siloList.get(finalCount).parserTest2());
+//                    System.out.println(methods);
+//                    siloRunnable.put(count,new ArrayList<Runnable>(methods));
+//                    //Test above
+                    //methods.clear();
                     count++;
                     siloCode.clear();
                 }
@@ -134,7 +142,6 @@ public class Parser {
         System.out.println("Input Numbers: " + inputNumbers);
         initialInputNumbers.addAll(inputNumbers);
         System.out.println("Initial Input Numbers: " + initialInputNumbers);
-
 
         System.out.println("Input Row is: " + inputRow);
         System.out.println("Input Column is: " + inputCol);
@@ -187,6 +194,80 @@ public class Parser {
         }
     }
 
+    List<Runnable> codeToRunnable(LinkedList<String> code, Integer siloNum){
+        System.out.println("SiloCode sent to codeToRunnable" + code);
+        List<Runnable> methods = new ArrayList<>();
+        for (String s : code) {
+            String temp1 = s;
+            String[] temp2 = s.split(" ");
+            switch (temp2[0]){
+                case "NOOP" -> {
+                    methods.add(() -> siloList.get(siloNum).noop());
+                    System.out.println("NOOP Added");
+                }
+                case "MOVE" -> {
+                    methods.add(() -> siloList.get(siloNum).move(temp2[1],temp2[2]));
+                    System.out.println("Move Added");
+                }
+                case "SWAP" -> {
+                    methods.add(() -> siloList.get(siloNum).swap());
+                    System.out.println("SWAP Added");
+                }
+                case "SAVE" -> {
+                    methods.add(() -> siloList.get(siloNum).save());
+                    System.out.println("Save added");
+                }
+                case "ADD" -> {
+                    methods.add(() -> siloList.get(siloNum).add(temp2[1]));
+                    System.out.println("ADD added");
+                }
+                case "SUB" -> {
+                    methods.add(() -> siloList.get(siloNum).sub(temp2[1]));
+                    System.out.println("SUB Added");
+                }
+                case "NEGATE" -> {
+                    methods.add(() -> siloList.get(siloNum).negate());
+                    System.out.println("NEGATE Added");
+                }
+                case "JUMP" -> {
+                    Integer temp3 = 0;
+
+                    for (String g : code){
+                        if (g.contains(":")){
+                            if (g.contains(temp2[1])){
+                                Integer finalTemp = temp3 + 1;
+                                methods.add(() -> siloList.get(siloNum).changeSiloLineNumber(finalTemp));
+                            }
+                        }
+                        temp3++;
+                    }
+                    System.out.println("Jump added");
+                }
+                case "JEZ" -> {
+                    methods.add(() -> siloList.get(siloNum).jez(temp2[1]));
+                    System.out.println("JEZ Added");
+                }
+                case "JNZ" -> {
+                    methods.add(() -> siloList.get(siloNum).jnz(temp2[1]));
+                    System.out.println("JNZ Added");
+                }
+                case "JGZ" -> {
+                    methods.add(() -> siloList.get(siloNum).jgz(temp2[1]));
+                    System.out.println("JGZ Added");
+                }
+                case "JLZ" -> {
+                    methods.add(() -> siloList.get(siloNum).jlz(temp2[1]));
+                    System.out.println("JLZ Added");
+                }
+                case "JRO" -> {
+                    methods.add(() -> siloList.get(siloNum).jro(temp2[1]));
+                    System.out.println("JRO Added");
+                }
+            }
+        }
+        return methods;
+    }
+
     String getOutputDirection(){
         return outputDirection;
     }
@@ -234,6 +315,11 @@ public class Parser {
         else if(tempDown != null){
             outputNumbers.add(tempDown);
         }
+    }
+
+    static void addonCount(Integer a){
+        number++;
+        lineNumber++;
     }
 
     LinkedList<String> sendInputList(){

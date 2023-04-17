@@ -17,8 +17,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import static java.lang.Math.floor;
+
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 public class Silo implements Runnable {
@@ -29,13 +33,21 @@ public class Silo implements Runnable {
     private Integer siloNumber;
     private Integer siloLineNumber;
     protected TransferRegion tr, trUp, trLeft, trRight, trDown;
-
+    private List<Runnable> methods = new ArrayList<>();
+    private Integer currentLine = 0;
+    private boolean finished;
     private Label siloNumLabel = new Label();
     private Label accLabel = new Label();
     private Label bakLabel = new Label();
     private Label pointerLabel = new Label();
     private TextArea codeArea = new TextArea();
     protected boolean textEditable;
+
+//    private Label siloNumLabel = new Label();
+//    private Label accLabel = new Label();
+//    private Label bakLabel = new Label();
+//    private Label pointerLabel = new Label();
+//    private TextArea codeArea = new TextArea();
 
 
     /**
@@ -60,20 +72,49 @@ public class Silo implements Runnable {
 
         this.textEditable = true;
 
+        this.finished = false;
+
         this.siloThread = new Thread(this);
     }
 
-    //Testing Purposes
-    Silo(Integer siloNum){
-        this.siloCode = new LinkedList<String>();
-        this.accValue = 0;
-        this.bakValue = 0;
-        this.siloNumber = siloNum;
-        this.siloLineNumber = 0;
+    void addRunnableList(List<Runnable> list){
+        this.methods.clear();
+        System.out.println(list.toString());
+        System.out.println("Added runnable list to Silo");
+        this.methods.addAll(list);
+    }
+    void siloRun(){
+        this.methods.get(siloLineNumber).run();
     }
 
+    public void parserTest(){
+        System.out.println("Silo: " + siloNumber + " Successful Parser Test");
+        this.siloFinished();
+        siloLineNumber++;
+    }
+
+    void parserTest2(){
+        System.out.println("Silo: " + siloNumber + " SECONDARY SUCCESS");
+        this.siloFinished();
+    }
     LinkedList<String> getCode() {
         return siloCode;
+    }
+
+    void changeSiloLineNumber(Integer i){
+        this.siloNumber = i;
+    }
+
+    boolean siloStatus(){
+        return finished;
+    }
+
+    void siloFinished(){
+        this.finished = true;
+    }
+
+    void resetFinished(){
+        this.finished = false;
     }
 
     /**
@@ -183,6 +224,15 @@ public class Silo implements Runnable {
      */
     int getSiloNum(){return this.siloNumber;}
 
+//    void setSiloCode(String input){
+//        String[] temp = input.split("\n");
+//
+//        for(String line : temp){
+//            siloCode.add(line);
+//        }
+//        refreshFX();
+//    }
+
     void setSiloCode(String input){
         String[] temp = input.split("\n");
 
@@ -190,71 +240,6 @@ public class Silo implements Runnable {
             siloCode.add(line);
         }
         refreshFX();
-    }
-
-    /**
-     * This will run the line of code for the silo.
-     * @param lineNumber This is the current line number of the silo.
-     */
-    void runLine(Integer lineNumber){
-        String temp1 = returnLineData(lineNumber);
-        //Check if it is a label
-        if (temp1.contains(":")){
-            runLine(lineNumber + 1);
-        }
-        else {
-            String[] temp2 = temp1.split(" ");
-            switch (temp2[0]) {
-                case "NOOP" -> {
-                    this.incrementLineNumber();
-                }
-                case "MOVE" -> {
-                    //Needs work as transfer region is no longer part of Silo
-                    this.move(temp2[1],temp2[2]);
-                }
-                case "SWAP" -> {
-                    this.swap();
-                }
-                case "SAVE" -> {
-                    this.save();
-                }
-                case "ADD" -> {
-                    this.add(temp2[1]);
-                }
-                case "SUB" -> {
-                    this.sub(temp2[1]);
-                }
-                case "NEGATE" -> {
-                    this.negate();
-                }
-                case "JUMP" -> {
-                    this.jump(temp2[1]);
-                }
-                case "JEZ" -> {
-                    this.jez(temp2[1]);
-                }
-                case "JNZ" -> {
-                    this.jnz(temp2[1]);
-                }
-                case "JGZ" -> {
-                    this.jgz(temp2[1]);
-                }
-                case "JLZ" -> {
-                    this.jlz(temp2[1]);
-                }
-                case "JRO" -> {
-                    this.jro(temp2[1]);
-                }
-            }
-        }
-    }
-
-    /**
-     * This is to return the current line number of the silo.
-     * @return The current line number of the silo code
-     */
-    Integer returnLineNumber(){
-        return this.siloLineNumber;
     }
 
     /**
@@ -297,6 +282,11 @@ public class Silo implements Runnable {
         return data;
     }
 
+    void noop(){
+        this.incrementLineNumber();
+        this.siloFinished();
+    }
+
     /**
      * This is to move a value from the Source to the destination
      * @param source This is the source where the value is being grabbed or the initial value itself
@@ -305,6 +295,8 @@ public class Silo implements Runnable {
     void move(String source, String destination){
         Integer temp = 0;
         String temp2 = " ";
+        System.out.println("Attempting to Move. Source: " + source + " Destination: " + destination);
+
         //Need to add a portion where if Source is another transfer region
         switch (source) {
             case "UP" -> temp2 = this.trUp.getDown();
@@ -316,14 +308,23 @@ public class Silo implements Runnable {
             case "BAK" -> temp = this.bakValue;
             default -> temp = sourceToInteger(source);
         }
-
-        switch (destination) {
-            case "UP" -> this.tr.addUp(temp2);
-            case "DOWN" -> this.tr.addDown(temp2);
-            case "LEFT" -> this.tr.addLeft(temp2);
-            case "RIGHT" -> this.tr.addRight(temp2);
-            case "ACC" -> this.accValue = temp;
+        System.out.println("Temp2: " + temp2);
+        System.out.println("Temp: " + temp);
+        if (temp2.matches(" ") && temp == 0){
+            //Did not grab anything from the transfer region
+            //So it needs to try again next run
         }
+        else {
+            switch (destination) {
+                case "UP" -> this.tr.addUp(temp2);
+                case "DOWN" -> this.tr.addDown(temp2);
+                case "LEFT" -> this.tr.addLeft(temp2);
+                case "RIGHT" -> this.tr.addRight(temp2);
+                case "ACC" -> this.accValue = temp;
+            }
+            siloLineNumber++;
+        }
+        this.siloFinished();
     }
 
     /**
@@ -333,6 +334,8 @@ public class Silo implements Runnable {
         int temp = accValue;
         accValue = bakValue;
         bakValue = temp;
+        siloLineNumber++;
+        this.siloFinished();
     }
 
     /**
@@ -340,6 +343,8 @@ public class Silo implements Runnable {
      */
     void save(){
         bakValue = accValue;
+        siloLineNumber++;
+        this.siloFinished();
     }
 
     /**
@@ -348,6 +353,9 @@ public class Silo implements Runnable {
      */
     void add(String source) {
         accValue += sourceToInteger(source);
+        siloLineNumber++;
+        System.out.println("Just finished adding new ACC: " + accValue);
+        this.siloFinished();
     }
 
     /**
@@ -356,6 +364,8 @@ public class Silo implements Runnable {
      */
     void sub(String source){
         accValue -= sourceToInteger(source);
+        siloLineNumber++;
+        this.siloFinished();
     }
 
     /**
@@ -363,6 +373,8 @@ public class Silo implements Runnable {
      */
     void negate(){
         accValue *= -1;
+        siloLineNumber++;
+        this.siloFinished();
     }
 
     /**
@@ -372,9 +384,10 @@ public class Silo implements Runnable {
     void jump(String label) {
         for (String s : siloCode) {
             if (s.contains(":" + label + ":")) {
-                siloLineNumber = siloCode.indexOf(s);
+                siloLineNumber = siloCode.indexOf(s) + 1;
             }
         }
+        this.siloFinished();
     }
 
     /**
@@ -386,6 +399,10 @@ public class Silo implements Runnable {
         if (accValue == 0) {
             jump(label);
         }
+        else {
+            siloLineNumber++;
+        }
+        this.siloFinished();
     }
 
     /**
@@ -397,6 +414,10 @@ public class Silo implements Runnable {
         if (accValue != 0) {
             jump(label);
         }
+        else {
+            siloLineNumber++;
+        }
+        this.siloFinished();
     }
 
 
@@ -409,6 +430,10 @@ public class Silo implements Runnable {
         if (accValue > 0) {
             jump(label);
         }
+        else {
+            siloLineNumber++;
+        }
+        this.siloFinished();
     }
 
 
@@ -421,6 +446,10 @@ public class Silo implements Runnable {
         if (accValue < 0) {
             jump(label);
         }
+        else {
+            siloLineNumber++;
+        }
+        this.siloFinished();
     }
 
     /**
@@ -433,6 +462,7 @@ public class Silo implements Runnable {
     void jro (String source) {
         Integer temp = sourceToInteger(source);
         siloLineNumber += temp % siloCode.size();
+        this.siloFinished();
     }
 
     /**
@@ -459,6 +489,10 @@ public class Silo implements Runnable {
      */
     @Override
     public void run() {
+        if (this.siloLineNumber > this.methods.size()){
+            this.siloLineNumber = 0;
+        }
+        this.siloRun();
         System.out.println("Running " + siloThread.getId() + " thread...");
     }
 }

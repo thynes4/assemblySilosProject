@@ -12,6 +12,7 @@ import javafx.scene.control.TextArea;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.ExecutorService;
@@ -27,7 +28,7 @@ import java.util.concurrent.Executors;
  * This file is the GUI file which will display and allow the User to run the program.
  */
 
-public class GUI extends Application {
+public class GUI extends Application{
     static LinkedList<TransferRegion> transferRegions = new LinkedList<>();
     static LinkedList<Silo> siloList = new LinkedList<>();
     static Integer totalRows, totalColumns;
@@ -56,23 +57,22 @@ public class GUI extends Application {
         totalColumns = var2;
         int totalEnds = (var1 * var2) + 2;
         int count = 0;
-
-        while (!inputFinished){
+        while (!inputFinished) {
             temp1 = sc.nextLine();
-            if (temp1.equals("END")){
+            if (temp1.equals("END")) {
                 count++;
             }
             commandInput.add(temp1);
             //By checking the Initial row and column information can see how many
             //ENDs should be written to prevent further input.
-            if (count == totalEnds){
+            if (count == totalEnds) {
                 inputFinished = true;
             }
         }
 
         //Creating all the transfer regions. It is row X Column + 2.
         //The + 2 is the input and output.
-        for (int i = 0; i < totalEnds; i++){
+        for (int i = 0; i < totalEnds; i++) {
             transferRegions.add(new TransferRegion());
         }
 
@@ -99,13 +99,31 @@ public class GUI extends Application {
         //Also making sure Input sends properly
         System.out.println(siloList.size());
         System.out.println(transferRegions.size());
-        updateInput(inputDirection,parser);
+        updateInput(inputDirection, parser);
         System.out.println("Value in Input Transfer region: " + transferRegions.get(inputTR).getDown());
         //Remove Above when finished
 
+//        for (int i = 0; i < 4; i++){
+//            System.out.println("trying to run the map");
+//            while (siloList.get(i).siloStatus() == false) {
+//                siloList.get(i).addRunnableList(parser.siloRunnable.get(i));
+//                siloList.get(i).siloRun();
+//            }
+//            siloList.get(i).resetFinished();
+//            System.out.println("Silo reset to: " + siloList.get(i).siloStatus());
+//        }
+//        for (int i = 0; i < 4; i++){
+//            System.out.println("trying to run the map");
+//            while (siloList.get(i).siloStatus() == false) {
+//                siloList.get(i).addRunnableList(parser.siloRunnable.get(i));
+//                siloList.get(i).siloRun();
+//            }
+//            siloList.get(i).resetFinished();
+//            System.out.println("Silo reset to: " + siloList.get(i).siloStatus());
+//        }
+
         launch(args);
     }
-
 
     public void start(Stage primaryStage) throws InterruptedException {
 
@@ -147,7 +165,7 @@ public class GUI extends Application {
             private long lastUpdate = 0;
             @Override
             public void handle(long now) {
-                if ((now - lastUpdate) >= TimeUnit.SECONDS.toNanos(1)) {
+                if ((now - lastUpdate) >= TimeUnit.SECONDS.toNanos(5)) {
                     if (step)
                     {
                         for (Silo s : siloList) {
@@ -157,10 +175,13 @@ public class GUI extends Application {
                     }
                     //submit all tasks to thread pool
                     for (Silo s : siloList) {
-                       siloExecutor.execute(s);
+                        siloExecutor.execute(s);
                     }
 
                     //REFRESH THE JAVA FX HERE
+                    for (Silo s : siloList){
+                        s.refreshFX();
+                    }
                     lastUpdate = now;
                 }
                 outputList = parserList.get(0).sendOutputList();
