@@ -20,6 +20,7 @@ public class Parser {
     private LinkedList<String> inputNumbers = new LinkedList<>();
     private LinkedList<String> outputNumbers = new LinkedList<>();
     private LinkedList<Silo> siloList = new LinkedList<>();
+    private LinkedList<String> initialInputNumbers = new LinkedList<>();
     private String inputDirection, outputDirection;
 
     Parser(LinkedList input, LinkedList<TransferRegion> transferRegions){
@@ -130,6 +131,11 @@ public class Parser {
         inputCol = Integer.valueOf(temp6[1]);
         inputNumbers.remove(0);
 
+        System.out.println("Input Numbers: " + inputNumbers);
+        initialInputNumbers.addAll(inputNumbers);
+        System.out.println("Initial Input Numbers: " + initialInputNumbers);
+
+
         System.out.println("Input Row is: " + inputRow);
         System.out.println("Input Column is: " + inputCol);
 
@@ -228,6 +234,10 @@ public class Parser {
         else if(tempDown != null){
             outputNumbers.add(tempDown);
         }
+    }
+
+    LinkedList<String> sendInputList(){
+        return initialInputNumbers;
     }
 
 }

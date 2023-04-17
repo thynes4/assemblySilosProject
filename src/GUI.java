@@ -36,6 +36,7 @@ public class GUI extends Application {
     boolean step = true;
     AnimationTimer a = null;
     boolean paused = false;
+    static LinkedList<String> inputList = new LinkedList<>();
 
     public static void main(String[] args) {
         LinkedList<String> commandInput = new LinkedList<>();
@@ -82,6 +83,9 @@ public class GUI extends Application {
         //Grabbing all Silos
         siloList = parser.sendSilos();
 
+        inputList.addAll(parser.sendInputList());
+        System.out.println("Input List in GUI: " + inputList);
+
         inputDirection = parser.getInputDirection();
         outputDirection = parser.getOutputDirection();
 
@@ -126,7 +130,6 @@ public class GUI extends Application {
             root.getRowConstraints().add(rowConstraints);
             root.getColumnConstraints().add(columnConstraints);
         }
-
 
         root.getStylesheets().add("Style.css");
         primaryStage.show();
@@ -215,12 +218,21 @@ public class GUI extends Application {
         ctrlPanel.add(outputLbl, 1, 0);
 
         TextArea input = new TextArea();
+        System.out.println("Input List in GUI 2nd: " + inputList);
+        String temp = "";
+        for (String s : inputList){
+            temp = temp + s + "\n";
+        }
+        input.setText(temp);
         ctrlPanel.add(input, 0, 1);
         input.setPrefSize(128, 512);
 
         TextArea output = new TextArea();
         ctrlPanel.add(output, 1, 1);
         output.setPrefSize(128, 512);
+
+        input.setEditable(false);
+        output.setEditable(false);
 
         Button startBtn = new Button();
         startBtn.setText("Start");
