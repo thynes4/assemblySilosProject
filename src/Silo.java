@@ -299,19 +299,8 @@ public class Silo implements Runnable {
         String temp3;
         System.out.println("Attempting to Move. Source: " + source + " Destination: " + destination);
         System.out.println("Silo: " + siloNumber);
-        if (trUp!=null) {
-            System.out.println("TR UP: " + trUp.getDown());
-        }
-        if (trDown!= null) {
-            System.out.println("TR Down: " + trDown.getUp());
-        }
-        if(trLeft != null) {
-            System.out.println("TR Left: " + trLeft.getRight());
-        }
-        if (trRight != null) {
-            System.out.println("TR Right: " + trRight.getLeft());
-        }
 
+        System.out.println("");
         //Need to add a portion where if Source is another transfer region
         switch (source) {
             case "UP" -> temp2 = this.trUp.getDown();

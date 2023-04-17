@@ -93,7 +93,9 @@ public class GUI extends Application{
         inputDirection = parser.getInputDirection();
         outputDirection = parser.getOutputDirection();
 
+        updateInput(inputDirection, parser);
 
+        System.out.println("Value in input: " + transferRegions.get((totalColumns * totalRows)).down);;
         int tempcount = 0;
         for (Silo s: siloList) {
             System.out.println("Silo: " + tempcount);
@@ -101,18 +103,6 @@ public class GUI extends Application{
             System.out.println("TR Down: " + s.trDown);
             System.out.println("TR Left: " + s.trLeft);
             System.out.println("TR Right: " + s.trRight);
-            if (s.trUp!=null) {
-                System.out.println("TR UP: " + s.trUp.getDown());
-            }
-            if (s.trDown!= null) {
-                System.out.println("TR Down: " + s.trDown.getUp());
-            }
-            if(s.trLeft != null) {
-                System.out.println("TR Left: " + s.trLeft.getRight());
-            }
-            if (s.trRight != null) {
-                System.out.println("TR Right: " + s.trRight.getLeft());
-            }
             tempcount++;
         }
         launch(args);
