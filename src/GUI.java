@@ -1,5 +1,7 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -37,8 +39,10 @@ public class GUI extends Application{
     static LinkedList<String> inputList = new LinkedList<>();
     static LinkedList<String> outputList = new LinkedList<>();
     static TextArea output = new TextArea();
-
     static LinkedList<Parser> parserList = new LinkedList<>();
+    private StringProperty outputStr = new SimpleStringProperty();
+    static Label inputLabel = new Label();
+    static Label outputLabel = new Label();
 
     public static void main(String[] args) {
         LinkedList<String> commandInput = new LinkedList<>();
@@ -84,7 +88,6 @@ public class GUI extends Application{
 
         //Grabbing all Silos
         siloList = parser.sendSilos();
-
         inputList.addAll(parser.sendInputList());
 
         inputDirection = parser.getInputDirection();
@@ -172,12 +175,13 @@ public class GUI extends Application{
                 for(TransferRegion t : transferRegions){
                     t.refreshFX();
                 }
+                setOutput();
+
                 outputList = parserList.get(0).sendOutputList();
                 String temp = "";
                 for (String s : outputList) {
                     temp = temp + s + "\n";
                 }
-                output.setText(temp);
             }
         };
 
@@ -286,6 +290,7 @@ public class GUI extends Application{
             for(TransferRegion t : transferRegions){
                 t.refreshFX();
             }
+            setOutput();
         });
         ctrlPanel.add(startBtn, 0, 2);
 
@@ -320,7 +325,6 @@ public class GUI extends Application{
         ctrlPanel.add(stopBtn, 1, 3);
     }
 
-
     //Methods for when buttons are pushed
     void startButton(){
         step = false;
@@ -341,5 +345,40 @@ public class GUI extends Application{
     }
     void stopButton(){
         a.stop();
+    }
+
+    void setOutput(){
+        String temp = "";
+        for (String s : outputList){
+            temp = temp + s + "\n";
+        }
+        output.setText(temp);
+    }
+
+    void setInputLabel(GridPane root, int posX, int posY){
+        if(inputDirection.equals("DOWN")){
+            inputLabel.setText("  ⬇");
+        }else if(inputDirection.equals("UP")){
+            inputLabel.setText("⬆  ");
+        }else if(inputDirection.equals("LEFT")){
+            inputLabel.setText("\n⬅");
+        }else if(inputDirection.equals("RIGHT")) {
+            inputLabel.setText("➡\n");
+        }
+
+        root.add(inputLabel, posX, posY);
+    }
+    void setOutputLabel(GridPane root, int posX, int posY){
+        if(outputDirection.equals("DOWN")){
+            outputLabel.setText("  ⬇");
+        }else if(outputDirection.equals("UP")){
+            outputLabel.setText("⬆  ");
+        }else if(outputDirection.equals("LEFT")){
+            outputLabel.setText("\n⬅");
+        }else if(outputDirection.equals("RIGHT")) {
+            outputLabel.setText("➡\n");
+        }
+
+        root.add(outputLabel, posX, posY);
     }
 }
