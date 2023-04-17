@@ -178,18 +178,22 @@ public class Parser {
         if (outputRow < 0 && outputCol >=0){
             siloList.get(outputCol).trUp = transferRegions.get((totalCols * totalRows) + 1);
             outputDirection = "DOWN";
+            System.out.println("Output being added to silo: " + (outputCol) + " Output Direction: " + outputDirection);
         }
         else if (outputCol < 0 && outputRow >= 0){
             siloList.get((totalCols * (outputRow))).trLeft = transferRegions.get((totalCols * totalRows) + 1);
             outputDirection = "RIGHT";
+            System.out.println("Output being added to silo: " + (totalCols * (outputRow)) + " Output Direction: " + outputDirection);
         }
         else if (outputRow >= totalRows && outputCol < totalCols){
             siloList.get((totalCols * (outputRow - 1)) + outputCol).trDown = transferRegions.get((totalCols * totalRows) + 1);
             outputDirection = "UP";
+            System.out.println("Output being added to silo: " + ((totalCols * (outputRow - 1)) + outputCol) + " Output Direction: " + outputDirection);
         }
         else if (outputCol >= totalCols && outputRow < totalRows){
             siloList.get((outputRow * totalCols) + (outputCol - 1)).trRight = transferRegions.get((totalCols * totalRows) + 1);
             outputDirection = "LEFT";
+            System.out.println("Output being added to silo: " + ((outputRow * totalCols) + (outputCol - 1)) + " Output Direction: " + outputDirection);
         }
         else {
             System.out.println("Bad Output Coordinates, Closing");
@@ -312,15 +316,19 @@ public class Parser {
         String tempDown = output.getDown();
 
         if (tempUp != null){
+            System.out.println("Adding to output: " + tempUp);
             outputNumbers.add(tempUp);
         }
         else if(tempLeft != null){
+            System.out.println("Adding to output: " + tempLeft);
             outputNumbers.add(tempLeft);
         }
         else if(tempRight != null){
+            System.out.println("Adding to output: " + tempRight);
             outputNumbers.add(tempRight);
         }
         else if(tempDown != null){
+            System.out.println("Adding to output: " + tempDown);
             outputNumbers.add(tempDown);
         }
     }

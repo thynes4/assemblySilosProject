@@ -105,7 +105,9 @@ public class GUI extends Application{
             System.out.println("TR Right: " + s.trRight);
             tempcount++;
         }
+
         launch(args);
+
     }
 
     public void start(Stage primaryStage) throws InterruptedException {
@@ -162,6 +164,8 @@ public class GUI extends Application{
                     }
 
                     updateInput(inputDirection, parserList.get(0));
+                    parserList.get(0).getOutput(transferRegions.get((totalColumns*totalRows) + 1));
+
                     //REFRESH THE JAVA FX HERE
                     lastUpdate = now;
                 }
