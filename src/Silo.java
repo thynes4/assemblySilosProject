@@ -35,6 +35,7 @@ public class Silo implements Runnable {
     private Label bakLabel = new Label();
     private Label pointerLabel = new Label();
     private TextArea codeArea = new TextArea();
+    protected boolean textEditable;
 
 
     /**
@@ -56,6 +57,8 @@ public class Silo implements Runnable {
         this.trLeft = left;
         this.trRight = right;
         this.trDown = down;
+
+        this.textEditable = true;
 
         this.siloThread = new Thread(this);
     }
@@ -90,6 +93,10 @@ public class Silo implements Runnable {
         }
         codeArea.setText(txt);
         */
+
+        if (!textEditable){
+            codeArea.setEditable(false);
+        }
 
         //Sets the line pointer to the correct spot
         String ptrTxt = "";
@@ -126,24 +133,29 @@ public class Silo implements Runnable {
         for (String s : this.siloCode){
             temp = temp + s + "\n";
         }
-        codeArea.setText(temp);
+        if (textEditable) {
+            codeArea.setText(temp);
 
-        codeArea.setOnKeyReleased(event -> {
-            if(event.getCode() == KeyCode.ENTER){
-                siloLineNumber = 0;
+            codeArea.setOnKeyReleased(event -> {
+                if (event.getCode() == KeyCode.ENTER) {
+                    siloLineNumber = 0;
 
-                String[] codeArr = codeArea.getText().split("\n");
-                siloCode.clear();
-                for(String line : codeArr) {
-                    siloCode.add(line);
+                    String[] codeArr = codeArea.getText().split("\n");
+                    siloCode.clear();
+                    for (String line : codeArr) {
+                        siloCode.add(line);
+                    }
+
+                    System.out.println("Silo code was updated to: " + siloCode);
+
+                    this.refreshFX();
+                    //System.out.println(siloCode);
                 }
-
-                System.out.println("Silo code was updated to: " + siloCode);
-
-                this.refreshFX();
-                //System.out.println(siloCode);
-            }
-        });
+            });
+        }
+        else {
+            codeArea.setEditable(false);
+        }
 
         refreshFX();
         return innerPane;

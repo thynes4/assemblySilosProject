@@ -238,6 +238,10 @@ public class GUI extends Application {
         startBtn.setText("Start");
         startBtn.setOnAction(event -> {
             startButton();
+            for (Silo s: siloList){
+                s.textEditable = false;
+                s.refreshFX();
+            }
         });
         ctrlPanel.add(startBtn, 0, 2);
 
