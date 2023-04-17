@@ -37,6 +37,10 @@ public class GUI extends Application {
     AnimationTimer a = null;
     boolean paused = false;
     static LinkedList<String> inputList = new LinkedList<>();
+    static LinkedList<String> outputList = new LinkedList<>();
+    static TextArea output = new TextArea();
+
+    static LinkedList<Parser> parserList = new LinkedList<>();
 
     public static void main(String[] args) {
         LinkedList<String> commandInput = new LinkedList<>();
@@ -79,6 +83,7 @@ public class GUI extends Application {
 
         //Creating the parser will create all silos too.
         Parser parser = new Parser(commandInput, transferRegions);
+        parserList.add(parser);
 
         //Grabbing all Silos
         siloList = parser.sendSilos();
@@ -158,6 +163,12 @@ public class GUI extends Application {
                     //REFRESH THE JAVA FX HERE
                     lastUpdate = now;
                 }
+                outputList = parserList.get(0).sendOutputList();
+                String temp = "";
+                for (String s : outputList) {
+                    temp = temp + s + "\n";
+                }
+                output.setText(temp);
             }
         };
 
@@ -227,7 +238,6 @@ public class GUI extends Application {
         ctrlPanel.add(input, 0, 1);
         input.setPrefSize(128, 512);
 
-        TextArea output = new TextArea();
         ctrlPanel.add(output, 1, 1);
         output.setPrefSize(128, 512);
 
@@ -268,11 +278,12 @@ public class GUI extends Application {
         });
         ctrlPanel.add(stepBtn, 0, 3);
 
-        Button btn = new Button();
-        btn.setOnAction(event -> {
-            extraButton();
+        Button stopBtn = new Button();
+        stopBtn.setText("Stop");
+        stopBtn.setOnAction(event -> {
+            stopButton();
         });
-        ctrlPanel.add(btn, 1, 3);
+        ctrlPanel.add(stopBtn, 1, 3);
     }
 
 
@@ -294,5 +305,7 @@ public class GUI extends Application {
         step = true;
         a.start();
     }
-    void extraButton(){}
+    void stopButton(){
+        a.stop();
+    }
 }

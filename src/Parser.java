@@ -240,4 +240,8 @@ public class Parser {
         return initialInputNumbers;
     }
 
+    LinkedList<String> sendOutputList(){
+        return outputNumbers;
+    }
+
 }
