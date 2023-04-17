@@ -33,6 +33,8 @@ public class GUI extends Application {
     static Integer totalRows, totalColumns;
     static Integer outputTR, inputTR;
     static String inputDirection, outputDirection;
+    boolean step = true;
+    AnimationTimer a = null;
 
     public static void main(String[] args) {
         LinkedList<String> commandInput = new LinkedList<>();
@@ -48,6 +50,7 @@ public class GUI extends Application {
         totalColumns = var2;
         int totalEnds = (var1 * var2) + 2;
         int count = 0;
+
         while (!inputFinished){
             temp1 = sc.nextLine();
             if (temp1.equals("END")){
@@ -94,7 +97,8 @@ public class GUI extends Application {
     }
 
 
-    public void start(Stage primaryStage){
+    public void start(Stage primaryStage) throws InterruptedException {
+
         primaryStage.setTitle("Project 4 Assembly Silos");
 
         GridPane root = new GridPane();
@@ -126,17 +130,25 @@ public class GUI extends Application {
         root.getStylesheets().add("Style.css");
         primaryStage.show();
 
-        ExecutorService executor = Executors.newFixedThreadPool(siloList.size());
+        // This is what I use to run each of the threads
+        ExecutorService siloExecutor = Executors.newFixedThreadPool(siloList.size());
 
         // Animation timer that will be used when start button is pressed
-        AnimationTimer a = new AnimationTimer() {
+        a = new AnimationTimer() {
             private long lastUpdate = 0;
             @Override
             public void handle(long now) {
                 if ((now - lastUpdate) >= TimeUnit.SECONDS.toNanos(1)) {
+                    if (step)
+                    {
+                        for (Silo s : siloList) {
+                            siloExecutor.execute(s);
+                        }
+                        a.stop();
+                    }
                     //submit all tasks to thread pool
                     for (Silo s : siloList) {
-                       executor.execute(s);
+                       siloExecutor.execute(s);
                     }
 
                     //REFRESH THE JAVA FX HERE
@@ -145,8 +157,6 @@ public class GUI extends Application {
             }
         };
 
-        a.start();
-
         //code to shut down executor service when done
 //        executor.shutdown();
 //        try {
@@ -154,7 +164,6 @@ public class GUI extends Application {
 //        } catch (InterruptedException ex) {
 //            Thread.currentThread().interrupt();
 //        }
-
     }
 
     static void updateInput(String inputDirection, Parser p){
@@ -239,8 +248,17 @@ public class GUI extends Application {
 
 
     //Methods for when buttons are pushed
-    void startButton(){}
-    void stopButton(){}
-    void stepButton(){}
+    void startButton(){
+        step = false;
+        a.start();
+    }
+    void stopButton(){
+        a.stop();
+    }
+    void stepButton(){
+        a.stop();
+        step = true;
+        a.start();
+    }
     void extraButton(){}
 }
