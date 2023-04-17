@@ -35,6 +35,7 @@ public class GUI extends Application {
     static String inputDirection, outputDirection;
     boolean step = true;
     AnimationTimer a = null;
+    boolean paused = false;
 
     public static void main(String[] args) {
         LinkedList<String> commandInput = new LinkedList<>();
@@ -222,18 +223,30 @@ public class GUI extends Application {
         output.setPrefSize(128, 512);
 
         Button startBtn = new Button();
+        startBtn.setText("Start");
         startBtn.setOnAction(event -> {
             startButton();
         });
         ctrlPanel.add(startBtn, 0, 2);
 
-        Button stopBtn = new Button();
-        stopBtn.setOnAction(event -> {
-            stopButton();
+        Button pauseBtn = new Button();
+        pauseBtn.setText("Pause");
+        pauseBtn.setOnAction(event -> {
+            if (paused == false){
+                pauseBtn.setText("Resume");
+                paused = true;
+                pauseButton();
+            }
+            else {
+                pauseBtn.setText("Pause");
+                paused = false;
+                pauseButton();
+            }
         });
-        ctrlPanel.add(stopBtn, 1, 2);
+        ctrlPanel.add(pauseBtn, 1, 2);
 
         Button stepBtn = new Button();
+        stepBtn.setText("Step");
         stepBtn.setOnAction(event -> {
             stepButton();
         });
@@ -252,8 +265,13 @@ public class GUI extends Application {
         step = false;
         a.start();
     }
-    void stopButton(){
-        a.stop();
+    void pauseButton(){
+        if (paused) {
+            a.stop();
+        }
+        else {
+            a.start();
+        }
     }
     void stepButton(){
         a.stop();
