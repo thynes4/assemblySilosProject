@@ -313,7 +313,7 @@ public class Parser {
 
     /**
      * This is to get the output Transfer regions values to add to the Output List
-     * @param output The output transfer region
+     * @param transferRegions The output transfer region
      */
     void getOutput(LinkedList<TransferRegion> transferRegions){
         String temp = null;

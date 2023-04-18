@@ -12,7 +12,8 @@ import javafx.scene.control.Label;
  * This file is the Transfer Region Class
  */
 
-public class TransferRegion {
+public class TransferRegion implements Runnable {
+    protected String upTemp, leftTemp, rightTemp, downTemp;
     protected String up, left, right, down;
     private Label upLabel = new Label();
     private Label leftLabel = new Label();
@@ -31,12 +32,12 @@ public class TransferRegion {
      * @return The data in the up arrow
      */
     String getUp(){
-        if (this.up.matches(" ")){
+        if (this.upTemp.matches(" ")){
             return null;
         }
         else {
-            String temp = this.up;
-            this.up = " ";
+            String temp = this.upTemp;
+            this.upTemp = " ";
             return temp;
         }
     }
@@ -46,12 +47,12 @@ public class TransferRegion {
      * @return The data in the left arrow
      */
     String getLeft(){
-        if (this.left.matches(" ")){
+        if (this.leftTemp.matches(" ")){
             return null;
         }
         else {
-            String temp = this.left;
-            this.left = " ";
+            String temp = this.leftTemp;
+            this.leftTemp = " ";
             return temp;
         }
     }
@@ -61,12 +62,12 @@ public class TransferRegion {
      * @return the data of the right arrow
      */
     String getRight(){
-        if (this.right.matches(" ")){
+        if (this.rightTemp.matches(" ")){
             return null;
         }
         else {
-            String temp = this.right;
-            this.right = " ";
+            String temp = this.rightTemp;
+            this.rightTemp = " ";
             return temp;
         }
     }
@@ -76,12 +77,12 @@ public class TransferRegion {
      * @return The data in the down arrow
      */
     String getDown(){
-        if (this.down.matches(" ")){
+        if (this.downTemp.matches(" ")){
             return null;
         }
         else {
-            String temp = this.down;
-            this.down = " ";
+            String temp = this.downTemp;
+            this.downTemp = " ";
             return temp;
         }
     }
@@ -97,6 +98,21 @@ public class TransferRegion {
     }
     void addDown(String s){
         this.down = s;
+    }
+
+    void updateValue() {
+        if (up != null) {
+            upTemp = up;
+        }
+        if (down != null) {
+            downTemp = down;
+        }
+        if (left != null) {
+            leftTemp = left;
+        }
+        if (right != null) {
+            rightTemp = right;
+        }
     }
 
     BorderPane getNode(){
@@ -145,5 +161,10 @@ public class TransferRegion {
         if(right.equals(" ")){downLabel.setStyle("-fx-text-fill: #dc9656;");}
         else{downLabel.setStyle("-fx-text-fill: #a1b56c;");}
 
+    }
+
+    @Override
+    public void run() {
+        updateValue();
     }
 }

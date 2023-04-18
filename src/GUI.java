@@ -144,6 +144,7 @@ public class GUI extends Application{
 
         // This is what I use to run each of the threads
         ExecutorService siloExecutor = Executors.newFixedThreadPool(siloList.size());
+        ExecutorService transferExecutor = Executors.newFixedThreadPool(transferRegions.size());
 
         // Animation timer that will be used when start button is pressed
         a = new AnimationTimer() {
@@ -151,24 +152,26 @@ public class GUI extends Application{
             @Override
             public void handle(long now) {
                 if ((now - lastUpdate) >= TimeUnit.SECONDS.toNanos(2)) {
-                    if (step)
-                    {
-                        for (Silo s : siloList) {
-                            siloExecutor.execute(s);
-                        }
-                        a.stop();
-                    }
+
                     //submit all tasks to thread pool
                     for (Silo s : siloList) {
                         siloExecutor.execute(s);
+                    }
+                    for (TransferRegion t : transferRegions) {
+                        transferExecutor.execute(t);
                     }
 
                     updateInput(inputDirection, parserList.get(0));
                     parserList.get(0).getOutput(transferRegions);
 
                     //REFRESH THE JAVA FX HERE
+
+                    if (step) {
+                        a.stop();
+                    }
                     lastUpdate = now;
                 }
+
                 for (Silo s : siloList){
                     s.refreshFX();
                 }
@@ -382,3 +385,4 @@ public class GUI extends Application{
         root.add(outputLabel, posX, posY);
     }
 }
+
