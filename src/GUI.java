@@ -43,6 +43,7 @@ public class GUI extends Application{
     private StringProperty outputStr = new SimpleStringProperty();
     static Label inputLabel = new Label();
     static Label outputLabel = new Label();
+    static Integer inputTotal = 0;
 
     public static void main(String[] args) {
         LinkedList<String> commandInput = new LinkedList<>();
@@ -62,6 +63,11 @@ public class GUI extends Application{
             temp1 = sc.nextLine();
             if (temp1.equals("END")) {
                 count++;
+            }
+            //In case more than 1 input.
+            if (temp1.contains("INPUT")){
+                inputTotal++;
+                totalEnds = (var1 * var2) + (inputTotal * 2);
             }
             commandInput.add(temp1);
             //By checking the Initial row and column information can see how many
