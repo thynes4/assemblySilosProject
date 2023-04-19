@@ -20,9 +20,11 @@ public class Parser {
     protected Map<Integer,List<Runnable>> siloRunnable = new TreeMap<>();
 
     private static Integer siloToGrab;
+    private static LinkedList<Input> inputList = new LinkedList<>();
+    private static LinkedList<Output> outputList = new LinkedList<>();
 
 
-    Parser(LinkedList input, LinkedList<TransferRegion> transferRegions){
+    Parser(LinkedList input, LinkedList<TransferRegion> transferRegions, Integer totalInputs){
         this.commandInput = input;
 
         //This is to grab the total rows and columns first
@@ -33,6 +35,7 @@ public class Parser {
         commandInput.remove(0);
 
         int count = 0;
+        int currentInputTotal = 0;
         boolean silofinished = false;
         boolean inputfinished = false;
         LinkedList<String> siloCode = new LinkedList<>();
@@ -40,6 +43,7 @@ public class Parser {
             if (!silofinished){
                 if (s.equals("INPUT")){
                     System.out.println("detected input");
+                    currentInputTotal++;
                     silofinished = true;
                 }
                 else if (!s.equals("END")){
@@ -99,22 +103,20 @@ public class Parser {
                     }
                     //siloRunnable.put(count,codeToRunnable(siloCode,count));
                     siloList.get(count).addRunnableList(codeToRunnable(siloCode,count));
-//                    //Test
-//                    List<Runnable> methods = new ArrayList<>();
-//                    int finalCount = count;
-//                    methods.add(() -> siloList.get(finalCount).parserTest());
-//                    methods.add(() -> siloList.get(finalCount).parserTest2());
-//                    System.out.println(methods);
-//                    siloRunnable.put(count,new ArrayList<Runnable>(methods));
-//                    //Test above
-                    //methods.clear();
                     count++;
                     siloCode.clear();
                 }
             }
             else {
-                if (s.equals("END")){
-                    inputfinished = true;
+                if (s.equals("END") && !inputfinished){
+                    inputList.add(new Input(inputNumbers));
+                    inputNumbers.clear();
+                    if (currentInputTotal == totalInputs){
+                        inputfinished = true;
+                    }
+                }
+                else if (s.matches("INPUT")){
+                    currentInputTotal++;
                 }
                 //This is grabbing all the input data to send in to the silos.
                 else if (!inputfinished){
@@ -128,6 +130,7 @@ public class Parser {
                         String[] temp4 = temp3.split(" ");
                         outputRow = Integer.valueOf(temp4[0]);
                         outputCol = Integer.valueOf(temp4[1]);
+                        outputList.add(new Output(outputRow,outputCol));
                     }
                 }
             }
@@ -149,62 +152,63 @@ public class Parser {
         System.out.println("Input Column is: " + inputCol);
 
         //To put in the Input Transfer Region
-        if (inputRow < 0 && inputCol>= 0){
-            siloList.get((inputCol)).trUp = transferRegions.get((totalCols * totalRows));
-            inputDirection = "DOWN";
-            System.out.println("Input being added to silo: " + inputCol + " input Direction: " + inputDirection);
+        for (int i = 0; i < totalInputs; i++) {
+            inputList.get(i).inputTransferRegion(transferRegions,siloList,totalCols,totalRows);
+            outputList.get(i).outputTransferRegion(transferRegions,siloList,totalCols,totalRows);
         }
-        else if (inputCol < 0 && inputRow >= 0){
-            siloList.get((totalCols * (inputRow))).trLeft = transferRegions.get((totalCols * totalRows));
-            inputDirection = "RIGHT";
-            System.out.println("Input being added to silo: " + (totalCols * (inputRow)) + " input Direction: " + inputDirection);
-        }
-        else if (inputRow >= totalRows && inputCol < totalCols){
-            siloList.get((totalCols * (inputRow - 1)) + inputCol).trDown = transferRegions.get((totalCols * totalRows));
-            inputDirection = "UP";
-            System.out.println("Input being added to silo: " + ((totalCols * (inputRow - 1)) + inputCol) + " input Direction: " + inputDirection);
-        }
-        else if (inputCol >= totalCols && inputRow < totalRows){
-            siloList.get((inputRow * totalCols) + (inputCol - 1)).trRight = transferRegions.get((totalCols * totalRows));
-            inputDirection = "LEFT";
-            System.out.println("Input being added to silo: " + ((inputRow * totalCols) + (inputCol - 1)) + " input Direction: " + inputDirection);
-        }
-        else {
-            System.out.println("Bad Input Coordinates, Closing");
-            exit(0);
-        }
-
-        System.out.println("Output Row is: " + outputRow);
-        System.out.println("Output Column is: " + outputCol);
+//        if (inputRow < 0 && inputCol>= 0){
+//            siloList.get((inputCol)).trUp = transferRegions.get((totalCols * totalRows));
+//            inputDirection = "DOWN";
+//            System.out.println("Input being added to silo: " + inputCol + " input Direction: " + inputDirection);
+//        }
+//        else if (inputCol < 0 && inputRow >= 0){
+//            siloList.get((totalCols * (inputRow))).trLeft = transferRegions.get((totalCols * totalRows));
+//            inputDirection = "RIGHT";
+//            System.out.println("Input being added to silo: " + (totalCols * (inputRow)) + " input Direction: " + inputDirection);
+//        }
+//        else if (inputRow >= totalRows && inputCol < totalCols){
+//            siloList.get((totalCols * (inputRow - 1)) + inputCol).trDown = transferRegions.get((totalCols * totalRows));
+//            inputDirection = "UP";
+//            System.out.println("Input being added to silo: " + ((totalCols * (inputRow - 1)) + inputCol) + " input Direction: " + inputDirection);
+//        }
+//        else if (inputCol >= totalCols && inputRow < totalRows){
+//            siloList.get((inputRow * totalCols) + (inputCol - 1)).trRight = transferRegions.get((totalCols * totalRows));
+//            inputDirection = "LEFT";
+//            System.out.println("Input being added to silo: " + ((inputRow * totalCols) + (inputCol - 1)) + " input Direction: " + inputDirection);
+//        }
+//        else {
+//            System.out.println("Bad Input Coordinates, Closing");
+//            exit(0);
+//        }
         //To put in the Output Transfer Region
-        if (outputRow < 0 && outputCol >=0){
-            siloList.get(outputCol).trUp = transferRegions.get((totalCols * totalRows) + 1);
-            outputDirection = "DOWN";
-            siloToGrab = outputCol;
-            System.out.println("Output being added to silo: " + (outputCol) + " Output Direction: " + outputDirection);
-        }
-        else if (outputCol < 0 && outputRow >= 0){
-            siloList.get((totalCols * (outputRow))).trLeft = transferRegions.get((totalCols * totalRows) + 1);
-            outputDirection = "RIGHT";
-            siloToGrab = ((totalCols * (outputRow)));
-            System.out.println("Output being added to silo: " + (totalCols * (outputRow)) + " Output Direction: " + outputDirection);
-        }
-        else if (outputRow >= totalRows && outputCol < totalCols){
-            siloList.get((totalCols * (outputRow - 1)) + outputCol).trDown = transferRegions.get((totalCols * totalRows) + 1);
-            outputDirection = "UP";
-            siloToGrab = ((totalCols * (outputRow - 1)) + outputCol);
-            System.out.println("Output being added to silo: " + ((totalCols * (outputRow - 1)) + outputCol) + " Output Direction: " + outputDirection);
-        }
-        else if (outputCol >= totalCols && outputRow < totalRows){
-            siloList.get((outputRow * totalCols) + (outputCol - 1)).trRight = transferRegions.get((totalCols * totalRows) + 1);
-            outputDirection = "LEFT";
-            siloToGrab = ((outputRow * totalCols) + (outputCol - 1));
-            System.out.println("Output being added to silo: " + ((outputRow * totalCols) + (outputCol - 1)) + " Output Direction: " + outputDirection);
-        }
-        else {
-            System.out.println("Bad Output Coordinates, Closing");
-            exit(0);
-        }
+//        if (outputRow < 0 && outputCol >=0){
+//            siloList.get(outputCol).trUp = transferRegions.get((totalCols * totalRows) + 1);
+//            outputDirection = "DOWN";
+//            siloToGrab = outputCol;
+//            System.out.println("Output being added to silo: " + (outputCol) + " Output Direction: " + outputDirection);
+//        }
+//        else if (outputCol < 0 && outputRow >= 0){
+//            siloList.get((totalCols * (outputRow))).trLeft = transferRegions.get((totalCols * totalRows) + 1);
+//            outputDirection = "RIGHT";
+//            siloToGrab = ((totalCols * (outputRow)));
+//            System.out.println("Output being added to silo: " + (totalCols * (outputRow)) + " Output Direction: " + outputDirection);
+//        }
+//        else if (outputRow >= totalRows && outputCol < totalCols){
+//            siloList.get((totalCols * (outputRow - 1)) + outputCol).trDown = transferRegions.get((totalCols * totalRows) + 1);
+//            outputDirection = "UP";
+//            siloToGrab = ((totalCols * (outputRow - 1)) + outputCol);
+//            System.out.println("Output being added to silo: " + ((totalCols * (outputRow - 1)) + outputCol) + " Output Direction: " + outputDirection);
+//        }
+//        else if (outputCol >= totalCols && outputRow < totalRows){
+//            siloList.get((outputRow * totalCols) + (outputCol - 1)).trRight = transferRegions.get((totalCols * totalRows) + 1);
+//            outputDirection = "LEFT";
+//            siloToGrab = ((outputRow * totalCols) + (outputCol - 1));
+//            System.out.println("Output being added to silo: " + ((outputRow * totalCols) + (outputCol - 1)) + " Output Direction: " + outputDirection);
+//        }
+//        else {
+//            System.out.println("Bad Output Coordinates, Closing");
+//            exit(0);
+//        }
     }
 
     List<Runnable> codeToRunnable(LinkedList<String> code, Integer siloNum){

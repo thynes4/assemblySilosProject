@@ -89,7 +89,7 @@ public class GUI extends Application{
         outputTR = (totalRows * totalColumns) + 1;
 
         //Creating the parser will create all silos too.
-        Parser parser = new Parser(commandInput, transferRegions);
+        Parser parser = new Parser(commandInput, transferRegions,inputTotal);
         parserList.add(parser);
 
         //Grabbing all Silos
