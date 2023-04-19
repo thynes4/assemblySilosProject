@@ -36,7 +36,7 @@ public class GUI extends Application{
     boolean step = true;
     AnimationTimer a = null;
     boolean paused = false;
-    static LinkedList<String> outputList = new LinkedList<>();
+    static LinkedList<String> outputValues = new LinkedList<>();
     static TextArea output = new TextArea();
     static LinkedList<Parser> parserList = new LinkedList<>();
     private StringProperty outputStr = new SimpleStringProperty();
@@ -44,6 +44,7 @@ public class GUI extends Application{
     static Label outputLabel = new Label();
     static Integer inputTotal = 0;
     static LinkedList<Input> inputList = new LinkedList<>();
+    static LinkedList<Output> outputList = new LinkedList<>();
 
     public static void main(String[] args) {
         LinkedList<String> commandInput = new LinkedList<>();
@@ -96,6 +97,7 @@ public class GUI extends Application{
         outputDirection = parser.getOutputDirection();
 
         inputList.addAll(parserList.get(0).sendInputList());
+        outputList.addAll(parserList.get(0).sendOutputList());
 
         //update input
         for (int i = 0; i < inputTotal; i++){
@@ -165,8 +167,6 @@ public class GUI extends Application{
                         siloExecutor.execute(s);
                     }
 
-                    parserList.get(0).getOutput(transferRegions);
-
                     //REFRESH THE JAVA FX HERE
 
                     if (step) {
@@ -181,6 +181,7 @@ public class GUI extends Application{
 
                 for (int i = 0; i < inputTotal; i++){
                     updateInput(inputList.get(i).inputDirection,inputList.get(i),i);
+                    outputList.get(i).getOutput(transferRegions);
                 }
 
                 for (Silo s : siloList){
@@ -189,13 +190,8 @@ public class GUI extends Application{
                 for(TransferRegion t : transferRegions){
                     t.refreshFX();
                 }
-                setOutput();
 
-                outputList = parserList.get(0).sendOutputList();
-                String temp = "";
-                for (String s : outputList) {
-                    temp = temp + s + "\n";
-                }
+                setOutput();
             }
         };
 
@@ -213,22 +209,22 @@ public class GUI extends Application{
         Integer inputTR = (totalRows * totalRows) + inputNumber;
         switch (inputDirection){
             case "UP" -> {
-                if (transferRegions.get(totalColumns*totalRows).up.matches(" ")){
+                if (transferRegions.get(inputTR).up.matches(" ")){
                     temp = input.sendInputValue();
                 }
             }
             case "DOWN" -> {
-                if (transferRegions.get(totalColumns*totalRows).down.matches(" ")){
+                if (transferRegions.get(inputTR).down.matches(" ")){
                     temp = input.sendInputValue();
                 }
             }
             case "LEFT" -> {
-                if (transferRegions.get(totalColumns*totalRows).left.matches(" ")){
+                if (transferRegions.get(inputTR).left.matches(" ")){
                     temp = input.sendInputValue();
                 }
             }
             case "RIGHT" -> {
-                if (transferRegions.get(totalColumns*totalRows).right.matches(" ")){
+                if (transferRegions.get(inputTR).right.matches(" ")){
                     temp = input.sendInputValue();
                 }
             }
@@ -366,10 +362,14 @@ public class GUI extends Application{
 
     void setOutput(){
         String temp = "";
-        for (String s : outputList){
-            temp = temp + s + "\n";
+        for (int i = 0; i < inputTotal; i++){
+            outputValues.addAll(outputList.get(i).sendOutputList());
+            for (String s : outputValues){
+                temp = temp + s + "\n";
+            }
         }
         output.setText(temp);
+        outputValues.clear();
     }
 
     void setInputLabel(GridPane root, int posX, int posY){

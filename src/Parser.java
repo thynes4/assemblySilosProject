@@ -139,7 +139,7 @@ public class Parser {
         //To put in the Input Transfer Region
         for (int i = 0; i < totalInputs; i++) {
             inputList.get(i).inputTransferRegion(transferRegions,siloList,totalCols,totalRows);
-            outputList.get(i).outputTransferRegion(transferRegions,siloList,totalCols,totalRows);
+            outputList.get(i).outputTransferRegion(transferRegions,siloList,totalCols,totalRows, totalInputs, i);
         }
 //        if (inputRow < 0 && inputCol>= 0){
 //            siloList.get((inputCol)).trUp = transferRegions.get((totalCols * totalRows));
@@ -286,58 +286,58 @@ public class Parser {
         return siloList;
     }
 
-    /**
-     * This will grab the first string in the Input numbers and return it
-     * @return the first string in the input numbers.
-     */
-    String sendInput(){
-        if (inputNumbers.size() == 0){
-            return null;
-        }
-        else {
-            return inputNumbers.pop();
-        }
-    }
+//    /**
+//     * This will grab the first string in the Input numbers and return it
+//     * @return the first string in the input numbers.
+//     */
+//    String sendInput(){
+//        if (inputNumbers.size() == 0){
+//            return null;
+//        }
+//        else {
+//            return inputNumbers.pop();
+//        }
+//    }
 
 
-    /**
-     * This is to get the output Transfer regions values to add to the Output List
-     * @param transferRegions The output transfer region
-     */
-    void getOutput(LinkedList<TransferRegion> transferRegions){
-        String temp = null;
-        switch (outputDirection){
-            case "UP" -> {
-                if (!transferRegions.get(siloToGrab).down.matches(" ")){
-                    temp = transferRegions.get(siloToGrab).down;
-                    transferRegions.get(siloToGrab).down = " ";
-                }
-            }
-            case "DOWN" -> {
-                if (!transferRegions.get(siloToGrab).up.matches(" ")){
-                    temp = transferRegions.get(siloToGrab).up;
-                    transferRegions.get(siloToGrab).up = " ";
-                }
-            }
-            case "LEFT" -> {
-                if (!transferRegions.get(siloToGrab).right.matches(" ")){
-                    temp = transferRegions.get(siloToGrab).right;
-                    transferRegions.get(siloToGrab).right = " ";
-                }
-            }
-            case "RIGHT" -> {
-                if (!transferRegions.get(siloToGrab).left.matches(" ")){
-                    temp = transferRegions.get(siloToGrab).left;
-                    transferRegions.get(siloToGrab).left = " ";
-                }
-            }
-        }
-
-        System.out.println("Adding value: " + temp + " to output");
-        if (temp != null){
-            outputNumbers.add(temp);
-        }
-    }
+//    /**
+//     * This is to get the output Transfer regions values to add to the Output List
+//     * @param transferRegions The output transfer region
+//     */
+//    void getOutput(LinkedList<TransferRegion> transferRegions){
+//        String temp = null;
+//        switch (outputDirection){
+//            case "UP" -> {
+//                if (!transferRegions.get(siloToGrab).down.matches(" ")){
+//                    temp = transferRegions.get(siloToGrab).down;
+//                    transferRegions.get(siloToGrab).down = " ";
+//                }
+//            }
+//            case "DOWN" -> {
+//                if (!transferRegions.get(siloToGrab).up.matches(" ")){
+//                    temp = transferRegions.get(siloToGrab).up;
+//                    transferRegions.get(siloToGrab).up = " ";
+//                }
+//            }
+//            case "LEFT" -> {
+//                if (!transferRegions.get(siloToGrab).right.matches(" ")){
+//                    temp = transferRegions.get(siloToGrab).right;
+//                    transferRegions.get(siloToGrab).right = " ";
+//                }
+//            }
+//            case "RIGHT" -> {
+//                if (!transferRegions.get(siloToGrab).left.matches(" ")){
+//                    temp = transferRegions.get(siloToGrab).left;
+//                    transferRegions.get(siloToGrab).left = " ";
+//                }
+//            }
+//        }
+//
+//        System.out.println("Adding value: " + temp + " to output");
+//        if (temp != null){
+//            outputNumbers.add(temp);
+//        }
+//    }
 
     static void addonCount(Integer a){
         number++;
@@ -348,8 +348,8 @@ public class Parser {
         return inputList;
     }
 
-    LinkedList<String> sendOutputList(){
-        return outputNumbers;
+    LinkedList<Output> sendOutputList(){
+        return outputList;
     }
 
 }
