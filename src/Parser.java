@@ -251,12 +251,15 @@ public class Parser {
                                 System.out.println("Syntax Error with on Line: " + currentLine);
                                 System.out.println("More statements than allowed. Syntax: [ROW] [COL]");
                                 System.out.println("ROW and COL should be real numbers");
+                                syntaxErrorCount++;
                             }
                         }
                     }
                     else {
                         System.out.println("Syntax Error with on Line: " + currentLine);
+                        System.out.println("Incorrect input is: " + temp5);
                         System.out.println("Check spelling or Read Me file for valid Arguments");
+                        syntaxErrorCount++;
                     }
                 }
             }
@@ -590,12 +593,15 @@ public class Parser {
         if(string.length() == 0){
             return false;
         }
+        int i = 0;
         if (string.charAt(0) == '-'){
             if (string.length() == 1){
                 return false;
             }
+            //Increment if first is a '-'
+            i = 1;
         }
-        for (int i = 1; i < string.length(); i++){
+        for (; i < string.length(); i++){
             char c = string.charAt(i);
             if (c < '0' || c > '9'){
                 return false;
