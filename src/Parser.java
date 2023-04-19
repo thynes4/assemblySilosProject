@@ -136,21 +136,6 @@ public class Parser {
             }
         }
 
-        //This is to grab the Input Row Number and Column Number
-        //from the input Numbers list
-        String temp5 = inputNumbers.get(0);
-        String[] temp6 = temp5.split(" ");
-        inputRow = Integer.valueOf(temp6[0]);
-        inputCol = Integer.valueOf(temp6[1]);
-        inputNumbers.remove(0);
-
-        System.out.println("Input Numbers: " + inputNumbers);
-        initialInputNumbers.addAll(inputNumbers);
-        System.out.println("Initial Input Numbers: " + initialInputNumbers);
-
-        System.out.println("Input Row is: " + inputRow);
-        System.out.println("Input Column is: " + inputCol);
-
         //To put in the Input Transfer Region
         for (int i = 0; i < totalInputs; i++) {
             inputList.get(i).inputTransferRegion(transferRegions,siloList,totalCols,totalRows);
@@ -359,8 +344,8 @@ public class Parser {
         lineNumber++;
     }
 
-    LinkedList<String> sendInputList(){
-        return initialInputNumbers;
+    LinkedList<Input> sendInputList(){
+        return inputList;
     }
 
     LinkedList<String> sendOutputList(){

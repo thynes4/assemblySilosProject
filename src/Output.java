@@ -6,6 +6,7 @@ public class Output {
     private Integer outputRow, outputCol;
     String outputDirection;
     private static Integer siloToGrab;
+    private LinkedList<String> outputNumbers = new LinkedList<>();
 
 
     Output(Integer row, Integer column){
@@ -44,5 +45,44 @@ public class Output {
             System.out.println("Bad Output Coordinates, Closing");
             exit(0);
         }
+    }
+
+    void getOutput(LinkedList<TransferRegion> transferRegions){
+        String temp = null;
+        switch (outputDirection){
+            case "UP" -> {
+                if (!transferRegions.get(siloToGrab).down.matches(" ")){
+                    temp = transferRegions.get(siloToGrab).down;
+                    transferRegions.get(siloToGrab).down = " ";
+                }
+            }
+            case "DOWN" -> {
+                if (!transferRegions.get(siloToGrab).up.matches(" ")){
+                    temp = transferRegions.get(siloToGrab).up;
+                    transferRegions.get(siloToGrab).up = " ";
+                }
+            }
+            case "LEFT" -> {
+                if (!transferRegions.get(siloToGrab).right.matches(" ")){
+                    temp = transferRegions.get(siloToGrab).right;
+                    transferRegions.get(siloToGrab).right = " ";
+                }
+            }
+            case "RIGHT" -> {
+                if (!transferRegions.get(siloToGrab).left.matches(" ")){
+                    temp = transferRegions.get(siloToGrab).left;
+                    transferRegions.get(siloToGrab).left = " ";
+                }
+            }
+        }
+
+        System.out.println("Adding value: " + temp + " to output");
+        if (temp != null){
+            outputNumbers.add(temp);
+        }
+    }
+
+    LinkedList sendOutputList(){
+        return outputNumbers;
     }
 }

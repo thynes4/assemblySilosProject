@@ -31,12 +31,11 @@ public class GUI extends Application{
     static LinkedList<TransferRegion> transferRegions = new LinkedList<>();
     static LinkedList<Silo> siloList = new LinkedList<>();
     static Integer totalRows, totalColumns;
-    static Integer outputTR, inputTR;
+    static Integer outputTR;
     static String inputDirection, outputDirection;
     boolean step = true;
     AnimationTimer a = null;
     boolean paused = false;
-    static LinkedList<String> inputList = new LinkedList<>();
     static LinkedList<String> outputList = new LinkedList<>();
     static TextArea output = new TextArea();
     static LinkedList<Parser> parserList = new LinkedList<>();
@@ -44,6 +43,7 @@ public class GUI extends Application{
     static Label inputLabel = new Label();
     static Label outputLabel = new Label();
     static Integer inputTotal = 0;
+    static LinkedList<Input> inputList = new LinkedList<>();
 
     public static void main(String[] args) {
         LinkedList<String> commandInput = new LinkedList<>();
@@ -77,14 +77,11 @@ public class GUI extends Application{
             }
         }
 
-        //Creating all the transfer regions. It is row X Column + 2.
-        //The + 2 is the input and output.
+        //Creating all the transfer regions. It is row X Column. Last value/values are the outputs
         for (int i = 0; i < totalEnds; i++) {
             transferRegions.add(new TransferRegion());
         }
 
-        //Transfer Region row x column is input
-        inputTR = (totalRows * totalColumns);
         //Transfer Region row x column + 1 is output
         outputTR = (totalRows * totalColumns) + 1;
 
@@ -94,12 +91,16 @@ public class GUI extends Application{
 
         //Grabbing all Silos
         siloList = parser.sendSilos();
-        inputList.addAll(parser.sendInputList());
 
         inputDirection = parser.getInputDirection();
         outputDirection = parser.getOutputDirection();
 
-        updateInput(inputDirection, parser);
+        inputList.addAll(parserList.get(0).sendInputList());
+
+        //update input
+        for (int i = 0; i < inputTotal; i++){
+            updateInput(inputList.get(i).inputDirection,inputList.get(i),i);
+        }
 
         System.out.println("Value in input: " + transferRegions.get((totalColumns * totalRows)).down);;
         int tempcount = 0;
@@ -163,11 +164,7 @@ public class GUI extends Application{
                     for (Silo s : siloList) {
                         siloExecutor.execute(s);
                     }
-                    for (TransferRegion t : transferRegions) {
-                        transferExecutor.execute(t);
-                    }
 
-                    updateInput(inputDirection, parserList.get(0));
                     parserList.get(0).getOutput(transferRegions);
 
                     //REFRESH THE JAVA FX HERE
@@ -176,6 +173,14 @@ public class GUI extends Application{
                         a.stop();
                     }
                     lastUpdate = now;
+                }
+
+                for (TransferRegion t : transferRegions) {
+                    transferExecutor.execute(t);
+                }
+
+                for (int i = 0; i < inputTotal; i++){
+                    updateInput(inputList.get(i).inputDirection,inputList.get(i),i);
                 }
 
                 for (Silo s : siloList){
@@ -203,27 +208,28 @@ public class GUI extends Application{
 //        }
     }
 
-    static void updateInput(String inputDirection, Parser p){
+    static void updateInput(String inputDirection, Input input, Integer inputNumber){
         String temp = null;
+        Integer inputTR = (totalRows * totalRows) + inputNumber;
         switch (inputDirection){
             case "UP" -> {
                 if (transferRegions.get(totalColumns*totalRows).up.matches(" ")){
-                    temp = p.sendInput();
+                    temp = input.sendInputValue();
                 }
             }
             case "DOWN" -> {
                 if (transferRegions.get(totalColumns*totalRows).down.matches(" ")){
-                    temp = p.sendInput();
+                    temp = input.sendInputValue();
                 }
             }
             case "LEFT" -> {
                 if (transferRegions.get(totalColumns*totalRows).left.matches(" ")){
-                    temp = p.sendInput();
+                    temp = input.sendInputValue();
                 }
             }
             case "RIGHT" -> {
                 if (transferRegions.get(totalColumns*totalRows).right.matches(" ")){
-                    temp = p.sendInput();
+                    temp = input.sendInputValue();
                 }
             }
         }
@@ -275,8 +281,10 @@ public class GUI extends Application{
 
         TextArea input = new TextArea();
         String temp = "";
-        for (String s : inputList){
-            temp = temp + s + "\n";
+        for (int i = 0; i < inputTotal; i++) {
+            for (String s : inputList.get(i).initialInputs) {
+                temp = temp + s + "\n";
+            }
         }
         input.setText(temp);
         ctrlPanel.add(input, 0, 1);

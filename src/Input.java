@@ -5,12 +5,14 @@ import static java.lang.System.exit;
 public class Input {
 
     protected Integer inputRow, inputCol;
-    private LinkedList<String> initialInputs = new LinkedList();
+    protected LinkedList<String> initialInputs = new LinkedList();
     private LinkedList<String> currentInputs = new LinkedList<>();
     String inputDirection;
+    private int currentInputLine;
 
 
     Input(LinkedList inputs){
+        this.currentInputLine = 0;
         this.initialInputs.addAll(inputs);
         this.currentInputs.addAll(initialInputs);
         String temp1 = initialInputs.get(0);
@@ -49,6 +51,16 @@ public class Input {
         else {
             System.out.println("Bad Input Coordinates, Closing");
             exit(0);
+        }
+    }
+
+    String sendInputValue(){
+        currentInputLine++;
+        if (currentInputLine >= currentInputs.size()){
+            return null;
+        }
+        else {
+            return currentInputs.get(currentInputLine - 1);
         }
     }
 }
