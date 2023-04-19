@@ -60,14 +60,16 @@ public class Parser {
                         System.out.println("Not enough inputs on the Line. Syntax: MOVE [SRC] [DST]");
                         syntaxErrorCount++;
                     }
-                    for (int i = 1; i < 3; i++){
-                        switch (temp6[i]){
-                            case "UP", "NIL", "BAK", "ACC", "RIGHT", "LEFT", "DOWN" -> {}
-                            default -> {
-                                System.out.println("Syntax Error on Move on Line: " + currentLine);
-                                System.out.println("Input: " + i + " is not a valid input.");
-                                System.out.println("Syntax: MOVE [SRC] [DST]");
-                                syntaxErrorCount++;
+                    if (!isInteger(temp6[1])){
+                        for (int i = 1; i < 3; i++){
+                            switch (temp6[i]){
+                                case "UP", "NIL", "BAK", "ACC", "RIGHT", "LEFT", "DOWN" -> {}
+                                default -> {
+                                    System.out.println("Syntax Error on Move on Line: " + currentLine);
+                                    System.out.println("Input: " + i + " is not a valid input.");
+                                    System.out.println("Syntax: MOVE [SRC] [DST]");
+                                    syntaxErrorCount++;
+                                }
                             }
                         }
                     }
@@ -110,14 +112,17 @@ public class Parser {
                         System.out.println("More statements than allowed. Syntax: SUB [SRC]");
                         syntaxErrorCount++;
                     }
-                    //Add code to check if real number
-                    switch (temp6[1]){
-                        case "UP", "NIL", "BAK", "ACC", "RIGHT", "LEFT", "DOWN" -> {}
-                        default -> {
-                            System.out.println("Syntax Error on SUB on Line: " + currentLine);
-                            System.out.println("Input: " + temp6[1] + " is not a valid input.");
-                            System.out.println("Syntax: SUB [SRC]");
-                            syntaxErrorCount++;
+                   //Checks to see if it is an integer
+                    if (!isInteger(temp6[1])) {
+                        switch (temp6[1]) {
+                            case "UP", "NIL", "BAK", "ACC", "RIGHT", "LEFT", "DOWN" -> {
+                            }
+                            default -> {
+                                System.out.println("Syntax Error on SUB on Line: " + currentLine);
+                                System.out.println("Input: " + temp6[1] + " is not a valid input.");
+                                System.out.println("Syntax: SUB [SRC]");
+                                syntaxErrorCount++;
+                            }
                         }
                     }
                 }
@@ -194,13 +199,16 @@ public class Parser {
                         System.out.println("More statements than allowed. Syntax: JRO [SRC]");
                         syntaxErrorCount++;
                     }
-                    switch (temp6[1]){
-                        case "UP", "NIL", "BAK", "ACC", "RIGHT", "LEFT", "DOWN" -> {}
-                        default -> {
-                            System.out.println("Syntax Error on SUB on Line: " + currentLine);
-                            System.out.println("Input: " + temp6[1] + " is not a valid input.");
-                            System.out.println("Syntax: SUB [SRC]");
-                            syntaxErrorCount++;
+                    if (isInteger(temp6[1])) {
+                        switch (temp6[1]) {
+                            case "UP", "NIL", "BAK", "ACC", "RIGHT", "LEFT", "DOWN" -> {
+                            }
+                            default -> {
+                                System.out.println("Syntax Error on SUB on Line: " + currentLine);
+                                System.out.println("Input: " + temp6[1] + " is not a valid input.");
+                                System.out.println("Syntax: SUB [SRC]");
+                                syntaxErrorCount++;
+                            }
                         }
                     }
                 }
@@ -526,6 +534,27 @@ public class Parser {
     LinkedList<Output> sendOutputList(){
         System.out.println("OutputList : " + outputList);
         return outputList;
+    }
+
+    Boolean isInteger(String string){
+        if (string == null){
+            return false;
+        }
+        if(string.length() == 0){
+            return false;
+        }
+        if (string.charAt(0) == '-'){
+            if (string.length() == 1){
+                return false;
+            }
+        }
+        for (int i = 0; i < string.length(); i++){
+            char c = string.charAt(i);
+            if (c < '0' || c > '0'){
+                return false;
+            }
+        }
+        return true;
     }
 
 }
