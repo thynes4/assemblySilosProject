@@ -14,7 +14,6 @@ public class Input {
     Input(LinkedList inputs){
         this.currentInputLine = 0;
         this.initialInputs.addAll(inputs);
-        this.currentInputs.addAll(initialInputs);
         String temp1 = initialInputs.get(0);
         String[] temp2 = temp1.split(" ");
         this.inputRow = Integer.valueOf(temp2[0]);
@@ -25,6 +24,7 @@ public class Input {
         System.out.println("Input Row is: " + inputRow);
         System.out.println("Input Column is: " + inputCol);
         System.out.println("Initial Input Numbers: " + initialInputs);
+        System.out.println("Current Input Numbers: " + currentInputs);
     }
 
     void inputTransferRegion(LinkedList<TransferRegion> transferRegions, LinkedList<Silo> siloList, Integer totalCols, Integer totalRows){
@@ -60,6 +60,7 @@ public class Input {
             return null;
         }
         else {
+            System.out.println("Sending Input value: " + currentInputs.get(currentInputLine - 1));
             return currentInputs.get(currentInputLine - 1);
         }
     }

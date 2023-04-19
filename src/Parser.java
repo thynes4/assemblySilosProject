@@ -110,6 +110,7 @@ public class Parser {
             else {
                 if (s.equals("END") && !inputfinished){
                     inputList.add(new Input(inputNumbers));
+                    System.out.println("Input Numbers being sent: " + inputNumbers);
                     inputNumbers.clear();
                     if (currentInputTotal == totalInputs){
                         inputfinished = true;
@@ -349,6 +350,7 @@ public class Parser {
     }
 
     LinkedList<Output> sendOutputList(){
+        System.out.println("OutputList : " + outputList);
         return outputList;
     }
 

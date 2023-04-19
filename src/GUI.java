@@ -206,7 +206,7 @@ public class GUI extends Application{
 
     static void updateInput(String inputDirection, Input input, Integer inputNumber){
         String temp = null;
-        Integer inputTR = (totalRows * totalRows) + inputNumber;
+        Integer inputTR = (totalRows * totalColumns) + inputNumber;
         switch (inputDirection){
             case "UP" -> {
                 if (transferRegions.get(inputTR).up.matches(" ")){
@@ -237,10 +237,12 @@ public class GUI extends Application{
                     }
                 }
                 case "DOWN" -> {
-                    //System.out.println("adding: " + temp + "to down location");
+                    System.out.println("adding: " + temp + "to down location");
                     if (transferRegions.get(inputTR).down.matches(" ")) {
                         transferRegions.get(inputTR).addDown(temp);
                     }
+                    System.out.println("Input Transfer Region: " + inputTR);
+                    System.out.println("Transfer Region currently holding: " + transferRegions.get(inputTR).down);
                 }
                 case "LEFT" -> {
                     if (transferRegions.get(inputTR).left.matches(" ")) {
@@ -361,14 +363,14 @@ public class GUI extends Application{
     }
 
     void setOutput(){
-        String temp = "";
+        String temp1 = "";
         for (int i = 0; i < inputTotal; i++){
             outputValues.addAll(outputList.get(i).sendOutputList());
             for (String s : outputValues){
-                temp = temp + s + "\n";
+                temp1 = temp1 + s + "\n";
             }
         }
-        output.setText(temp);
+        output.setText(temp1);
         outputValues.clear();
     }
 
