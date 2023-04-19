@@ -167,6 +167,18 @@ public class GUI extends Application{
                         siloExecutor.execute(s);
                     }
 
+                    while (!silosFinshed()) {
+                        try {
+                            a.wait(10);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+
+                    for (Silo s : siloList) {
+                        s.resetFinished();
+                    }
+
                     //REFRESH THE JAVA FX HERE
 
                     if (step) {
@@ -399,6 +411,15 @@ public class GUI extends Application{
         }
 
         root.add(outputLabel, posX, posY);
+    }
+
+    private boolean silosFinshed() {
+        for (Silo s : siloList) {
+            if (!s.siloStatus()) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 
