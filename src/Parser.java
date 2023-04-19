@@ -215,6 +215,50 @@ public class Parser {
                         }
                     }
                 }
+                case "END" -> {
+                    if (temp6.length > 1){
+                        System.out.println("Syntax Error with END on Line: " + currentLine);
+                        System.out.println("More statements than allowed. Syntax: END");
+                        syntaxErrorCount++;
+                    }
+                }
+                case "INPUT" -> {
+                    if (temp6.length > 1){
+                        System.out.println("Syntax Error with INPUT on Line: " + currentLine);
+                        System.out.println("More statements than allowed. Syntax: INPUT");
+                        syntaxErrorCount++;
+                    }
+                }
+                case "OUTPUT" -> {
+                    if (temp6.length > 1){
+                        System.out.println("Syntax Error with OUTPUT on Line: " + currentLine);
+                        System.out.println("More statements than allowed. Syntax: OUTPUT");
+                        syntaxErrorCount++;
+                    }
+                }
+                default -> {
+                    if (isInteger(temp6[0])) {
+                        if (temp6.length == 1){
+
+                        }
+                        else if (temp6.length != 2) {
+                            System.out.println("Syntax Error with on Line: " + currentLine);
+                            System.out.println("More statements than allowed. Syntax: [ROW] [COL]");
+                            syntaxErrorCount++;
+                        }
+                        else {
+                            if (!isInteger(temp6[1])){
+                                System.out.println("Syntax Error with on Line: " + currentLine);
+                                System.out.println("More statements than allowed. Syntax: [ROW] [COL]");
+                                System.out.println("ROW and COL should be real numbers");
+                            }
+                        }
+                    }
+                    else {
+                        System.out.println("Syntax Error with on Line: " + currentLine);
+                        System.out.println("Check spelling or Read Me file for valid Arguments");
+                    }
+                }
             }
         }
 
