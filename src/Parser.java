@@ -38,6 +38,180 @@ public class Parser {
         int currentInputTotal = 0;
         boolean silofinished = false;
         boolean inputfinished = false;
+
+        int syntaxErrorCount = 0;
+        int currentLine = 0;
+        //Checked for Syntax Errors
+        for (String s : commandInput){
+            currentLine++;
+            String temp5 = s;
+            String[] temp6 = temp5.split(" ");
+            switch (temp6[0]){
+                case "NOOP" -> {
+                    if (temp6.length > 1){
+                        System.out.println("Syntax Error with NOOP on Line: " + currentLine);
+                        System.out.println("More statements than allowed. Syntax should be NOOP");
+                        syntaxErrorCount++;
+                    }
+                }
+                case "MOVE" -> {
+                    if (temp6.length < 3){
+                        System.out.println("Syntax Error with MOVE on Line: " + currentLine);
+                        System.out.println("Not enough inputs on the Line. Syntax: MOVE [SRC] [DST]");
+                        syntaxErrorCount++;
+                    }
+                    for (int i = 1; i < 3; i++){
+                        switch (temp6[i]){
+                            case "UP", "NIL", "BAK", "ACC", "RIGHT", "LEFT", "DOWN" -> {}
+                            default -> {
+                                System.out.println("Syntax Error on Move on Line: " + currentLine);
+                                System.out.println("Input: " + i + " is not a valid input.");
+                                System.out.println("Syntax: MOVE [SRC] [DST]");
+                                syntaxErrorCount++;
+                            }
+                        }
+                    }
+                }
+                case "SWAP" -> {
+                    if (temp6.length > 1){
+                        System.out.println("Syntax Error with SWAP on Line: " + currentLine);
+                        System.out.println("More statements than allowed. Syntax: SWAP");
+                        syntaxErrorCount++;
+                    }
+                }
+                case "SAVE" -> {
+                    if (temp6.length > 1){
+                        System.out.println("Syntax Error with SAVE on Line: " + currentLine);
+                        System.out.println("More statements than allowed. Syntax: SAVE");
+                        syntaxErrorCount++;
+                    }
+
+                }
+                case "ADD" -> {
+                    if (temp6.length > 2){
+                        System.out.println("Syntax Error with ADD on Line: " + currentLine);
+                        System.out.println("More statements than allowed. Syntax: ADD [SRC]");
+                        syntaxErrorCount++;
+                    }
+                    //Add code to check if real number
+                    switch (temp6[1]){
+                        case "UP", "NIL", "BAK", "ACC", "RIGHT", "LEFT", "DOWN" -> {}
+                        default -> {
+                            System.out.println("Syntax Error on ADD on Line: " + currentLine);
+                            System.out.println("Input: " + temp6[1] + " is not a valid input.");
+                            System.out.println("Syntax: ADD [SRC]");
+                            syntaxErrorCount++;
+                        }
+                    }
+                }
+                case "SUB" -> {
+                    if (temp6.length > 2){
+                        System.out.println("Syntax Error with SUB on Line: " + currentLine);
+                        System.out.println("More statements than allowed. Syntax: SUB [SRC]");
+                        syntaxErrorCount++;
+                    }
+                    //Add code to check if real number
+                    switch (temp6[1]){
+                        case "UP", "NIL", "BAK", "ACC", "RIGHT", "LEFT", "DOWN" -> {}
+                        default -> {
+                            System.out.println("Syntax Error on SUB on Line: " + currentLine);
+                            System.out.println("Input: " + temp6[1] + " is not a valid input.");
+                            System.out.println("Syntax: SUB [SRC]");
+                            syntaxErrorCount++;
+                        }
+                    }
+                }
+                case "NEGATE" -> {
+                    if (temp6.length > 1){
+                        System.out.println("Syntax Error with NEGATE on Line: " + currentLine);
+                        System.out.println("More statements than allowed. Syntax: NEGATE");
+                        syntaxErrorCount++;
+                    }
+                }
+                case "JUMP" -> {
+                    if (temp6.length > 2){
+                        System.out.println("Syntax Error with JUMP on Line: " + currentLine);
+                        System.out.println("More statements than allowed. Syntax: JUMP [LABEL]");
+                        syntaxErrorCount++;
+                    }
+                    if (!commandInput.contains(":" + temp6[1] + ":")){
+                        System.out.println("Syntax Error with JUMP on Line: " + currentLine);
+                        System.out.println("No Label with specified name detected. Syntax: JUMP [LABEL]");
+                        syntaxErrorCount++;
+                    }
+                }
+                case "JEZ" -> {
+                    if (temp6.length > 2){
+                        System.out.println("Syntax Error with JEZ on Line: " + currentLine);
+                        System.out.println("More statements than allowed. Syntax: JEZ [LABEL]");
+                        syntaxErrorCount++;
+                    }
+                    if (!commandInput.contains(":" + temp6[1] + ":")){
+                        System.out.println("Syntax Error with JEZ on Line: " + currentLine);
+                        System.out.println("No Label with specified name detected. Syntax: JEZ [LABEL]");
+                        syntaxErrorCount++;
+                    }
+                }
+                case "JNZ" -> {
+                    if (temp6.length > 2){
+                        System.out.println("Syntax Error with JNZ on Line: " + currentLine);
+                        System.out.println("More statements than allowed. Syntax: JNZ [LABEL]");
+                        syntaxErrorCount++;
+                    }
+                    if (!commandInput.contains(":" + temp6[1] + ":")){
+                        System.out.println("Syntax Error with JNZ on Line: " + currentLine);
+                        System.out.println("No Label with specified name detected. Syntax: JNZ [LABEL]");
+                        syntaxErrorCount++;
+                    }
+                }
+                case "JGZ" -> {
+                    if (temp6.length > 2){
+                        System.out.println("Syntax Error with JGZ on Line: " + currentLine);
+                        System.out.println("More statements than allowed. Syntax: JGZ [LABEL]");
+                        syntaxErrorCount++;
+                    }
+                    if (!commandInput.contains(":" + temp6[1] + ":")){
+                        System.out.println("Syntax Error with JGZ on Line: " + currentLine);
+                        System.out.println("No Label with specified name detected. Syntax: JGZ [LABEL]");
+                        syntaxErrorCount++;
+                    }
+                }
+                case "JLZ" -> {
+                    if (temp6.length > 2){
+                        System.out.println("Syntax Error with JLZ on Line: " + currentLine);
+                        System.out.println("More statements than allowed. Syntax: JLZ [LABEL]");
+                        syntaxErrorCount++;
+                    }
+                    if (!commandInput.contains(":" + temp6[1] + ":")){
+                        System.out.println("Syntax Error with JLZ on Line: " + currentLine);
+                        System.out.println("No Label with specified name detected. Syntax: JLZ [LABEL]");
+                        syntaxErrorCount++;
+                    }
+                }
+                case "JRO" -> {
+                    if (temp6.length > 2){
+                        System.out.println("Syntax Error with JRO on Line: " + currentLine);
+                        System.out.println("More statements than allowed. Syntax: JRO [SRC]");
+                        syntaxErrorCount++;
+                    }
+                    switch (temp6[1]){
+                        case "UP", "NIL", "BAK", "ACC", "RIGHT", "LEFT", "DOWN" -> {}
+                        default -> {
+                            System.out.println("Syntax Error on SUB on Line: " + currentLine);
+                            System.out.println("Input: " + temp6[1] + " is not a valid input.");
+                            System.out.println("Syntax: SUB [SRC]");
+                            syntaxErrorCount++;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (syntaxErrorCount > 0){
+            System.out.println("Please fix syntax error(s) and run again");
+            exit(1);
+        }
+
         LinkedList<String> siloCode = new LinkedList<>();
         for (String s: commandInput) {
             if (!silofinished){
