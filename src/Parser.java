@@ -96,13 +96,16 @@ public class Parser {
                         syntaxErrorCount++;
                     }
                     //Add code to check if real number
-                    switch (temp6[1]){
-                        case "UP", "NIL", "BAK", "ACC", "RIGHT", "LEFT", "DOWN" -> {}
-                        default -> {
-                            System.out.println("Syntax Error on ADD on Line: " + currentLine);
-                            System.out.println("Input: " + temp6[1] + " is not a valid input.");
-                            System.out.println("Syntax: ADD [SRC]");
-                            syntaxErrorCount++;
+                    if (!isInteger(temp6[1])) {
+                        switch (temp6[1]) {
+                            case "UP", "NIL", "BAK", "ACC", "RIGHT", "LEFT", "DOWN" -> {
+                            }
+                            default -> {
+                                System.out.println("Syntax Error on ADD on Line: " + currentLine);
+                                System.out.println("Input: " + temp6[1] + " is not a valid input.");
+                                System.out.println("Syntax: ADD [SRC]");
+                                syntaxErrorCount++;
+                            }
                         }
                     }
                 }
@@ -548,9 +551,9 @@ public class Parser {
                 return false;
             }
         }
-        for (int i = 0; i < string.length(); i++){
+        for (int i = 1; i < string.length(); i++){
             char c = string.charAt(i);
-            if (c < '0' || c > '0'){
+            if (c < '0' || c > '9'){
                 return false;
             }
         }
