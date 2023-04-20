@@ -15,6 +15,10 @@ public class Input {
     private Label inputLabel = new Label();
 
 
+    /**
+     * This is the Input Class
+     * @param inputs The input values being given to this input
+     */
     Input(LinkedList inputs){
         this.currentInputLine = 0;
         this.initialInputs.addAll(inputs);
@@ -25,32 +29,31 @@ public class Input {
         initialInputs.remove(0);
         this.currentInputs.addAll(initialInputs);
 
-        System.out.println("Input Row is: " + inputRow);
-        System.out.println("Input Column is: " + inputCol);
-        System.out.println("Initial Input Numbers: " + initialInputs);
-        System.out.println("Current Input Numbers: " + currentInputs);
     }
 
+    /**
+     * This is to put the input transfer region in the correct area
+     * @param transferRegions The list of transfer regions
+     * @param siloList The list of silos
+     * @param totalCols The total columns of the array
+     * @param totalRows The total rows of the array
+     */
     void inputTransferRegion(LinkedList<TransferRegion> transferRegions, LinkedList<Silo> siloList, Integer totalCols, Integer totalRows){
         if (inputRow < 0 && inputCol>= 0){
             siloList.get((inputCol)).trUp = transferRegions.get((totalCols * totalRows));
             inputDirection = "DOWN";
-            System.out.println("Input being added to silo: " + inputCol + " input Direction: " + inputDirection);
         }
         else if (inputCol < 0 && inputRow >= 0){
             siloList.get((totalCols * (inputRow))).trLeft = transferRegions.get((totalCols * totalRows));
             inputDirection = "RIGHT";
-            System.out.println("Input being added to silo: " + (totalCols * (inputRow)) + " input Direction: " + inputDirection);
         }
         else if (inputRow >= totalRows && inputCol < totalCols){
             siloList.get((totalCols * (inputRow - 1)) + inputCol).trDown = transferRegions.get((totalCols * totalRows));
             inputDirection = "UP";
-            System.out.println("Input being added to silo: " + ((totalCols * (inputRow - 1)) + inputCol) + " input Direction: " + inputDirection);
         }
         else if (inputCol >= totalCols && inputRow < totalRows){
             siloList.get((inputRow * totalCols) + (inputCol - 1)).trRight = transferRegions.get((totalCols * totalRows));
             inputDirection = "LEFT";
-            System.out.println("Input being added to silo: " + ((inputRow * totalCols) + (inputCol - 1)) + " input Direction: " + inputDirection);
         }
         else {
             System.out.println("Bad Input Coordinates, Closing");
@@ -58,17 +61,26 @@ public class Input {
         }
     }
 
+    /**
+     * This is to send an input value to the transfer region
+     * @return
+     */
     String sendInputValue(){
         currentInputLine++;
         if (currentInputLine >= currentInputs.size()){
             return null;
         }
         else {
-            System.out.println("Sending Input value: " + currentInputs.get(currentInputLine - 1));
             return currentInputs.get(currentInputLine - 1);
         }
     }
 
+    /**
+     * THis is to set the input label
+     * @param root The java fx root
+     * @param posX The x position for the label
+     * @param posY The y position for the label
+     */
     void setInputLbl(GridPane root, int posX, int posY){
         if(inputDirection.equals("DOWN")){
             inputLabel.setText("  ⬇");
@@ -82,6 +94,10 @@ public class Input {
 
         root.add(inputLabel, posX, posY);
     }
+
+    /**
+     * This is to update the FX for the input
+     */
     void updateInputFX(){
         if(currentInputs.get(currentInputLine) == null){inputLabel.setStyle("-fx-text-fill: #dc9656;");}
         else{inputLabel.setStyle("-fx-text-fill: #a1b56c;");}

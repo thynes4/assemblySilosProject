@@ -13,47 +13,57 @@ public class Output {
     private Label outputLabel = new Label();
 
 
+    /**
+     * This is the output Class
+     * @param row The row for the output
+     * @param column The column for the output
+     */
     Output(Integer row, Integer column){
         this.outputRow = row;
         this.outputCol = column;
-        System.out.println("Output Row is: " + outputRow);
-        System.out.println("Output Column is: " + outputCol);
     }
 
+    /**
+     * This is to put in the output transfer region into the array
+     * @param transferRegions The transfer region list
+     * @param siloList The silo list
+     * @param totalCols The total columns of the array
+     * @param totalRows The total rows of the array
+     * @param totalInputs The total inputs
+     * @param outputNum The output number
+     */
     void outputTransferRegion(LinkedList<TransferRegion> transferRegions, LinkedList<Silo> siloList, Integer totalCols,
                               Integer totalRows, Integer totalInputs, Integer outputNum){
         if (outputRow < 0 && outputCol >=0){
             siloList.get(outputCol).trUp = transferRegions.get(((totalCols * totalRows) + totalInputs) + outputNum);
             outputDirection = "DOWN";
             siloToGrab = outputCol;
-            System.out.println("Output being added to silo: " + (outputCol) + " Output Direction: " + outputDirection);
         }
         else if (outputCol < 0 && outputRow >= 0){
             siloList.get((totalCols * (outputRow))).trLeft = transferRegions.get(((totalCols * totalRows) + totalInputs) + outputNum);
             outputDirection = "RIGHT";
             siloToGrab = ((totalCols * (outputRow)));
-            System.out.println("Output being added to silo: " + (totalCols * (outputRow)) + " Output Direction: " + outputDirection);
         }
         else if (outputRow >= totalRows && outputCol < totalCols){
             siloList.get((totalCols * (outputRow - 1)) + outputCol).trDown = transferRegions.get(((totalCols * totalRows) + totalInputs) + outputNum);
             outputDirection = "UP";
             siloToGrab = ((totalCols * (outputRow - 1)) + outputCol);
-            System.out.println("Output being added to silo: " + ((totalCols * (outputRow - 1)) + outputCol) + " Output Direction: " + outputDirection);
         }
         else if (outputCol >= totalCols && outputRow < totalRows){
             siloList.get((outputRow * totalCols) + (outputCol - 1)).trRight = transferRegions.get(((totalCols * totalRows) + totalInputs) + outputNum);
             outputDirection = "LEFT";
             siloToGrab = ((outputRow * totalCols) + (outputCol - 1));
-            System.out.println("Output being added to silo: " + ((outputRow * totalCols) + (outputCol - 1)) + " Output Direction: " + outputDirection);
         }
         else {
             System.out.println("Bad Output Coordinates, Closing");
             exit(0);
         }
-
-        System.out.println("Silo to grab from for Output is: " + siloToGrab);
     }
 
+    /**
+     * This is to get a value from the output region
+     * @param transferRegions The list of transfer regions
+     */
     void getOutput(LinkedList<TransferRegion> transferRegions){
         String temp = null;
         switch (outputDirection){
@@ -83,16 +93,25 @@ public class Output {
             }
         }
 
-        System.out.println("Adding value: " + temp + " to output");
         if (temp != null){
             outputNumbers.add(temp);
         }
     }
 
+    /**
+     * This is to send the list of outputs received
+     * @return The list of outputs received
+     */
     LinkedList sendOutputList(){
         return outputNumbers;
     }
 
+    /**
+     * This is to set the output label
+     * @param root The root of the Java FX
+     * @param posX The X position
+     * @param posY The Y position
+     */
     void setOutputLabel(GridPane root, int posX, int posY){
         if(outputDirection.equals("DOWN")){
             outputLabel.setText("  ⬇");
@@ -106,6 +125,10 @@ public class Output {
 
         root.add(outputLabel, posX, posY);
     }
+
+    /**
+     * This is to update the output label
+     */
     void updateInputFX(){
         if(outputNumbers.get(0) == null){outputLabel.setStyle("-fx-text-fill: #dc9656;");}
         else{outputLabel.setStyle("-fx-text-fill: #a1b56c;");}
