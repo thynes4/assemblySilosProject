@@ -16,11 +16,11 @@ import java.util.Objects;
 
 public class TransferRegion implements Runnable {
     protected String upTemp = " ",leftTemp = " ", rightTemp = " ", downTemp = " ";
-    protected String up, left, right, down;
-    private Label upLabel = new Label();
-    private Label leftLabel = new Label();
-    private Label rightLabel = new Label();
-    private Label downLabel = new Label();
+    protected String up = " ", left = " ", right = " ", down = " ";
+    private final Label upLabel = new Label();
+    private final Label leftLabel = new Label();
+    private final Label rightLabel = new Label();
+    private final Label downLabel = new Label();
 
     TransferRegion(){
         this.up = " ";
@@ -35,7 +35,7 @@ public class TransferRegion implements Runnable {
      */
     String getUp(){
         if (this.upTemp.matches(" ")){
-            return null;
+            return " ";
         }
         else {
             String temp = this.upTemp;
@@ -50,7 +50,7 @@ public class TransferRegion implements Runnable {
      */
     String getLeft(){
         if (this.leftTemp.matches(" ")){
-            return null;
+            return " ";
         }
         else {
             String temp = this.leftTemp;
@@ -65,7 +65,7 @@ public class TransferRegion implements Runnable {
      */
     String getRight(){
         if (this.rightTemp.matches(" ")){
-            return null;
+            return " ";
         }
         else {
             String temp = this.rightTemp;
@@ -80,7 +80,7 @@ public class TransferRegion implements Runnable {
      */
     String getDown(){
         if (this.downTemp.matches(" ")){
-            return null;
+            return " ";
         }
         else {
             String temp = this.downTemp;
