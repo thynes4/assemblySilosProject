@@ -310,14 +310,6 @@ public class GUI extends Application{
         startBtn.setText("Start");
         startBtn.setOnAction(event -> {
             startButton();
-            for (Silo s: siloList){
-                s.textEditable = false;
-                s.refreshFX();
-            }
-            for(TransferRegion t : transferRegions){
-                t.refreshFX();
-            }
-            setOutput();
         });
         ctrlPanel.add(startBtn, 0, 2);
 
@@ -354,8 +346,21 @@ public class GUI extends Application{
 
     //Methods for when buttons are pushed
     void startButton(){
-        step = false;
-        a.start();
+        if (parserList.get(0).parseSiloErrors(siloList) == 0){
+            for (int i = 0; i < totalRows * totalColumns; i++){
+                siloList.get(i).addRunnableList(parserList.get(0).codeToRunnable(siloList.get(i).siloCode,i));
+            }
+            step = false;
+            a.start();
+            for (Silo s: siloList){
+                s.textEditable = false;
+                s.refreshFX();
+            }
+            for(TransferRegion t : transferRegions){
+                t.refreshFX();
+            }
+            setOutput();
+        }
     }
     void pauseButton(){
         if (paused) {

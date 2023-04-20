@@ -28,7 +28,7 @@ import java.util.concurrent.CountDownLatch;
 public class Silo implements Runnable {
     private final Integer NIL = 0;
     protected Thread siloThread;
-    private LinkedList<String> siloCode = new LinkedList<>();
+    protected LinkedList<String> siloCode = new LinkedList<>();
     private Integer accValue;
     private Integer bakValue;
     private Integer siloNumber;
