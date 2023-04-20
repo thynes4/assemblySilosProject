@@ -7,7 +7,7 @@ import static java.lang.System.exit;
 
 public class Output {
     private Integer outputRow, outputCol;
-    String outputDirection;
+    protected String outputDirection;
     private static Integer siloToGrab;
     private LinkedList<String> outputNumbers = new LinkedList<>();
     private Label outputLabel = new Label();

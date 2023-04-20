@@ -24,20 +24,20 @@ import java.util.concurrent.Executors;
  */
 
 public class GUI extends Application{
-    static LinkedList<TransferRegion> transferRegions = new LinkedList<>();
-    static LinkedList<Silo> siloList = new LinkedList<>();
-    static Integer totalRows, totalColumns;
-    static Integer outputTR;
-    static String inputDirection, outputDirection;
-    boolean step = true;
-    AnimationTimer a = null;
-    boolean paused = false;
-    static LinkedList<String> outputValues = new LinkedList<>();
-    static TextArea output = new TextArea();
-    static LinkedList<Parser> parserList = new LinkedList<>();
-    static Integer inputTotal = 0;
-    static LinkedList<Input> inputList = new LinkedList<>();
-    static LinkedList<Output> outputList = new LinkedList<>();
+    private static LinkedList<TransferRegion> transferRegions = new LinkedList<>();
+    private static LinkedList<Silo> siloList = new LinkedList<>();
+    private static Integer totalRows, totalColumns;
+    private static Integer outputTR;
+    private static String inputDirection, outputDirection;
+    private boolean step = true;
+    private AnimationTimer a = null;
+    private boolean paused = false;
+    private static LinkedList<String> outputValues = new LinkedList<>();
+    private static TextArea output = new TextArea();
+    private static LinkedList<Parser> parserList = new LinkedList<>();
+    private static Integer inputTotal = 0;
+    private static LinkedList<Input> inputList = new LinkedList<>();
+    private static LinkedList<Output> outputList = new LinkedList<>();
 
     /**
      * The main method for the entire Program. It grabs the users input

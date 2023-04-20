@@ -10,7 +10,7 @@ public class Input {
     protected Integer inputRow, inputCol;
     protected LinkedList<String> initialInputs = new LinkedList();
     private LinkedList<String> currentInputs = new LinkedList<>();
-    String inputDirection;
+    protected String inputDirection;
     private int currentInputLine;
     private Label inputLabel = new Label();
 
