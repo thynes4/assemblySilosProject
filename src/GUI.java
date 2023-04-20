@@ -11,7 +11,6 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.scene.control.TextArea;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.ExecutorService;
@@ -156,6 +155,10 @@ public class GUI extends Application{
         ExecutorService transferExecutor = Executors.newFixedThreadPool(transferRegions.size());
 
         // Animation timer that will be used when start button is pressed
+        /**
+         * Animation timer that executes the silo threads and waits until they are all finished,
+         * executes the transfer regions also and continuously updates the gui.
+         */
         a = new AnimationTimer() {
             private long lastUpdate = 0;
             @Override
@@ -362,6 +365,11 @@ public class GUI extends Application{
             a.start();
         }
     }
+
+    /**
+     * Puts animation timer in step mode and only run a single step
+     * of the code.
+     */
     void stepButton(){
         a.stop();
         step = true;
@@ -383,6 +391,10 @@ public class GUI extends Application{
         outputValues.clear();
     }
 
+    /**
+     * looks at all silos in the siloList
+     * @return true if they are all finished false otherwise
+     */
     private boolean silosFinshed() {
         for (Silo s : siloList) {
             if (!s.siloStatus()) {

@@ -102,6 +102,10 @@ public class TransferRegion implements Runnable {
         this.down = s;
     }
 
+    /**
+     * Method called that changes the temp value to be the actual value
+     * after a step is run in order to prevent concurrency issues
+     */
     void updateValue() {
         if (!Objects.equals(up, " ")) {
             upTemp = up;
@@ -165,6 +169,10 @@ public class TransferRegion implements Runnable {
 
     }
 
+    /**
+     * When the transfer region thread is run it does the work
+     * of updating the value of the transfer region
+     */
     @Override
     public void run() {
         updateValue();
