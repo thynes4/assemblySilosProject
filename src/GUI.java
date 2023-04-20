@@ -97,7 +97,6 @@ public class GUI extends Application{
             updateInput(inputList.get(i).inputDirection,inputList.get(i),i);
         }
 
-        System.out.println("Value in input: " + transferRegions.get((totalColumns * totalRows)).down);
         int tempCount = 0;
         for (Silo s: siloList) {
             System.out.println("Silo: " + tempCount);
@@ -137,8 +136,6 @@ public class GUI extends Application{
             tRegionNode.setCenter(siloNode);
             root.add(tRegionNode, siloList.get(i).getPosY(totalColumns), siloList.get(i).getPosX(totalColumns));
 
-            //root.getRowConstraints().add(rowConstraints);
-            //root.getColumnConstraints().add(columnConstraints);
         }
 
         root.getStylesheets().add("Style.css");
@@ -244,12 +241,9 @@ public class GUI extends Application{
                     }
                 }
                 case "DOWN" -> {
-                    System.out.println("adding: " + temp + "to down location");
                     if (transferRegions.get(inputTR).down.matches(" ")) {
                         transferRegions.get(inputTR).addDown(temp);
                     }
-                    System.out.println("Input Transfer Region: " + inputTR);
-                    System.out.println("Transfer Region currently holding: " + transferRegions.get(inputTR).down);
                 }
                 case "LEFT" -> {
                     if (transferRegions.get(inputTR).left.matches(" ")) {
@@ -264,7 +258,6 @@ public class GUI extends Application{
             }
         }
         else {
-            System.out.println("No Input Value Grabbed");
         }
     }
 
