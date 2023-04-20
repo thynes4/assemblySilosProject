@@ -2,6 +2,8 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Label;
 
+import java.util.Objects;
+
 /**
  * Sean Davies, Thomas Hynes, Christopher Jarek
  * Project 4 Assembly Silos
@@ -101,16 +103,16 @@ public class TransferRegion implements Runnable {
     }
 
     void updateValue() {
-        if (up != null) {
+        if (!Objects.equals(up, " ")) {
             upTemp = up;
         }
-        if (down != null) {
+        if (!Objects.equals(down, " ")) {
             downTemp = down;
         }
-        if (left != null) {
+        if (!Objects.equals(left, " ")) {
             leftTemp = left;
         }
-        if (right != null) {
+        if (!Objects.equals(right, " ")) {
             rightTemp = right;
         }
     }
