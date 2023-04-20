@@ -167,14 +167,6 @@ public class GUI extends Application{
                         siloExecutor.execute(s);
                     }
 
-                    while (!silosFinshed()) {
-                        try {
-                            a.wait(10);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-
                     for (Silo s : siloList) {
                         s.resetFinished();
                     }
