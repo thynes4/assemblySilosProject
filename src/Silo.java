@@ -85,6 +85,10 @@ public class Silo implements Runnable {
         this.methods.addAll(list);
     }
     void siloRun(){
+        if (siloCode.size() == 0) {
+           finished = true;
+           return;
+        }
         this.methods.get(siloLineNumber).run();
     }
 

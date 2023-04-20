@@ -15,7 +15,7 @@ import java.util.Objects;
  */
 
 public class TransferRegion implements Runnable {
-    protected String upTemp, leftTemp, rightTemp, downTemp;
+    protected String upTemp = " ",leftTemp = " ", rightTemp = " ", downTemp = " ";
     protected String up, left, right, down;
     private Label upLabel = new Label();
     private Label leftLabel = new Label();
