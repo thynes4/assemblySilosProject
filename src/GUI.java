@@ -103,16 +103,6 @@ public class GUI extends Application{
             updateInput(inputList.get(i).inputDirection,inputList.get(i),i);
         }
 
-        int tempCount = 0;
-        for (Silo s: siloList) {
-            System.out.println("Silo: " + tempCount);
-            System.out.println("TR UP: " + s.trUp);
-            System.out.println("TR Down: " + s.trDown);
-            System.out.println("TR Left: " + s.trLeft);
-            System.out.println("TR Right: " + s.trRight);
-            tempCount++;
-        }
-
         launch(args);
 
     }
