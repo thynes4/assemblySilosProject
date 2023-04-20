@@ -456,7 +456,8 @@ public class Silo implements Runnable {
     }
 
     /**
-     * Given a source, either a register or a String of an int, will return the Integer value of the source or the
+     * Given a source, either a register or a String of an int, will return the Integer value of
+     * the source or the
      * Integer value of the string.
      * @param source either a register or an Integer
      * @return Integer of value stored in register, if the string is a number will return the value of the number

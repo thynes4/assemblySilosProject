@@ -40,7 +40,8 @@ public class GUI extends Application{
     static LinkedList<Output> outputList = new LinkedList<>();
 
     /**
-     * The main method for the entire Program. It grabs the users input from the command line, sends to parser
+     * The main method for the entire Program. It grabs the users input
+     * from the command line, sends to parser
      * for initial parsing and reports back errors that can be fixed later
      * @param args
      */
@@ -147,7 +148,8 @@ public class GUI extends Application{
             BorderPane tRegionNode = transferRegions.get(i).getNode();
             Node siloNode = siloList.get(i).getNode();
             tRegionNode.setCenter(siloNode);
-            root.add(tRegionNode, siloList.get(i).getPosY(totalColumns), siloList.get(i).getPosX(totalColumns));
+            root.add(tRegionNode, siloList.get(i).getPosY(totalColumns),
+                    siloList.get(i).getPosX(totalColumns));
 
         }
 

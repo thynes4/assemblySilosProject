@@ -67,47 +67,56 @@ public class Parser {
                 else {
                     //first entry no Up/Left TR
                     if (count == 0){
-                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),null, null,
+                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),
+                                null, null,
                                 transferRegions.get(count + 1),transferRegions.get(count + totalCols)));
                     }
                     //Top Right no Up/Right TR
                     else if (count == (totalCols - 1)){
-                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),null, transferRegions.get(count-1),
+                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),
+                                null, transferRegions.get(count-1),
                                 null,transferRegions.get(count + totalCols)));
                     }
                     //Remaining Top Row no Up TR
                     else if (count < totalCols){
-                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),null, transferRegions.get(count-1),
+                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),
+                                null, transferRegions.get(count-1),
                                 transferRegions.get(count + 1),transferRegions.get(count + totalCols)));
                     }
                     //Bottom left no Down/Left TR
                     else if (count == ((totalRows - 1) * totalCols)) {
-                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),transferRegions.get(count - totalCols), null,
+                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),
+                                transferRegions.get(count - totalCols), null,
                                 transferRegions.get(count + 1),null));
                     }
                     //Bottom Right no Down/Right TR
                     else if (count == ((totalRows * totalCols) - 1)){
-                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),transferRegions.get(count - totalCols),
+                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),
+                                transferRegions.get(count - totalCols),
                                 transferRegions.get(count-1), null,null));
                     }
                     //Left column no Left TR
                     else if (count%totalCols == 0){
-                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),transferRegions.get(count - totalCols), null,
+                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),
+                                transferRegions.get(count - totalCols), null,
                                 transferRegions.get(count + 1),transferRegions.get(count + totalCols)));
                     }
                     //Right Column no Right TR
                     else if (count%totalCols == (totalCols - 1)){
-                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),transferRegions.get(count - totalCols),
+                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),
+                                transferRegions.get(count - totalCols),
                                 transferRegions.get(count - 1), null,transferRegions.get(count + totalCols)));
                     }
                     //Remaining Bottom Row no Down TR
                     else if (count > ((totalRows - 1) * totalCols)){
-                        siloList.add(new Silo(count, siloCode,transferRegions.get(count),transferRegions.get(count - totalCols),
+                        siloList.add(new Silo(count, siloCode,transferRegions.get(count),
+                                transferRegions.get(count - totalCols),
                                 transferRegions.get(count - 1), transferRegions.get(count + 1),null));
                     }
                     //Remainder case where they get all 4 transfer Regions
                     else {
-                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),transferRegions.get(count - totalCols),
+                        siloList.add(new Silo(count,siloCode,transferRegions.get(count),
+                                transferRegions.get(count - totalCols),
                                 transferRegions.get(count - 1), transferRegions.get(count + 1),
                                 transferRegions.get(count + totalCols)));
                     }
@@ -147,7 +156,8 @@ public class Parser {
         //To put in the Input Transfer Region
         for (int i = 0; i < totalInputs; i++) {
             inputList.get(i).inputTransferRegion(transferRegions,siloList,totalCols,totalRows);
-            outputList.get(i).outputTransferRegion(transferRegions,siloList,totalCols,totalRows, totalInputs, i);
+            outputList.get(i).outputTransferRegion(transferRegions,siloList,totalCols,
+                    totalRows, totalInputs, i);
         }
     }
 
@@ -588,13 +598,15 @@ public class Parser {
                             }
                             else if (temp6.length != 2) {
                                 System.out.println("Syntax Error with on Line: " + currentLine);
-                                System.out.println("More statements than allowed. Syntax: [ROW] [COL]");
+                                System.out.println("More statements than allowed. Syntax: " +
+                                        "[ROW] [COL]");
                                 syntaxErrorCount++;
                             }
                             else {
                                 if (!isInteger(temp6[1])){
                                     System.out.println("Syntax Error with on Line: " + currentLine);
-                                    System.out.println("More statements than allowed. Syntax: [ROW] [COL]");
+                                    System.out.println("More statements than allowed. Syntax: " +
+                                            "[ROW] [COL]");
                                     System.out.println("ROW and COL should be real numbers");
                                     syntaxErrorCount++;
                                 }
@@ -657,7 +669,8 @@ public class Parser {
                         if (g.contains(":")){
                             if (g.contains(temp2[1])){
                                 Integer finalTemp = temp3 + 1;
-                                methods.add(() -> siloList.get(siloNum).changeSiloLineNumber(finalTemp));
+                                methods.add(() ->
+                                        siloList.get(siloNum).changeSiloLineNumber(finalTemp));
                             }
                         }
                         temp3++;

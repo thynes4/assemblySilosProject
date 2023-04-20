@@ -38,21 +38,25 @@ public class Input {
      * @param totalCols The total columns of the array
      * @param totalRows The total rows of the array
      */
-    void inputTransferRegion(LinkedList<TransferRegion> transferRegions, LinkedList<Silo> siloList, Integer totalCols, Integer totalRows){
+    void inputTransferRegion(LinkedList<TransferRegion> transferRegions,
+                             LinkedList<Silo> siloList, Integer totalCols, Integer totalRows){
         if (inputRow < 0 && inputCol>= 0){
             siloList.get((inputCol)).trUp = transferRegions.get((totalCols * totalRows));
             inputDirection = "DOWN";
         }
         else if (inputCol < 0 && inputRow >= 0){
-            siloList.get((totalCols * (inputRow))).trLeft = transferRegions.get((totalCols * totalRows));
+            siloList.get((totalCols * (inputRow))).trLeft =
+                    transferRegions.get((totalCols * totalRows));
             inputDirection = "RIGHT";
         }
         else if (inputRow >= totalRows && inputCol < totalCols){
-            siloList.get((totalCols * (inputRow - 1)) + inputCol).trDown = transferRegions.get((totalCols * totalRows));
+            siloList.get((totalCols * (inputRow - 1)) + inputCol).trDown =
+                    transferRegions.get((totalCols * totalRows));
             inputDirection = "UP";
         }
         else if (inputCol >= totalCols && inputRow < totalRows){
-            siloList.get((inputRow * totalCols) + (inputCol - 1)).trRight = transferRegions.get((totalCols * totalRows));
+            siloList.get((inputRow * totalCols) + (inputCol - 1)).trRight =
+                    transferRegions.get((totalCols * totalRows));
             inputDirection = "LEFT";
         }
         else {

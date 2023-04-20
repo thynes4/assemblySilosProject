@@ -32,25 +32,30 @@ public class Output {
      * @param totalInputs The total inputs
      * @param outputNum The output number
      */
-    void outputTransferRegion(LinkedList<TransferRegion> transferRegions, LinkedList<Silo> siloList, Integer totalCols,
+    void outputTransferRegion(LinkedList<TransferRegion> transferRegions,
+                              LinkedList<Silo> siloList, Integer totalCols,
                               Integer totalRows, Integer totalInputs, Integer outputNum){
         if (outputRow < 0 && outputCol >=0){
-            siloList.get(outputCol).trUp = transferRegions.get(((totalCols * totalRows) + totalInputs) + outputNum);
+            siloList.get(outputCol).trUp =
+                    transferRegions.get(((totalCols * totalRows) + totalInputs) + outputNum);
             outputDirection = "DOWN";
             siloToGrab = outputCol;
         }
         else if (outputCol < 0 && outputRow >= 0){
-            siloList.get((totalCols * (outputRow))).trLeft = transferRegions.get(((totalCols * totalRows) + totalInputs) + outputNum);
+            siloList.get((totalCols * (outputRow))).trLeft =
+                    transferRegions.get(((totalCols * totalRows) + totalInputs) + outputNum);
             outputDirection = "RIGHT";
             siloToGrab = ((totalCols * (outputRow)));
         }
         else if (outputRow >= totalRows && outputCol < totalCols){
-            siloList.get((totalCols * (outputRow - 1)) + outputCol).trDown = transferRegions.get(((totalCols * totalRows) + totalInputs) + outputNum);
+            siloList.get((totalCols * (outputRow - 1)) + outputCol).trDown =
+                    transferRegions.get(((totalCols * totalRows) + totalInputs) + outputNum);
             outputDirection = "UP";
             siloToGrab = ((totalCols * (outputRow - 1)) + outputCol);
         }
         else if (outputCol >= totalCols && outputRow < totalRows){
-            siloList.get((outputRow * totalCols) + (outputCol - 1)).trRight = transferRegions.get(((totalCols * totalRows) + totalInputs) + outputNum);
+            siloList.get((outputRow * totalCols) + (outputCol - 1)).trRight =
+                    transferRegions.get(((totalCols * totalRows) + totalInputs) + outputNum);
             outputDirection = "LEFT";
             siloToGrab = ((outputRow * totalCols) + (outputCol - 1));
         }
