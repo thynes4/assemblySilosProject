@@ -1,7 +1,5 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -22,7 +20,6 @@ import java.util.concurrent.Executors;
  * This is to build Assembly Silos that take in their own code. An input is
  * sent in and the silos process their code together 1 line at a time (until all silos are
  * done with that line) then continue on until an output is achieved.
- *
  * This file is the GUI file which will display and allow the User to run the program.
  */
 
@@ -38,9 +35,6 @@ public class GUI extends Application{
     static LinkedList<String> outputValues = new LinkedList<>();
     static TextArea output = new TextArea();
     static LinkedList<Parser> parserList = new LinkedList<>();
-    private StringProperty outputStr = new SimpleStringProperty();
-    static Label inputLabel = new Label();
-    static Label outputLabel = new Label();
     static Integer inputTotal = 0;
     static LinkedList<Input> inputList = new LinkedList<>();
     static LinkedList<Output> outputList = new LinkedList<>();
@@ -53,9 +47,9 @@ public class GUI extends Application{
         String temp1 = sc.nextLine();
         commandInput.add(temp1);
         String[] temp2 = temp1.split(" ");
-        int var1 = Integer.valueOf(temp2[0]);
+        int var1 = Integer.parseInt(temp2[0]);
         totalRows = var1;
-        int var2 = Integer.valueOf(temp2[1]);
+        int var2 = Integer.parseInt(temp2[1]);
         totalColumns = var2;
         int totalEnds = (var1 * var2) + 2;
         int count = 0;
@@ -103,15 +97,15 @@ public class GUI extends Application{
             updateInput(inputList.get(i).inputDirection,inputList.get(i),i);
         }
 
-        System.out.println("Value in input: " + transferRegions.get((totalColumns * totalRows)).down);;
-        int tempcount = 0;
+        System.out.println("Value in input: " + transferRegions.get((totalColumns * totalRows)).down);
+        int tempCount = 0;
         for (Silo s: siloList) {
-            System.out.println("Silo: " + tempcount);
+            System.out.println("Silo: " + tempCount);
             System.out.println("TR UP: " + s.trUp);
             System.out.println("TR Down: " + s.trDown);
             System.out.println("TR Left: " + s.trLeft);
             System.out.println("TR Right: " + s.trRight);
-            tempcount++;
+            tempCount++;
         }
 
         launch(args);
@@ -154,7 +148,6 @@ public class GUI extends Application{
         ExecutorService siloExecutor = Executors.newFixedThreadPool(siloList.size());
         ExecutorService transferExecutor = Executors.newFixedThreadPool(transferRegions.size());
 
-        // Animation timer that will be used when start button is pressed
         /**
          * Animation timer that executes the silo threads and waits until they are all finished,
          * executes the transfer regions also and continuously updates the gui.
@@ -220,7 +213,7 @@ public class GUI extends Application{
 
     static void updateInput(String inputDirection, Input input, Integer inputNumber){
         String temp = null;
-        Integer inputTR = (totalRows * totalColumns) + inputNumber;
+        int inputTR = (totalRows * totalColumns) + inputNumber;
         switch (inputDirection){
             case "UP" -> {
                 if (transferRegions.get(inputTR).up.matches(" ")){
@@ -292,13 +285,13 @@ public class GUI extends Application{
         ctrlPanel.add(outputLbl, 1, 0);
 
         TextArea input = new TextArea();
-        String temp = "";
+        StringBuilder temp = new StringBuilder();
         for (int i = 0; i < inputTotal; i++) {
             for (String s : inputList.get(i).initialInputs) {
-                temp = temp + s + "\n";
+                temp.append(s).append("\n");
             }
         }
-        input.setText(temp);
+        input.setText(temp.toString());
         ctrlPanel.add(input, 0, 1);
         input.setPrefSize(128, 512);
 
@@ -318,7 +311,7 @@ public class GUI extends Application{
         Button pauseBtn = new Button();
         pauseBtn.setText("Pause");
         pauseBtn.setOnAction(event -> {
-            if (paused == false){
+            if (!paused){
                 pauseBtn.setText("Resume");
                 paused = true;
                 pauseButton();
@@ -387,28 +380,15 @@ public class GUI extends Application{
     }
 
     void setOutput(){
-        String temp1 = "";
+        StringBuilder temp1 = new StringBuilder();
         for (int i = 0; i < inputTotal; i++){
             outputValues.addAll(outputList.get(i).sendOutputList());
             for (String s : outputValues){
-                temp1 = temp1 + s + "\n";
+                temp1.append(s).append("\n");
             }
         }
-        output.setText(temp1);
+        output.setText(temp1.toString());
         outputValues.clear();
-    }
-
-    /**
-     * looks at all silos in the siloList
-     * @return true if they are all finished false otherwise
-     */
-    private boolean silosFinshed() {
-        for (Silo s : siloList) {
-            if (!s.siloStatus()) {
-                return false;
-            }
-        }
-        return true;
     }
 }
 
