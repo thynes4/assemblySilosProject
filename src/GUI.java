@@ -39,6 +39,11 @@ public class GUI extends Application{
     static LinkedList<Input> inputList = new LinkedList<>();
     static LinkedList<Output> outputList = new LinkedList<>();
 
+    /**
+     * The main method for the entire Program. It grabs the users input from the command line, sends to parser
+     * for initial parsing and reports back errors that can be fixed later
+     * @param args
+     */
     public static void main(String[] args) {
         LinkedList<String> commandInput = new LinkedList<>();
         boolean inputFinished = false;
@@ -111,6 +116,14 @@ public class GUI extends Application{
 
     }
 
+    /**
+     * To display the stage for the GUI
+     * @param primaryStage the primary stage for this application, onto which
+     * the application scene can be set.
+     * Applications may create other stages, if needed, but they will not be
+     * primary stages.
+     * @throws InterruptedException
+     */
     public void start(Stage primaryStage) throws InterruptedException {
 
         primaryStage.setTitle("Project 4 Assembly Silos");
@@ -199,15 +212,14 @@ public class GUI extends Application{
             }
         };
 
-        //code to shut down executor service when done
-//        executor.shutdown();
-//        try {
-//            executor.awaitTermination(1, TimeUnit.MINUTES);
-//        } catch (InterruptedException ex) {
-//            Thread.currentThread().interrupt();
-//        }
     }
 
+    /**
+     * THis is to update the input transfer region area
+     * @param inputDirection The input direction
+     * @param input The input class
+     * @param inputNumber The input number
+     */
     static void updateInput(String inputDirection, Input input, Integer inputNumber){
         String temp = null;
         int inputTR = (totalRows * totalColumns) + inputNumber;
@@ -262,6 +274,10 @@ public class GUI extends Application{
     }
 
 
+    /**
+     * THis is to make the control Panel
+     * @param root The main root for the GUI
+     */
     void mkCtrlPanel(GridPane root){
         GridPane ctrlPanel = new GridPane();
         ctrlPanel.setHgap(8);
@@ -333,6 +349,10 @@ public class GUI extends Application{
     }
 
     //Methods for when buttons are pushed
+
+    /**
+     * THis is the start button action when pressed
+     */
     void startButton(){
         if (parserList.get(0).parseSiloErrors(siloList) == 0){
             for (int i = 0; i < totalRows * totalColumns; i++){
@@ -350,6 +370,10 @@ public class GUI extends Application{
             setOutput();
         }
     }
+
+    /**
+     * This is the pause button action when pressed.
+     */
     void pauseButton(){
         if (paused) {
             a.stop();
@@ -368,10 +392,17 @@ public class GUI extends Application{
         step = true;
         a.start();
     }
+
+    /**
+     * This is the stop button action when pressed
+     */
     void stopButton(){
         a.stop();
     }
 
+    /**
+     * This is to set the output in the output region
+     */
     void setOutput(){
         StringBuilder temp1 = new StringBuilder();
         for (int i = 0; i < inputTotal; i++){

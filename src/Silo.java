@@ -8,11 +8,8 @@
  * This file is the Silo Object Class
  */
 
-
-import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -23,7 +20,6 @@ import java.util.LinkedList;
 import static java.lang.Math.floor;
 
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 public class Silo implements Runnable {
     private final Integer NIL = 0;
