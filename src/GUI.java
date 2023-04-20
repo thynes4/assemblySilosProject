@@ -144,8 +144,8 @@ public class GUI extends Application{
             tRegionNode.setCenter(siloNode);
             root.add(tRegionNode, siloList.get(i).getPosY(totalColumns), siloList.get(i).getPosX(totalColumns));
 
-            root.getRowConstraints().add(rowConstraints);
-            root.getColumnConstraints().add(columnConstraints);
+            //root.getRowConstraints().add(rowConstraints);
+            //root.getColumnConstraints().add(columnConstraints);
         }
 
         root.getStylesheets().add("Style.css");
@@ -384,33 +384,6 @@ public class GUI extends Application{
         }
         output.setText(temp1);
         outputValues.clear();
-    }
-
-    void setInputLabel(GridPane root, int posX, int posY){
-        if(inputDirection.equals("DOWN")){
-            inputLabel.setText("  ⬇");
-        }else if(inputDirection.equals("UP")){
-            inputLabel.setText("⬆  ");
-        }else if(inputDirection.equals("LEFT")){
-            inputLabel.setText("\n⬅");
-        }else if(inputDirection.equals("RIGHT")) {
-            inputLabel.setText("➡\n");
-        }
-
-        root.add(inputLabel, posX, posY);
-    }
-    void setOutputLabel(GridPane root, int posX, int posY){
-        if(outputDirection.equals("DOWN")){
-            outputLabel.setText("  ⬇");
-        }else if(outputDirection.equals("UP")){
-            outputLabel.setText("⬆  ");
-        }else if(outputDirection.equals("LEFT")){
-            outputLabel.setText("\n⬅");
-        }else if(outputDirection.equals("RIGHT")) {
-            outputLabel.setText("➡\n");
-        }
-
-        root.add(outputLabel, posX, posY);
     }
 
     private boolean silosFinshed() {

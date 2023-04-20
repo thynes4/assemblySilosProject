@@ -1,3 +1,6 @@
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+
 import java.util.LinkedList;
 
 import static java.lang.System.exit;
@@ -7,6 +10,7 @@ public class Output {
     String outputDirection;
     private static Integer siloToGrab;
     private LinkedList<String> outputNumbers = new LinkedList<>();
+    private Label outputLabel = new Label();
 
 
     Output(Integer row, Integer column){
@@ -87,5 +91,23 @@ public class Output {
 
     LinkedList sendOutputList(){
         return outputNumbers;
+    }
+
+    void setOutputLabel(GridPane root, int posX, int posY){
+        if(outputDirection.equals("DOWN")){
+            outputLabel.setText("  ⬇");
+        }else if(outputDirection.equals("UP")){
+            outputLabel.setText("⬆  ");
+        }else if(outputDirection.equals("LEFT")){
+            outputLabel.setText("\n⬅");
+        }else if(outputDirection.equals("RIGHT")) {
+            outputLabel.setText("➡\n");
+        }
+
+        root.add(outputLabel, posX, posY);
+    }
+    void updateInputFX(){
+        if(outputNumbers.get(0) == null){outputLabel.setStyle("-fx-text-fill: #dc9656;");}
+        else{outputLabel.setStyle("-fx-text-fill: #a1b56c;");}
     }
 }

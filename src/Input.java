@@ -1,3 +1,6 @@
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+
 import java.util.LinkedList;
 
 import static java.lang.System.exit;
@@ -9,6 +12,7 @@ public class Input {
     private LinkedList<String> currentInputs = new LinkedList<>();
     String inputDirection;
     private int currentInputLine;
+    private Label inputLabel = new Label();
 
 
     Input(LinkedList inputs){
@@ -63,5 +67,23 @@ public class Input {
             System.out.println("Sending Input value: " + currentInputs.get(currentInputLine - 1));
             return currentInputs.get(currentInputLine - 1);
         }
+    }
+
+    void setInputLbl(GridPane root, int posX, int posY){
+        if(inputDirection.equals("DOWN")){
+            inputLabel.setText("  ⬇");
+        }else if(inputDirection.equals("UP")){
+            inputLabel.setText("⬆  ");
+        }else if(inputDirection.equals("LEFT")){
+            inputLabel.setText("\n⬅");
+        }else if(inputDirection.equals("RIGHT")) {
+            inputLabel.setText("➡\n");
+        }
+
+        root.add(inputLabel, posX, posY);
+    }
+    void updateInputFX(){
+        if(currentInputs.get(currentInputLine) == null){inputLabel.setStyle("-fx-text-fill: #dc9656;");}
+        else{inputLabel.setStyle("-fx-text-fill: #a1b56c;");}
     }
 }
